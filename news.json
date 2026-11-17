@@ -1,0 +1,78 @@
+{
+ "date": "2026-11-17",
+ "titre": "Le point du soir · mardi 17 novembre",
+ "maj": "17/11/2026 à 22 h 45",
+ "marches": [
+  {
+   "nom": "CAC 40",
+   "valeur": "8 216,78 pts",
+   "variation": -1.62,
+   "note": "Clôture du 17/11"
+  },
+  {
+   "nom": "Crédit Agricole S.A.",
+   "valeur": "15,67 €",
+   "variation": -1.17,
+   "note": "Clôture du 17/11"
+  }
+ ],
+ "actus": [
+  {
+   "tag": "Bourse",
+   "titre": "Le CAC 40 recule de 1,6 % avant les résultats de Nvidia",
+   "resume": "Paris a clôturé à 8 216,78 points, plombée par les valeurs technologiques après de nouvelles restrictions américaines sur les puces d'IA, et par le luxe (Hermès, Kering, LVMH).",
+   "impact": "Clients en actions (PEA, unités de compte) : rappeler que la volatilité fait partie du long terme et revoir l'horizon de placement plutôt que vendre dans la panique.",
+   "source": "BFM Bourse",
+   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-plombe-par-les-inquietudes-autour-de-nvidia-et-le-recul-du-luxe-le-cac-40-cloture-en-forte-baisse-1173960.html"
+  },
+  {
+   "tag": "Groupe",
+   "titre": "Banco BPM ouvre la porte aux discussions avec Crédit Agricole",
+   "resume": "Le conseil de la banque italienne a mandaté son directeur général pour négocier le projet de rapprochement proposé par Crédit Agricole, sous conditions, notamment de prix.",
+   "impact": "Un dossier stratégique pour le groupe en Italie : à suivre si un client actionnaire t'en parle.",
+   "source": "Zonebourse via Fortuneo",
+   "url": "https://bourse.fortuneo.fr/actions/cours-credit-agricole-ACA-FR0000045072-23"
+  },
+  {
+   "tag": "Réglementation",
+   "titre": "Crédit conso et découvert : nouvelles règles ce vendredi 20 novembre",
+   "resume": "Le crédit à la consommation couvre désormais de 0 à 100 000 € (paiement fractionné, mini-crédits, LOA compris). Pour un découvert, la banque devra prévenir 2 mois avant de le réduire ou le couper, et laisser 12 mois pour rembourser.",
+   "impact": "Toute offre émise à partir du 20/11 suit ces règles : 14 jours de rétractation, analyse de solvabilité même pour un petit découvert.",
+   "source": "JeChange",
+   "url": "https://www.jechange.fr/banques/news"
+  },
+  {
+   "tag": "Réglementation",
+   "titre": "Assurance emprunteur : le CCSF veut fluidifier les changements de contrat",
+   "resume": "Le Comité consultatif du secteur financier a adopté un avis pour simplifier et sécuriser la substitution d'assurance emprunteur. Il a aussi publié des recommandations pour mieux protéger les détenteurs de crypto-actifs.",
+   "impact": "Délégations d'assurance (loi Lemoine) : attends-toi à des process plus encadrés, réponse toujours sous 10 jours ouvrés.",
+   "source": "Banque de France",
+   "url": "https://www.banque-france.fr/fr/communiques-de-presse"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Budget 2027 : le texte rejeté à l'Assemblée part au Sénat",
+   "resume": "Les députés ont rejeté la partie recettes le 4 novembre : tout le texte est considéré comme rejeté et le Sénat repart de la version du gouvernement, qui comporte un article sur le régime fiscal de l'assurance vie.",
+   "impact": "Rien n'est voté : aux clients inquiets pour leur assurance vie, rappeler que les règles actuelles s'appliquent tant que la loi n'est pas publiée.",
+   "source": "Vie-publique.fr",
+   "url": "https://www.vie-publique.fr/loi/305240-budget-2027-projet-de-loi-de-finances-plf"
+  },
+  {
+   "tag": "Banque",
+   "titre": "Les grandes banques françaises solides malgré un coût du risque en hausse",
+   "resume": "Sur les 9 premiers mois de 2026, BNP Paribas, Société Générale, Crédit Agricole et BPCE ont cumulé 115,5 Md€ de produit net bancaire, en hausse de 8,5 % sur un an.",
+   "impact": "Argument utile face à un client qui doute de la solidité des banques.",
+   "source": "Option Finance",
+   "url": "https://www.optionfinance.fr/actualites/les-banques-francaises-affichent-des-performances-solides-malgre-un-cout-du-risque-en-hausse.html"
+  },
+  {
+   "tag": "Paiements",
+   "titre": "La Banque de France pousse le co-marquage CB",
+   "resume": "Le gouverneur Emmanuel Moulin a appelé les acteurs qui ne le font pas encore, surtout les banques en ligne, à proposer des cartes avec le réseau national CB.",
+   "impact": "Utile si un client demande pourquoi sa carte porte ou non le logo CB.",
+   "source": "mind Fintech",
+   "url": "https://www.mind.eu.com/fintech/article/co-marquage-cb-lappel-de-la-banque-de-france-vise-dabord-les-banques-en-ligne/"
+  }
+ ],
+ "avertissement": "Mis à jour chaque matin vers 8 h · cours de clôture de la veille · à vérifier avant d'en parler à un client."
+}
