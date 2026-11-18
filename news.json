@@ -1,7 +1,7 @@
 {
- "date": "2026-11-17",
- "titre": "Le point du soir · mardi 17 novembre",
- "maj": "18/11/2026 à 9 h 18",
+ "date": "2026-11-18",
+ "titre": "Le point du matin · mercredi 18 novembre",
+ "maj": "18/11/2026 à 11 h 30",
  "marches": [
   {
    "nom": "CAC 40",
@@ -26,20 +26,36 @@
    "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-plombe-par-les-inquietudes-autour-de-nvidia-et-le-recul-du-luxe-le-cac-40-cloture-en-forte-baisse-1173960.html"
   },
   {
+   "tag": "Réglementation",
+   "titre": "Crédit conso : les nouvelles règles s'appliquent ce vendredi 20 novembre",
+   "resume": "Paiement en 3 ou 4 fois, mini-crédits de moins de 200 € et découverts accordés à partir du 20/11 entrent dans le régime du crédit à la consommation : information précontractuelle, vérification de solvabilité, FICP consulté. Un refus décidé par un algorithme peut être réexaminé par un humain. Les contrats en cours restent sous l'ancien régime.",
+   "impact": "Pour toute nouvelle autorisation de découvert ou tout crédit conso à partir de vendredi : fiche d'information, étude de solvabilité documentée et consultation FICP systématiques.",
+   "source": "Service-public.fr",
+   "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/N96?id=8127"
+  },
+  {
+   "tag": "Épargne",
+   "titre": "Livret A : les projections pour le 1er février 2027 tournent autour de 2,4 à 2,6 %",
+   "resume": "Le Livret A est à 1,70 % depuis le 1er août. La formule (moyenne €STR + inflation hors tabac de juillet à décembre 2026) donnerait entre 2,4 % et 2,6 % selon les estimations, sous réserve d'une décision du gouvernement, qui peut déroger en cas de « circonstances exceptionnelles ». Le LEP pourrait monter vers 2,8 à 3,1 %.",
+   "impact": "Clients qui hésitent à remplir leur Livret A ou LEP : la hausse attendue en février est une bonne accroche, mais rester prudent, rien n'est officiel avant mi-janvier.",
+   "source": "JeChange / Meilleurtaux",
+   "url": "https://placement.meilleurtaux.com/livret-epargne/actualites/2026-octobre/taux-du-livret-a-au-1er-fevrier-2027-le-calcul.html"
+  },
+  {
+   "tag": "Taux",
+   "titre": "BCE : taux inchangés le 29 octobre, une hausse évoquée pour décembre",
+   "resume": "Le Conseil des gouverneurs a laissé ses trois taux directeurs inchangés le 29 octobre, en pointant la hausse des prix de l'énergie. Certains économistes (Société Générale) anticipent une première hausse en décembre 2026.",
+   "impact": "Clients en projet immobilier : les taux de crédit remontent déjà, mieux vaut ne pas trop attendre pour se positionner et sécuriser une offre.",
+   "source": "Banque de France",
+   "url": "https://www.banque-france.fr/system/files/2026-10/Decisions_de_politique_monetaire_29-10.pdf"
+  },
+  {
    "tag": "Groupe",
    "titre": "Banco BPM ouvre la porte aux discussions avec Crédit Agricole",
    "resume": "Le conseil de la banque italienne a mandaté son directeur général pour négocier le projet de rapprochement proposé par Crédit Agricole, sous conditions, notamment de prix.",
    "impact": "Un dossier stratégique pour le groupe en Italie : à suivre si un client actionnaire t'en parle.",
    "source": "Zonebourse via Fortuneo",
    "url": "https://bourse.fortuneo.fr/actions/cours-credit-agricole-ACA-FR0000045072-23"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "Crédit conso et découvert : nouvelles règles ce vendredi 20 novembre",
-   "resume": "Le crédit à la consommation couvre désormais de 0 à 100 000 € (paiement fractionné, mini-crédits, LOA compris). Pour un découvert, la banque devra prévenir 2 mois avant de le réduire ou le couper, et laisser 12 mois pour rembourser.",
-   "impact": "Toute offre émise à partir du 20/11 suit ces règles : 14 jours de rétractation, analyse de solvabilité même pour un petit découvert.",
-   "source": "JeChange",
-   "url": "https://www.jechange.fr/banques/news"
   },
   {
    "tag": "Réglementation",
@@ -64,14 +80,6 @@
    "impact": "Argument utile face à un client qui doute de la solidité des banques.",
    "source": "Option Finance",
    "url": "https://www.optionfinance.fr/actualites/les-banques-francaises-affichent-des-performances-solides-malgre-un-cout-du-risque-en-hausse.html"
-  },
-  {
-   "tag": "Paiements",
-   "titre": "La Banque de France pousse le co-marquage CB",
-   "resume": "Le gouverneur Emmanuel Moulin a appelé les acteurs qui ne le font pas encore, surtout les banques en ligne, à proposer des cartes avec le réseau national CB.",
-   "impact": "Utile si un client demande pourquoi sa carte porte ou non le logo CB.",
-   "source": "mind Fintech",
-   "url": "https://www.mind.eu.com/fintech/article/co-marquage-cb-lappel-de-la-banque-de-france-vise-dabord-les-banques-en-ligne/"
   }
  ],
  "avertissement": "Mis à jour chaque matin vers 8 h · cours de clôture de la veille · à vérifier avant d'en parler à un client."
