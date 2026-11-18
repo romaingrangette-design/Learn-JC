@@ -411,6 +411,34 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .say .quote{font-size:14.5px;line-height:1.5;border-left:3px solid var(--gold);padding:2px 0 2px 12px;font-style:italic}
 .say .warn{margin-top:10px;font-size:13px;background:#FFF4E5;color:#8A5300;border-radius:8px;padding:8px 10px}
 
+
+/* Fiches v2 */
+.f-intro{background:var(--green-soft);border-radius:18px;padding:16px 18px}
+.f-intro small{font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em}
+.f-intro p{font-size:16px;line-height:1.5;margin-top:4px;color:var(--ink)}
+.f-points{display:flex;flex-direction:column;gap:14px}
+.f-point{display:flex;gap:12px}
+.f-point>span{flex:none;width:26px;height:26px;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:700;font-size:13px;display:grid;place-items:center}
+.f-point b{font-size:15px;font-weight:600}
+.f-point p{font-size:14px;line-height:1.5;color:#3D4743;margin-top:2px}
+.f-chif{display:grid;grid-template-columns:1fr;gap:10px}
+.f-c{background:var(--soft);border-radius:12px;padding:10px 12px}
+.f-c small{font-size:12.5px;color:var(--muted);font-weight:500}
+.f-c b{display:block;font-size:15.5px;font-weight:700;margin-top:1px;font-variant-numeric:tabular-nums}
+.f-c p{font-size:13px;color:#3D4743;margin-top:3px;line-height:1.4}
+.f-ex-t{font-weight:600;font-size:15px;line-height:1.4}
+.f-ex{margin:10px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:6px;font-size:14.5px;line-height:1.45;font-variant-numeric:tabular-nums}
+.f-ex li::marker{color:var(--gold);font-weight:700}
+.f-ex-c{margin-top:12px;background:var(--gold-soft);border-radius:10px;padding:10px 12px;font-size:14px;font-weight:500;line-height:1.45}
+.f-pieges{display:flex;flex-direction:column;gap:12px}
+.f-pieges>div{border-left:3px solid var(--bad);padding-left:12px}
+.f-pieges b{font-size:14.5px;font-weight:600}
+.f-pieges p{font-size:13.5px;color:#3D4743;margin-top:2px;line-height:1.45}
+.f-mots{margin:0;display:grid;grid-template-columns:1fr;gap:4px 0}
+.f-mots dt{font-weight:600;font-size:14.5px;margin-top:8px}
+.f-mots dt:first-child{margin-top:0}
+.f-mots dd{margin:0;font-size:13.5px;color:#3D4743;line-height:1.45}
+@media (min-width:560px){.f-chif{grid-template-columns:1fr 1fr}}
 /* ===== Ordinateur : toute la largeur ===== */
 .tool-right{display:flex;flex-direction:column;gap:16px}
 .nav-brand{display:none}
@@ -436,6 +464,8 @@ ul.plain.pieges li::marker{color:var(--bad)}
   .wrap.v-home>.ptitle,.wrap.v-profile>.ptitle,.wrap.v-fiches>.ptitle,.wrap.v-tools>.ptitle,.wrap>.backbar,.wrap>.actions-row,.wrap>.foot-note{column-span:all}
   .wrap.v-home>.ptitle,.wrap.v-profile>.ptitle,.wrap.v-fiches>.ptitle,.wrap.v-tools>.ptitle,.wrap>.foot-note,.wrap>p{display:block}
   .wrap.v-fiches.detail>.actions-row{max-width:420px}
+  .wrap.v-fiches.detail>.f-intro{column-span:all;display:block}
+  .wrap.v-fiches.detail .f-chif{grid-template-columns:1fr}
   /* Accueil : actus en grille */
   .wrap.v-news{max-width:1400px}
   .v-news .mkts{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -678,7 +708,7 @@ function fichesView(body){
   const groups = [["Épargne", ["liv","pel","fis","quo"]], ["Placements et transmission", ["av","avs","pea","suc","per"]], ["Crédit", ["cim","cco"]], ["Assurances", ["adi","pre","iar"]], ["Métier", ["con","cas"]]];
   groups.forEach(([g, ids], gi) => body.append(block(ICON.book, ["g","b","v","o","g"][gi], g, ids.length + " fiches",
     ...ids.map(id => { const u = DATA.unitById[id], i = DATA.units.indexOf(u), col = UCOL[i % UCOL.length];
-      return h("button", {class:"row", onclick:() => { ficheOpen = id; render(); }}, h("span", {class:"unit-badge sm", style:"background:" + col[1] + ";color:" + col[0]}, String(i+1).padStart(2,"0")), h("span", {class:"tx"}, h("b", null, u.titre), h("small", null, u.fiche.essentiel[0])), svg(ICON.chev)); }))));
+      return h("button", {class:"row", onclick:() => { ficheOpen = id; render(); }}, h("span", {class:"unit-badge sm", style:"background:" + col[1] + ";color:" + col[0]}, String(i+1).padStart(2,"0")), h("span", {class:"tx"}, h("b", null, u.titre), h("small", null, u.fiche.intro.split(". ")[0] + ".")), svg(ICON.chev)); }))));
 }
 function ficheDetail(body, u){
   const f = u.fiche, idx = DATA.units.indexOf(u) + 1;
@@ -687,10 +717,13 @@ function ficheDetail(body, u){
   body.append(h("div", {class:"actions-row"},
     h("button", {class:"dl", onclick:() => downloadFile(pdfPath(u), "Fiche " + String(idx).padStart(2,"0") + " - " + u.titre.replace(/[:\/]/g, "") + ".pdf")}, svg(ICON.dl), "PDF"),
     h("button", {class:"dl alt", onclick:() => openLevel(u.id, firstOpenLevel(u.id))}, svg(ICON.bolt), "M'entraîner")));
-  body.append(block(ICON.spark, "g", "L'essentiel", null, h("ul", {class:"plain"}, f.essentiel.map(x => h("li", null, x)))));
-  body.append(block(ICON.percent, "b", "Chiffres clés", null, h("table", {class:"kv"}, h("tbody", null, f.chiffres.map(r => h("tr", null, h("td", null, r[0]), h("td", {class:"num"}, r[1])))))));
-  (f.schemas || []).forEach(sc => { const box = h("div", {class:"schema-app"}); box.innerHTML = window.Fiches ? window.Fiches.render(sc) : ""; body.append(block(ICON.chart, "v", sc.title, null, box)); });
-  body.append(block(ICON.alert, "r", "Pièges à éviter", null, h("ul", {class:"plain pieges"}, f.pieges.map(x => h("li", null, x)))));
+  body.append(h("div", {class:"f-intro"}, h("small", null, "En bref"), h("p", null, f.intro)));
+  body.append(block(ICON.spark, "g", "Comment ça marche", null, h("div", {class:"f-points"}, f.points.map((p, i) => h("div", {class:"f-point"}, h("span", null, i + 1), h("div", null, h("b", null, p[0]), h("p", null, p[1])))))));
+  body.append(block(ICON.percent, "b", "Les chiffres à connaître", null, h("div", {class:"f-chif"}, f.chiffres.map(c => h("div", {class:"f-c"}, h("small", null, c[0]), h("b", null, c[1]), c[2] ? h("p", null, c[2]) : null)))));
+  (f.schemas || []).forEach(sc => { const box = h("div", {class:"schema-app"}); box.innerHTML = window.Fiches ? window.Fiches.render(sc) : ""; body.append(block(ICON.chart, "v", sc.title, "schéma", box)); });
+  if (f.exemple) body.append(block(ICON.calc, "o", "Exemple", null, h("p", {class:"f-ex-t"}, f.exemple.titre), h("ol", {class:"f-ex"}, f.exemple.etapes.map(x => h("li", null, x))), h("p", {class:"f-ex-c"}, f.exemple.conclusion)));
+  body.append(block(ICON.alert, "r", "Les pièges", null, h("div", {class:"f-pieges"}, f.pieges.map(p => h("div", null, h("b", null, p[0]), h("p", null, p[1]))))));
+  if (f.mots && f.mots.length) body.append(block(ICON.book, "v", "Les mots à comprendre", null, h("dl", {class:"f-mots"}, ...f.mots.flatMap(m => [h("dt", null, m[0]), h("dd", null, m[1])]))));
   body.append(block(ICON.chat, "g", "À dire au client", null, h("p", {class:"quote"}, f.phrase)));
 }
 
