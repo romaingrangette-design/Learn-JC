@@ -364,6 +364,34 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .block .badge.on{border-color:var(--gold);background:var(--gold-soft)}
 .out{box-shadow:none;border:0;padding:0}
 .qbtn{display:none}
+
+[hidden]{display:none!important}
+.xsteps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.4;font-variant-numeric:tabular-nums}
+/* Outils v2 : calcul expliqué */
+.ask{background:var(--green-soft);border-radius:var(--r);padding:12px 14px}
+.ask small{font-size:12px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em}
+.ask p{font-size:15.5px;font-weight:600;line-height:1.35;margin-top:2px}
+.field small{font-size:12.5px;color:var(--muted);line-height:1.35}
+.inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.inp:focus-within{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+.field .inp input{border:0;box-shadow:none!important;flex:1;min-width:0}
+.inp span{padding:0 12px;color:var(--muted);font-weight:500;white-space:nowrap}
+.check span{line-height:1.3}
+.res{display:flex;flex-direction:column;gap:6px}
+.res-label{font-size:13px;color:var(--muted)}
+.res-val{font-size:34px;font-weight:700;color:var(--green);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.res-sub{font-size:14px;color:var(--ink);margin-bottom:4px}
+.res-err{font-size:14px;color:var(--muted)}
+.res .line{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums;font-size:14px;padding:8px 0 0;border-top:1px solid var(--line)}
+.res .line b{font-weight:600}
+.steps{list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:14px;padding:0;margin:0}
+.steps li{counter-increment:st;position:relative;padding-left:36px;display:flex;flex-direction:column;gap:5px}
+.steps li::before{content:counter(st);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--violet-soft);color:var(--violet);font-size:12.5px;font-weight:700;display:grid;place-items:center}
+.steps li>b{font-size:14.5px;font-weight:600;line-height:1.3}
+.steps .op{background:var(--soft);border-radius:8px;padding:8px 10px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.4}
+.steps p{font-size:13px;color:var(--muted);line-height:1.4}
+.say .quote{font-size:14.5px;line-height:1.5;border-left:3px solid var(--gold);padding:2px 0 2px 12px;font-style:italic}
+.say .warn{margin-top:10px;font-size:13px;background:#FFF4E5;color:#8A5300;border-radius:8px;padding:8px 10px}
 </style>
 </head>
 <body>
@@ -643,105 +671,257 @@ function profileView(body){
 
 /* ---------- Outils (simulateurs) ---------- */
 const TOOL_GROUPS = [
-  ["Épargne", "g", ICON.percent, [["livret","Livrets et PEL","Intérêts nets sur plusieurs années"],["quinz","Quinzaines du Livret A","Intérêts exacts entre deux dates"]]],
-  ["Assurance vie", "b", ICON.spark, [["rachat","Rachat","Part de gains, impôt et prélèvements"],["avdeces","Au décès","Taxe 990 I et primes 757 B"]]],
-  ["Transmission", "v", ICON.user, [["succ","Succession et donation","Abattements et droits à payer"]]],
-  ["Crédit", "o", ICON.chart, [["credit","Capacité d'emprunt","Règle des 35 % et capital empruntable"],["ira","Remboursement anticipé","Indemnités maximum"]]],
-  ["Retraite et assurances", "g", ICON.target, [["per","Économie PER","Plafond et gain d'impôt"],["bonus","Bonus-malus","Nouveau coefficient auto"]]]
+  ["Épargne", "g", ICON.percent, [["livret","Combien rapporte un livret ?","Livret A, LDDS, LEP, CEL, PEL, livret bancaire"],["quinz","Intérêts entre deux dates","La règle des quinzaines du Livret A"]]],
+  ["Assurance vie", "b", ICON.spark, [["rachat","Retrait d'assurance vie","Ce que le client touche vraiment"],["avdeces","Assurance vie au décès","Ce que paie chaque bénéficiaire"]]],
+  ["Transmission", "v", ICON.user, [["succ","Droits de succession ou donation","Abattement puis barème, tranche par tranche"]]],
+  ["Crédit", "o", ICON.chart, [["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable"],["ira","Pénalités de remboursement anticipé","Le plus petit de 6 mois d'intérêts ou 3 %"]]],
+  ["Retraite et assurances", "g", ICON.target, [["per","Économie d'impôt PER","Plafond, montant déductible, gain"],["bonus","Bonus-malus auto","Le nouveau coefficient"]]]
 ];
 const TOOLS = TOOL_GROUPS.flatMap(g => g[3].map(t => ({id:t[0], t:t[1], d:t[2]})));
-function field(id, label, value, attrs){ const i = h("input", Object.assign({id, type:"text", inputmode:"decimal", value:String(value), autocomplete:"off"}, attrs || {})); return {el:h("div", {class:"field"}, h("label", {for:id}, label), i), get:() => { const n = parseNum(i.value); return isNaN(n) ? 0 : n; }, input:i}; }
-function select(id, label, opts, value){ const s = h("select", {id}, opts.map(o => h("option", {value:o[0], selected: o[0] === value ? true : null}, o[1]))); return {el:h("div", {class:"field"}, h("label", {for:id}, label), s), get:() => s.value, input:s}; }
-function checkbox(id, label, val){ const c = h("input", {id, type:"checkbox", checked: val ? true : null}); return {el:h("label", {class:"check", for:id}, c, label), get:() => c.checked, input:c}; }
+const nf2 = new Intl.NumberFormat("fr-FR", {minimumFractionDigits:2, maximumFractionDigits:2}), nf3 = new Intl.NumberFormat("fr-FR", {minimumFractionDigits:3, maximumFractionDigits:3});
+const E = x => { const v = Math.round(x * 100) / 100; return (Number.isInteger(v) ? nf0 : nf2).format(v) + " €"; };
+const P = x => nf.format(x) + " %";
+const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+function field(id, label, value, o){ o = o || {};
+  const i = h("input", {id, type:"text", inputmode:"decimal", value:nf.format(value), autocomplete:"off"});
+  i.addEventListener("blur", () => { const n = parseNum(i.value); if (!isNaN(n)) i.value = nf.format(n); });
+  const wrap = h("div", {class:"inp"}, i, o.suf ? h("span", null, o.suf) : null);
+  const el = h("div", {class:"field"}, h("label", {for:id}, label), wrap, o.hint ? h("small", null, o.hint) : null);
+  return {el, get:() => { const n = parseNum(i.value); return isNaN(n) ? 0 : n; }, input:i}; }
+function select(id, label, opts, value, o){ o = o || {};
+  const s = h("select", {id}, opts.map(x => h("option", {value:x[0], selected: x[0] === value ? true : null}, x[1])));
+  return {el:h("div", {class:"field"}, h("label", {for:id}, label), s, o.hint ? h("small", null, o.hint) : null), get:() => s.value, input:s, set(opts2, v){ s.replaceChildren(...opts2.map(x => h("option", {value:x[0], selected: x[0] === v ? true : null}, x[1]))); }}; }
+function checkbox(id, label, val){ const c = h("input", {id, type:"checkbox", checked: val ? true : null}); return {el:h("label", {class:"check", for:id}, c, h("span", null, label)), get:() => c.checked, input:c}; }
 function line(label, value, main){ return h("div", {class:"line" + (main ? " main" : "")}, h("span", null, label), h("b", null, value)); }
 function toolsView(body){
   if (!toolOpen){
-    body.append(pageTitle("Outils", "Simulateurs pour tes rendez-vous"));
-    TOOL_GROUPS.forEach(([g, col, icon, items]) => body.append(block(icon, col, g, null, ...items.map(t => row(ICON.calc, col, t[1], t[2], () => { toolOpen = t[0]; render(); })))));
+    body.append(pageTitle("Outils", "Choisis la question de ton client : l'outil donne le résultat et t'explique le calcul."));
+    TOOL_GROUPS.forEach(([g, col, icon, items]) => body.append(block(icon, col, g, null, ...items.map(t => row(ICON.calc, col, t[1], t[2], () => { toolOpen = t[0]; render(); window.scrollTo(0, 0); })))));
     body.append(h("p", {class:"foot-note"}, "Règles au " + DATA.meta.maj + ". Ordres de grandeur, pas un document contractuel."));
     return;
   }
-  const T = TOOLS.find(t => t.id === toolOpen);
+  const T = TOOLS.find(t => t.id === toolOpen), SP = TOOL_SPECS[toolOpen];
   body.append(h("div", {class:"backbar"}, h("button", {class:"iconbtn", "aria-label":"Retour aux outils", onclick:() => { toolOpen = null; render(); }}, svg(ICON.back)), h("span", null, "Outils")));
-  body.append(pageTitle(T.t, T.d));
-  const form = h("div", {class:"form"}), out = h("div", {class:"out", "aria-live":"polite"});
-  body.append(block(ICON.calc, "b", "Données", null, form), block(ICON.target, "g", "Résultat", null, out));
-  const B = TOOL_BUILDERS[toolOpen](form, out);
-  form.addEventListener("input", B); form.addEventListener("change", B); B();
+  body.append(pageTitle(T.t, null));
+  body.append(h("div", {class:"ask"}, h("small", null, "Ton client te demande"), h("p", null, "« " + SP.q + " »")));
+  const form = h("div", {class:"form"}), res = h("div", {class:"res", "aria-live":"polite"}), steps = h("ol", {class:"steps"}), say = h("div", {class:"say"});
+  body.append(block(ICON.user, "b", "1. Les infos à demander", null, form),
+    block(ICON.target, "g", "2. Le résultat", null, res),
+    block(ICON.calc, "v", "3. Le calcul expliqué", "étape par étape", steps),
+    block(ICON.chat, "o", "4. Ce que tu peux dire au client", null, say));
+  const upd = SP.build(form);
+  const run = () => { const r = upd();
+    if (r.err){ res.replaceChildren(h("p", {class:"res-err"}, r.err)); steps.replaceChildren(); say.replaceChildren(h("p", {class:"muted"}, "Complète les infos ci-dessus.")); return; }
+    res.replaceChildren(...[h("span", {class:"res-label"}, r.label), h("b", {class:"res-val"}, r.value), r.sub ? h("p", {class:"res-sub"}, r.sub) : null, ...(r.lines || []).map(l => line(l[0], l[1]))].filter(Boolean));
+    steps.replaceChildren(...r.steps.map(s => h("li", null, h("b", null, s[0]), s[1] ? h("div", {class:"op"}, s[1]) : null, s[2] ? h("p", null, s[2]) : null)));
+    say.replaceChildren(...[h("p", {class:"quote"}, r.say), r.warn ? h("p", {class:"warn"}, r.warn) : null].filter(Boolean)); };
+  form.addEventListener("input", run); form.addEventListener("change", run); run();
+  if (SP.note) body.append(h("p", {class:"foot-note"}, SP.note));
 }
-const TOOL_BUILDERS = {
-  livret(form, out){
-    const p = select("t-prod", "Produit", [["livretA","Livret A (1,7 %)"],["ldds","LDDS (1,7 %)"],["lep","LEP (2,5 %)"],["cel","CEL (1,25 % brut)"],["pel2026","PEL ouvert en 2026 (2 % brut)"],["superlivret","Livret bancaire (taux libre)"]], "livretA");
-    const m = field("t-mt", "Montant (€)", 10000), a = field("t-an", "Durée (années)", 1), t = field("t-tx", "Taux brut du livret bancaire (%)", 2.5);
-    form.append(p.el, h("div", {class:"row2"}, m.el, a.el), t.el);
-    return () => { t.el.hidden = p.get() !== "superlivret";
-      const r = C.placement({produit:p.get(), montant:m.get(), annees:Math.min(50, Math.round(a.get())), taux:t.get()});
-      out.replaceChildren(line("Intérêts nets", eur(r.net), true), line("Intérêts bruts", eur(r.brut)), line("Capital final", eur(r.final)),
-        h("p", null, r.fisc === 0 ? "Aucun impôt ni prélèvement social." : "Fiscalité appliquée : " + nf.format(r.fisc*100) + " % (flat tax" + (r.fisc === 0.30 ? " de l'épargne logement" : "") + "). Taux actuels supposés constants.")); };
-  },
-  quinz(form, out){
-    const m = field("q-mt", "Montant (€)", 6000), t = field("q-tx", "Taux (%)", 1.7);
-    const d1 = h("input", {id:"q-d1", type:"date", value:"2026-04-03"}), d2 = h("input", {id:"q-d2", type:"date", value:"2026-10-20"});
-    form.append(h("div", {class:"row2"}, m.el, t.el), h("div", {class:"row2"}, h("div", {class:"field"}, h("label", {for:"q-d1"}, "Date du versement"), d1), h("div", {class:"field"}, h("label", {for:"q-d2"}, "Date du retrait"), d2)));
-    return () => { if (!d1.value || !d2.value) return; const r = C.interetsQuinzaines(m.get(), t.get(), d1.value, d2.value);
-      out.replaceChildren(line("Intérêts", eur(r.interets), true), line("Quinzaines rémunérées", r.quinzaines), h("p", null, "Un versement rapporte à partir du 1er ou du 16 qui suit ; un retrait cesse de rapporter dès le début de sa quinzaine.")); };
-  },
-  rachat(form, out){
-    const v = field("r-v", "Valeur du contrat (€)", 50000), g = field("r-g", "Gains totaux du contrat (€)", 10000), r = field("r-r", "Montant racheté (€)", 5000), vn = field("r-vn", "Versements nets (€)", 40000);
-    const p8 = checkbox("r-8", "Contrat de plus de 8 ans", true), cp = checkbox("r-c", "Couple marié ou pacsé", false), ps = checkbox("r-ps", "PS déjà prélevés (fonds euros)", false);
-    form.append(h("div", {class:"row2"}, v.el, g.el), h("div", {class:"row2"}, r.el, vn.el), p8.el, cp.el, ps.el);
-    return () => { const x = C.avRachat({valeur:v.get(), gains:g.get(), rachat:r.get(), plus8ans:p8.get(), couple:cp.get(), versementsNets:vn.get(), psDejaPayes:ps.get()});
-      if (!x) return out.replaceChildren(h("p", null, "Indique la valeur du contrat."));
-      out.replaceChildren(line("Somme nette reçue", eur(x.net), true), line("Part de gains dans le rachat", eur(x.partGains)), line("Impôt sur le revenu", eur(x.ir)), line("Prélèvements sociaux (17,2 %)", eur(x.ps)),
-        h("p", null, p8.get() ? "Après 8 ans : abattement " + (cp.get() ? "9 200 €" : "4 600 €") + " par an (sur tous les rachats de l'année), puis 7,5 % (12,8 % pour la part au-delà de 150 000 € versés)." : "Avant 8 ans : 12,8 % d'impôt sur la part de gains.")); };
-  },
-  avdeces(form, out){
-    const ca = field("d-ca", "Capital reçu par ce bénéficiaire, primes avant 70 ans (€)", 300000), pa = field("d-pa", "Primes versées après 70 ans, tous bénéficiaires (€)", 0), n = field("d-n", "Part de ce bénéficiaire dans ces primes (%)", 100);
-    const cj = checkbox("d-cj", "Bénéficiaire conjoint ou partenaire de PACS", false);
-    form.append(ca.el, pa.el, n.el, cj.el);
-    return () => { const x = C.avDeces({capitalAvant70:ca.get(), primesApres70Total:pa.get(), partApres70:n.get()/100, conjoint:cj.get()});
-      if (x.exonere) return out.replaceChildren(line("Taxe", "0 €", true), h("p", null, "Conjoint et partenaire de PACS sont exonérés."));
-      out.replaceChildren(line("Taxe 990 I", eur(x.taxe990I), true), line("Part taxable 990 I", eur(x.base990I)), line("Primes réintégrées (757 B)", eur(x.reintegre757B)),
-        h("p", null, "990 I : 152 500 € d'abattement, 20 % jusqu'à 700 000 €, 31,25 % au-delà. 757 B : les primes au-delà de 30 500 € suivent les droits de succession selon le lien de parenté (gains exonérés).")); };
-  },
-  succ(form, out){
-    const m = field("s-m", "Montant transmis à cet héritier (€)", 150000);
-    const l = select("s-l", "Lien", [["enfant","Enfant (parent → enfant)"],["petitenfant","Petit-enfant (donation)"],["conjoint_don","Conjoint (donation)"],["conjoint_succ","Conjoint ou PACS (succession)"],["fratrie","Frère ou sœur"],["neveu","Neveu ou nièce"],["autre","Autre (dont concubin)"]], "enfant");
-    const du = field("s-du", "Abattement déjà utilisé il y a moins de 15 ans (€)", 0), hd = checkbox("s-h", "Héritier en situation de handicap", false), df = checkbox("s-df", "Don familial d'argent en plus (donateur < 80 ans)", false);
-    form.append(m.el, l.el, du.el, hd.el, df.el);
-    return () => { const x = C.droits(m.get(), l.get(), {dejaUtilise:du.get(), handicap:hd.get(), donFamilial:df.get()});
-      if (x.exonere) return out.replaceChildren(line("Droits", "0 €", true), h("p", null, "Le conjoint marié et le partenaire de PACS sont exonérés en succession."));
-      out.replaceChildren(line("Droits à payer", eur(x.droits), true), line("Abattement appliqué", eur(x.abattement)), line("Part taxable", eur(x.base)), line("Taux moyen", m.get() ? nf.format(100 * x.droits / m.get()) + " %" : "–")); };
-  },
-  credit(form, out){
-    const rv = field("c-rv", "Revenus nets mensuels du foyer (€)", 4000), ac = field("c-ac", "Autres crédits par mois (€)", 0), tx = field("c-tx", "Taux nominal (%)", 3.2), du = field("c-du", "Durée (années)", 25), ta = field("c-ta", "Assurance (% par an du capital)", 0.3);
-    form.append(h("div", {class:"row2"}, rv.el, ac.el), h("div", {class:"row2"}, tx.el, du.el), ta.el);
-    return () => { const d = Math.min(30, Math.max(1, Math.round(du.get()))); const x = C.capacite({revenus:rv.get(), autresCredits:ac.get(), taux:tx.get(), annees:d, tauxAssurance:ta.get()});
-      out.replaceChildren(line("Capital empruntable", eur(x.capital), true), line("Mensualité max (assurance comprise)", eur(x.mensualiteMax)), line("Endettement actuel", nf.format(x.endettementActuel) + " %"),
-        h("p", null, d > 25 ? "Attention : au-delà de 25 ans (27 avec différé), hors règle HCSF." : "35 % des revenus nets, assurance comprise, 25 ans maximum. Hors marge de flexibilité de la banque.")); };
-  },
-  per(form, out){
-    const rp = field("p-rp", "Revenus professionnels N-1 nets de frais (€)", 50000), v = field("p-v", "Versement prévu (€)", 5000), rep = field("p-rep", "Plafonds non utilisés reportables (€)", 0), ag = field("p-ag", "Âge", 45);
-    const tmi = select("p-t", "Tranche marginale", [["0","0 %"],["11","11 %"],["30","30 %"],["41","41 %"],["45","45 %"]], "30");
-    form.append(h("div", {class:"row2"}, rp.el, v.el), h("div", {class:"row2"}, rep.el, ag.el), tmi.el);
-    return () => { const x = C.per({revenusPro:rp.get(), versement:v.get(), reports:rep.get(), age:ag.get(), tmi:Number(tmi.get())});
-      out.replaceChildren(line("Économie d'impôt", eur(x.economie), true), line("Plafond de l'année", eur(x.plafond)), line("Montant déductible", eur(x.deductible)),
-        h("p", null, ag.get() >= 70 ? "À partir de 70 ans, les versements ne sont plus déductibles (loi de finances 2026)." : "Plafond 2026 : 10 % des revenus pro, entre 4 710 € et 37 680 €. Le plafond exact figure sur l'avis d'imposition.")); };
-  },
-  bonus(form, out){
-    const c = field("b-c", "Coefficient actuel", 1), a = field("b-a", "Années sans sinistre responsable", 1), r = field("b-r", "Sinistres totalement responsables cette année", 0), p = field("b-p", "Sinistres à responsabilité partagée", 0);
-    form.append(h("div", {class:"row2"}, c.el, a.el), h("div", {class:"row2"}, r.el, p.el));
-    return () => { const x = C.bonusMalus({coef:c.get(), anneesSans:Math.round(a.get()), responsables:Math.round(r.get()), partages:Math.round(p.get())});
-      out.replaceChildren(line("Nouveau coefficient", nf.format(x), true), line("Soit", x < 1 ? "bonus de " + nf0.format((1-x)*100) + " %" : x > 1 ? "malus de " + nf0.format((x-1)*100) + " %" : "neutre"),
-        h("p", null, "× 0,95 par année sans sinistre responsable (plancher 0,50), × 1,25 par sinistre responsable, × 1,125 si partagé (plafond 3,50). À 0,50 depuis 3 ans, le 1er sinistre ne fait pas perdre le bonus.")); };
-  },
-  ira(form, out){
-    const k = field("i-k", "Capital remboursé par avance (€)", 100000), t = field("i-t", "Taux nominal du prêt (%)", 3);
-    form.append(h("div", {class:"row2"}, k.el, t.el));
-    return () => { const x = C.ira(k.get(), t.get());
-      out.replaceChildren(line("Indemnité maximum", eur(x.ira), true), line("6 mois d'intérêts", eur(x.sixMois)), line("3 % du capital", eur(x.troisPourcent)),
-        h("p", null, "On retient le plus faible des deux. Pas d'indemnité en cas de vente après mutation professionnelle, de décès ou de cessation forcée d'activité.")); };
-  }
+const TOOL_SPECS = {
+  livret:{ q:"Si je place cette somme, combien ça va me rapporter ?",
+    note:"Taux actuels supposés constants. En réalité, les intérêts des livrets sont calculés par quinzaine et versés au 31 décembre.",
+    build(form){
+      const p = select("t-prod", "Le produit", [["livretA","Livret A · 1,7 %"],["ldds","LDDS · 1,7 %"],["lep","LEP · 2,5 %"],["cel","CEL · 1,25 % brut"],["pel2026","PEL ouvert en 2026 · 2 % brut"],["superlivret","Livret bancaire (taux à saisir)"]], "livretA");
+      const t = field("t-tx", "Taux brut du livret bancaire", 2.5, {suf:"%", hint:"Le taux affiché par la banque, avant impôt."});
+      const m = field("t-mt", "La somme placée", 10000, {suf:"€"}), a = field("t-an", "Pendant combien d'années", 1, {suf:"ans"});
+      form.append(p.el, t.el, m.el, a.el);
+      const PLAF = {livretA:22950, ldds:12000, lep:10000, cel:15300, pel2026:61200};
+      return () => { t.el.hidden = p.get() !== "superlivret";
+        const prod = C.PRODUITS[p.get()], n = Math.min(50, Math.max(1, Math.round(a.get()))), M = m.get();
+        if (!(M > 0)) return {err:"Indique la somme placée."};
+        const brut = prod.taux === null ? t.get() : prod.taux, net = brut * (1 - prod.fisc);
+        const r = C.placement({produit:p.get(), montant:M, annees:n, taux:t.get()});
+        const st = [];
+        if (prod.fisc === 0) st.push(["Le taux net", P(brut) + " par an", prod.nom + " : pas d'impôt ni de prélèvements sociaux, le taux affiché est ce que touche le client."]);
+        else st.push(["Le taux net, après impôts", P(brut) + " × (1 − " + P(prod.fisc * 100) + ") = " + P(Math.round(net * 1000) / 1000), "On retire la flat tax de " + P(prod.fisc * 100) + (prod.fisc === 0.30 ? " (taux de l'épargne logement : 12,8 % d'impôt + 17,2 % de prélèvements sociaux)." : " (12,8 % d'impôt + 18,6 % de prélèvements sociaux).")]);
+        st.push(["Les intérêts de la 1re année", E(M) + " × " + P(Math.round(net * 1000) / 1000) + " = " + E(M * net / 100)]);
+        if (n > 1) st.push(["Les intérêts s'ajoutent chaque année", E(M) + " × (1 + " + P(Math.round(net * 1000) / 1000) + ") puissance " + n + " = " + E(r.final), "Chaque année, les intérêts rapportent à leur tour des intérêts (intérêts composés)."]);
+        st.push(["Le gain total", E(r.final) + " − " + E(M) + " = " + E(r.net), prod.fisc ? "Impôts et prélèvements payés au total : " + E(r.brut - r.net) + "." : null]);
+        const pl = PLAF[p.get()];
+        return {label:"Gain net sur " + n + (n > 1 ? " ans" : " an"), value:E(r.net), sub:"Capital au bout de " + n + (n > 1 ? " ans" : " an") + " : " + E(r.final),
+          steps:st, say:"Si vous placez " + E(M) + " sur votre " + prod.nom + " pendant " + n + (n > 1 ? " ans" : " an") + ", vous gagnez environ " + E(r.net) + (prod.fisc ? " après impôts" : ", sans aucun impôt") + ".",
+          warn: pl && M > pl ? "Attention : le plafond de versement du " + prod.nom + " est de " + E(pl) + "." : null}; };
+    }},
+  quinz:{ q:"Combien m'a rapporté mon Livret A entre ces deux dates ?",
+    note:"Règle valable pour le Livret A, le LDDS, le LEP et les livrets réglementés.",
+    build(form){
+      const m = field("q-mt", "La somme versée", 6000, {suf:"€"}), t = field("q-tx", "Le taux du livret", 1.7, {suf:"%"});
+      const d1 = h("input", {id:"q-d1", type:"date", value:"2026-04-03"}), d2 = h("input", {id:"q-d2", type:"date", value:"2026-10-20"});
+      form.append(m.el, t.el, h("div", {class:"field"}, h("label", {for:"q-d1"}, "Date du versement"), d1), h("div", {class:"field"}, h("label", {for:"q-d2"}, "Date du retrait"), d2));
+      const qd = i => { const y = Math.floor(i / 24), mo = Math.floor((i % 24) / 2); return (i % 2 ? "16 " : "1er ") + MOIS[mo] + " " + y; };
+      const qi = s => { const [y, mo, d] = s.split("-").map(Number); return (y * 12 + mo - 1) * 2 + (d >= 16 ? 1 : 0); };
+      const fd = s => { const [y, mo, d] = s.split("-").map(Number); return (d === 1 ? "1er" : d) + " " + MOIS[mo - 1]; };
+      return () => { if (!d1.value || !d2.value) return {err:"Indique les deux dates."};
+        if (d2.value <= d1.value) return {err:"La date de retrait doit être après la date de versement."};
+        const r = C.interetsQuinzaines(m.get(), t.get(), d1.value, d2.value), deb = qi(d1.value) + 1, fin = qi(d2.value);
+        return {label:"Intérêts gagnés", value:E(r.interets), sub:r.quinzaines + " quinzaines rémunérées sur 24 dans l'année",
+          steps:[["Quand l'argent commence à rapporter", "Versé le " + fd(d1.value) + " → rapporte à partir du " + qd(deb), "Un versement rapporte à partir du 1er ou du 16 qui suit."],
+            ["Quand il arrête de rapporter", "Retiré le " + fd(d2.value) + " → ne rapporte plus depuis le " + qd(fin), "Un retrait ne rapporte plus dès le début de sa quinzaine (le 1er ou le 16 qui précède)."],
+            ["Le nombre de quinzaines", "Du " + qd(deb) + " au " + qd(fin) + " = " + r.quinzaines + " quinzaines", "Une année compte 24 quinzaines (2 par mois)."],
+            ["Les intérêts", E(m.get()) + " × " + P(t.get()) + " × " + r.quinzaines + " ÷ 24 = " + E(r.interets)]],
+          say:"Votre versement de " + E(m.get()) + " a travaillé " + r.quinzaines + " quinzaines, du " + qd(deb) + " au " + qd(fin) + ". Il vous a rapporté " + E(r.interets) + ", versés au 31 décembre."}; };
+    }},
+  rachat:{ q:"Si je retire de l'argent de mon assurance vie, combien je touche vraiment ?",
+    note:"En pratique, l'assureur prélève un acompte d'impôt au retrait ; l'abattement des contrats de plus de 8 ans est appliqué l'année suivante, avec la déclaration de revenus.",
+    build(form){
+      const vv = field("r-vn", "Ce que le client a versé au total", 40000, {suf:"€", hint:"Total de ses versements, moins les retraits déjà faits (« versements nets » sur le relevé)."});
+      const v = field("r-v", "Ce que vaut le contrat aujourd'hui", 50000, {suf:"€", hint:"La valeur de rachat sur le relevé."});
+      const r = field("r-r", "La somme qu'il veut retirer", 5000, {suf:"€"});
+      const age = select("r-8", "Âge du contrat", [["plus","Plus de 8 ans"],["moins","Moins de 8 ans"]], "plus");
+      const sit = select("r-c", "Situation du client", [["seul","Célibataire, veuf ou divorcé"],["couple","Marié ou pacsé (imposition commune)"]], "seul");
+      const sup = select("r-ps", "Où est placé l'argent ?", [["uc","Unités de compte ou multisupport"],["euro","Uniquement sur le fonds en euros"]], "uc", {hint:"Sur le fonds en euros, les prélèvements sociaux sont déjà pris chaque année."});
+      form.append(vv.el, v.el, r.el, age.el, sit.el, sup.el);
+      return () => { sit.el.hidden = age.get() !== "plus";
+        const VN = vv.get(), V = v.get(), R0 = r.get();
+        if (!(V > 0)) return {err:"Indique ce que vaut le contrat aujourd'hui."};
+        if (!(R0 > 0)) return {err:"Indique la somme à retirer."};
+        const Rt = Math.min(R0, V), G = Math.max(0, V - VN), p8 = age.get() === "plus", cp = sit.get() === "couple", psd = sup.get() === "euro";
+        const x = C.avRachat({valeur:V, gains:G, rachat:Rt, plus8ans:p8, couple:cp, versementsNets:VN, psDejaPayes:psd});
+        const st = [["Les gains du contrat", E(V) + " − " + E(VN) + " = " + E(G), G ? "C'est ce que le contrat a rapporté. Seuls les gains peuvent être taxés, jamais l'argent versé." : "Le contrat n'a pas fait de gains : rien n'est taxé."]];
+        if (G){
+          st.push(["La part de gains dans le retrait", E(Rt) + " × " + E(G) + " ÷ " + E(V) + " = " + E(x.partGains), "Un retrait contient un peu de capital et un peu de gains, dans la même proportion que le contrat. Ici " + nf0.format(100 * G / V) + " % de gains. Le reste (" + E(Rt - x.partGains) + ") est son capital : il n'est jamais imposé."]);
+          if (p8){ const ab = cp ? 9200 : 4600, tax = Math.max(0, x.partGains - ab);
+            st.push(["L'abattement (plus de 8 ans)", E(x.partGains) + " − " + E(ab) + " = " + E(tax) + " imposables", "Chaque année, " + E(ab) + " de gains sont sans impôt" + (cp ? " pour un couple" : " pour une personne seule") + ", pour tous ses contrats réunis."]);
+            st.push(["L'impôt sur le revenu", tax ? E(tax) + " × " + (VN > 150000 ? "7,5 % ou 12,8 %" : "7,5 %") + " = " + E(x.ir) : "0 €", VN > 150000 ? "Au-delà de 150 000 € versés, la part des gains liée à l'excédent est taxée à 12,8 %." : "Après 8 ans : 7,5 % (tant que les versements ne dépassent pas 150 000 €)."]);
+          } else st.push(["L'impôt sur le revenu", E(x.partGains) + " × 12,8 % = " + E(x.ir), "Avant 8 ans : pas d'abattement, 12,8 % sur les gains (ou le barème de l'impôt si le client le choisit)."]);
+          st.push(["Les prélèvements sociaux", psd ? "0 €" : E(x.partGains) + " × 17,2 % = " + E(x.ps), psd ? "Déjà prélevés chaque année sur le fonds en euros." : "17,2 % sur la totalité des gains retirés, sans abattement."]);
+        }
+        st.push(["Ce qu'il touche", E(Rt) + " − " + E(x.ir) + " − " + E(x.ps) + " = " + E(x.net)]);
+        return {label:"Somme nette reçue", value:E(x.net), sub:"Sur " + E(Rt) + " retirés, " + E(x.ir + x.ps) + " d'impôt et de prélèvements.", lines:[["Dont gains", E(x.partGains)], ["Impôt sur le revenu", E(x.ir)], ["Prélèvements sociaux", E(x.ps)]], steps:st,
+          say:"Sur vos " + E(Rt) + ", seuls " + E(x.partGains) + " sont des gains, le reste c'est votre argent. " + (x.ir + x.ps === 0 ? "Vous n'avez rien à payer : vous recevez " + E(x.net) + "." : "Vous paierez " + E(x.ir + x.ps) + (x.ir === 0 && p8 ? " de prélèvements sociaux seulement, grâce à l'abattement" : " d'impôt et de prélèvements") + ", donc vous recevez environ " + E(x.net) + "."),
+          warn: R0 > V ? "Le retrait ne peut pas dépasser la valeur du contrat." : null}; };
+    }},
+  avdeces:{ q:"À mon décès, combien mon bénéficiaire paiera sur mon assurance vie ?",
+    note:"Cas d'un seul bénéficiaire. Frères et sœurs peuvent être exonérés sous conditions (célibataires, plus de 50 ans, vivant avec le défunt).",
+    build(form){
+      const li = select("d-l", "Le bénéficiaire est", [["enfant","Un enfant"],["conjoint","Le conjoint ou partenaire de PACS"],["fratrie","Un frère ou une sœur"],["neveu","Un neveu ou une nièce"],["autre","Une autre personne (dont concubin)"]], "enfant");
+      const ca = field("d-ca", "Ce qu'il reçoit des versements faits AVANT 70 ans", 300000, {suf:"€", hint:"Versements et gains compris."});
+      const pa = field("d-pa", "Versements faits APRÈS 70 ans", 0, {suf:"€", hint:"Seulement l'argent versé, pas les gains (ils sont exonérés). Total de tous les contrats."});
+      const n = field("d-n", "Part de ce bénéficiaire", 100, {suf:"%", hint:"100 % s'il est seul bénéficiaire."});
+      form.append(li.el, ca.el, pa.el, n.el);
+      return () => { const L = li.get();
+        if (L === "conjoint") return {label:"À payer", value:"0 €", sub:"Le conjoint et le partenaire de PACS sont totalement exonérés.", steps:[["Exonération totale", null, "Ni taxe sur les versements avant 70 ans, ni droits de succession sur ceux après 70 ans."]], say:"Votre conjoint ne paiera rien sur l'assurance vie, quel que soit le montant."};
+        const x = C.avDeces({capitalAvant70:ca.get(), primesApres70Total:pa.get(), partApres70:n.get() / 100});
+        const d = C.droits(x.reintegre757B, L), st = [];
+        st.push(["Versements avant 70 ans : l'abattement", E(ca.get()) + " − 152 500 € = " + E(x.base990I) + " taxables", "152 500 € sans taxe pour chaque bénéficiaire."]);
+        if (x.base990I) st.push(["La taxe (article 990 I)", x.base990I <= 700000 ? E(x.base990I) + " × 20 % = " + E(x.taxe990I) : "700 000 € × 20 % + " + E(x.base990I - 700000) + " × 31,25 % = " + E(x.taxe990I), "20 % jusqu'à 700 000 € taxables, 31,25 % au-delà. Le lien de parenté ne compte pas."]);
+        if (pa.get() > 0){
+          st.push(["Versements après 70 ans : l'abattement", "(" + E(pa.get()) + " − 30 500 €) × " + P(n.get()) + " = " + E(x.reintegre757B), "30 500 € sans droits, à partager entre tous les bénéficiaires. Les gains ne sont pas taxés."]);
+          if (x.reintegre757B) st.push(["Les droits de succession (article 757 B)", d.detail.length ? E(x.reintegre757B) + " − " + E(d.abattement) + " d'abattement → droits de " + E(d.droits) : "Sous l'abattement : 0 €", "Cette somme suit les droits de succession classiques du lien de parenté. Ici on suppose qu'il ne reçoit rien d'autre de la succession."]);
+        }
+        const tot = x.taxe990I + (x.reintegre757B ? d.droits : 0);
+        st.push(["Total à payer", E(x.taxe990I) + " + " + E(x.reintegre757B ? d.droits : 0) + " = " + E(tot)]);
+        return {label:"Total à payer par ce bénéficiaire", value:E(tot), lines:[["Taxe avant 70 ans (990 I)", E(x.taxe990I)], ["Droits après 70 ans (757 B)", E(x.reintegre757B ? d.droits : 0)]], steps:st,
+          say:"Sur les " + E(ca.get()) + " versés avant vos 70 ans, votre bénéficiaire a 152 500 € sans taxe" + (x.taxe990I ? ", puis paie 20 % au-delà : " + E(x.taxe990I) + "." : " : il ne paie rien sur cette partie.") + (pa.get() > 0 ? " Pour les versements après 70 ans, seuls les montants versés au-delà de 30 500 € comptent, et les gains sont exonérés." : "")}; };
+    }},
+  succ:{ q:"Si je donne ou si je transmets cette somme, combien mon proche paiera de droits ?",
+    note:"Barèmes 2026. Les abattements se rechargent tous les 15 ans. Abattement et droits par héritier.",
+    build(form){
+      const ty = select("s-ty", "Il s'agit", [["don","D'une donation (de son vivant)"],["succ","D'une succession (au décès)"]], "succ");
+      const OPT = {don:[["enfant","Un enfant"],["petitenfant","Un petit-enfant"],["conjoint_don","Le conjoint ou partenaire de PACS"],["fratrie","Un frère ou une sœur"],["neveu","Un neveu ou une nièce"],["autre","Une autre personne (dont concubin)"]],
+        succ:[["enfant","Un enfant"],["conjoint_succ","Le conjoint ou partenaire de PACS"],["fratrie","Un frère ou une sœur"],["neveu","Un neveu ou une nièce"],["autre","Une autre personne (dont concubin)"]]};
+      const l = select("s-l", "Celui qui reçoit est", OPT.succ, "enfant");
+      const m = field("s-m", "La somme qu'il reçoit", 150000, {suf:"€", hint:"Sa part à lui seul."});
+      const du = field("s-du", "Donations déjà reçues de cette personne il y a moins de 15 ans", 0, {suf:"€", hint:"Elles ont déjà consommé une partie de l'abattement."});
+      const hd = checkbox("s-h", "Il est en situation de handicap (+159 325 €)", false), df = checkbox("s-df", "Don d'argent, donateur de moins de 80 ans (+31 865 €)", false);
+      form.append(ty.el, l.el, m.el, du.el, hd.el, df.el); let lastTy = "succ";
+      const NOM = {enfant:"enfant", petitenfant:"petit-enfant", conjoint_don:"conjoint", conjoint_succ:"conjoint", fratrie:"frère ou sœur", neveu:"neveu ou nièce", autre:"autre personne"};
+      return () => { if (ty.get() !== lastTy){ lastTy = ty.get(); l.set(OPT[lastTy], "enfant"); }
+        const L = l.get(); df.el.hidden = !(ty.get() === "don" && (L === "enfant" || L === "petitenfant"));
+        const x = C.droits(m.get(), L, {dejaUtilise:du.get(), handicap:hd.get(), donFamilial:!df.el.hidden && df.get()});
+        if (x.exonere) return {label:"Droits à payer", value:"0 €", sub:"Au décès, le conjoint et le partenaire de PACS ne paient aucun droit.", steps:[["Exonération totale", null, "Quel que soit le montant hérité."]], say:"Votre conjoint n'aura aucun droit de succession à payer."};
+        const st = [], ab = [E(x.abattBase) + " (" + NOM[L] + ")"];
+        if (du.get()) ab.push("− " + E(Math.min(du.get(), x.abattBase)) + " déjà utilisés");
+        if (hd.get()) ab.push("+ 159 325 € handicap"); if (!df.el.hidden && df.get()) ab.push("+ 31 865 € don d'argent");
+        st.push(["L'abattement", ab.join(" ") + (ab.length > 1 ? " = " + E(x.abattement) : ""), "La part qu'il reçoit sans payer de droits."]);
+        st.push(["La part taxable", E(m.get()) + " − " + E(x.abattement) + " = " + E(x.base), x.base ? null : "Tout est couvert par l'abattement."]);
+        if (x.detail.length) st.push(["Le barème, tranche par tranche", null, "La part taxable est découpée en tranches. Chaque tranche a son taux, comme pour l'impôt sur le revenu."]);
+        x.detail.forEach(d => st.push(["Tranche à " + P(d[2] * 100), "de " + E(d[0]) + " à " + E(d[1]) + " : " + E(d[3]) + " × " + P(d[2] * 100) + " = " + E(d[4])]));
+        if (x.detail.length > 1) st.push(["Total des droits", x.detail.map(d => E(d[4])).join(" + ") + " = " + E(x.droits)]);
+        return {label:"Droits à payer", value:E(x.droits), sub: m.get() ? "Soit " + P(Math.round(1000 * x.droits / m.get()) / 10) + " de la somme reçue. Il garde " + E(m.get() - x.droits) + "." : null, steps:st,
+          say:"Pour " + E(m.get()) + " reçus, votre " + NOM[L] + " a " + E(x.abattement) + " sans droits. " + (x.droits ? "Il paiera environ " + E(x.droits) + " sur le reste." : "Il n'aura rien à payer.")}; };
+    }},
+  credit:{ q:"Combien je peux emprunter pour mon projet ?",
+    note:"Règle HCSF : 35 % des revenus nets, assurance comprise, sur 25 ans maximum (27 avec un différé pour le neuf). La banque garde une petite marge pour certains dossiers. On regarde aussi le reste à vivre et l'apport.",
+    build(form){
+      const rv = field("c-rv", "Revenus nets mensuels du foyer", 4000, {suf:"€", hint:"Avant impôt sur le revenu, salaires de tous les emprunteurs."});
+      const ac = field("c-ac", "Crédits en cours, par mois", 0, {suf:"€", hint:"Auto, conso, autre immobilier… (pas le loyer s'il s'arrête)."});
+      const du = field("c-du", "Durée du prêt", 25, {suf:"ans"}), tx = field("c-tx", "Taux du prêt", 3.2, {suf:"%"});
+      const ta = field("c-ta", "Taux de l'assurance emprunteur", 0.3, {suf:"% / an", hint:"En % du capital emprunté par an."});
+      form.append(rv.el, ac.el, du.el, tx.el, ta.el);
+      return () => { const RV = rv.get(); if (!(RV > 0)) return {err:"Indique les revenus du foyer."};
+        const d = Math.min(30, Math.max(1, Math.round(du.get()))), x = C.capacite({revenus:RV, autresCredits:ac.get(), taux:tx.get(), annees:d, tauxAssurance:ta.get()});
+        if (x.mensualiteMax <= 0) return {err:"Les crédits en cours dépassent déjà 35 % des revenus : pas de capacité d'emprunt."};
+        const rr = tx.get() / 1200, nn = d * 12, pour1000 = 1000 * (rr === 0 ? 1 / nn : rr / (1 - Math.pow(1 + rr, -nn))), ass1000 = 1000 * ta.get() / 1200, f = pour1000 + ass1000;
+        const mens = C.mensualite(x.capital, tx.get(), d), cout = Math.max(0, mens * d * 12 - x.capital);
+        const st = [["La mensualité maximum", E(RV) + " × 35 % = " + E(RV * 0.35), "Toutes ses mensualités de crédit, assurance comprise, ne doivent pas dépasser 35 % de ses revenus."]];
+        if (ac.get()) st.push(["Moins les crédits déjà en cours", E(RV * 0.35) + " − " + E(ac.get()) + " = " + E(x.mensualiteMax)]);
+        st.push(["Ce que coûte 1 000 € empruntés, par mois", nf3.format(pour1000) + " € de crédit + " + nf3.format(ass1000) + " € d'assurance = " + nf3.format(f) + " €", "Sur " + d + " ans à " + P(tx.get()) + ". C'est la mensualité pour 1 000 € empruntés."]);
+        st.push(["Le capital empruntable", E(x.mensualiteMax) + " ÷ " + nf3.format(f) + " € × 1 000 = " + E(Math.round(x.mensualiteMax / f * 1000)), "Arrondi à la centaine inférieure : " + E(x.capital) + "."]);
+        return {label:"Capital empruntable", value:E(x.capital), sub:"Mensualité maximum " + E(x.mensualiteMax) + " par mois, assurance comprise, sur " + d + " ans.",
+          lines:[["Mensualité hors assurance", E(mens)], ["Coût total des intérêts", E(cout)], ["Endettement actuel", P(x.endettementActuel)]], steps:st,
+          say:"Avec " + E(RV) + " de revenus, vous pouvez rembourser jusqu'à " + E(x.mensualiteMax) + " par mois, assurance comprise. Sur " + d + " ans à " + P(tx.get()) + ", cela représente environ " + E(x.capital) + " d'emprunt.",
+          warn: d > 25 ? "Au-delà de 25 ans (27 avec différé), le dossier sort de la règle HCSF." : null}; };
+    }},
+  ira:{ q:"Si je rembourse mon crédit immobilier en avance, combien de pénalités ?",
+    note:"Crédit immobilier uniquement. Le contrat peut prévoir moins, ou rien. Pas d'indemnité si le remboursement suit une vente liée à une mutation professionnelle, au décès ou à la perte forcée de l'emploi.",
+    build(form){
+      const k = field("i-k", "Le capital remboursé en avance", 100000, {suf:"€", hint:"Seulement la somme remboursée, pas tout le prêt."}), t = field("i-t", "Le taux du prêt", 3, {suf:"%"});
+      form.append(k.el, t.el);
+      return () => { const K = k.get(); if (!(K > 0)) return {err:"Indique le capital remboursé."};
+        const x = C.ira(K, t.get()), six = x.sixMois <= x.troisPourcent;
+        return {label:"Pénalités maximum", value:E(x.ira), sub:"Le plus petit des deux plafonds : " + (six ? "6 mois d'intérêts." : "3 % du capital."),
+          steps:[["Plafond 1 : 6 mois d'intérêts", E(K) + " × " + P(t.get()) + " ÷ 2 = " + E(x.sixMois), "Un an d'intérêts sur la somme, divisé par 2."],
+            ["Plafond 2 : 3 % du capital remboursé", E(K) + " × 3 % = " + E(x.troisPourcent)],
+            ["On garde le plus petit", "Entre " + E(x.sixMois) + " et " + E(x.troisPourcent) + " → " + E(x.ira), "La loi interdit à la banque de demander plus."]],
+          say:"Pour un remboursement anticipé de " + E(K) + ", la banque peut vous demander au maximum " + E(x.ira) + " d'indemnités. Votre contrat peut prévoir moins : je vérifie."}; };
+    }},
+  per:{ q:"Si je verse sur un PER, combien d'impôt je vais économiser ?",
+    note:"C'est un décalage d'impôt : à la sortie, le capital issu de ces versements sera imposé. Le plafond exact est indiqué sur l'avis d'imposition.",
+    build(form){
+      const v = field("p-v", "Le versement prévu", 5000, {suf:"€"});
+      const tmi = select("p-t", "Sa tranche marginale d'imposition (TMI)", [["0","0 %"],["11","11 %"],["30","30 %"],["41","41 %"],["45","45 %"]], "30", {hint:"Indiquée sur l'avis d'imposition, ou au simulateur des impôts."});
+      const rp = field("p-rp", "Ses revenus d'activité de l'an dernier", 50000, {suf:"€", hint:"Nets de frais professionnels (salaire imposable)."});
+      const rep = field("p-rep", "Plafonds non utilisés des années passées", 0, {suf:"€", hint:"Sur l'avis d'imposition. Utilisables 5 ans."});
+      const ag = field("p-ag", "Son âge", 45, {suf:"ans"});
+      form.append(v.el, tmi.el, rp.el, rep.el, ag.el);
+      return () => { const x = C.per({revenusPro:rp.get(), versement:v.get(), reports:rep.get(), age:ag.get(), tmi:Number(tmi.get())}), T = Number(tmi.get());
+        if (!(v.get() > 0)) return {err:"Indique le versement prévu."};
+        if (ag.get() >= 70) return {label:"Économie d'impôt", value:"0 €", sub:"À partir de 70 ans, les versements ne sont plus déductibles.", steps:[["Plus de déduction après 70 ans", null, "Règle de la loi de finances 2026."]], say:"À votre âge, les versements sur un PER ne réduisent plus votre impôt."};
+        const brut = rp.get() * 0.10, st = [["Le plafond de l'année", E(rp.get()) + " × 10 % = " + E(brut) + (brut !== x.plafond ? " → ramené à " + E(x.plafond) : ""), "10 % des revenus d'activité, au minimum 4 710 € et au maximum 37 680 € en 2026."]];
+        if (rep.get()) st.push(["Plus les plafonds non utilisés", E(x.plafond) + " + " + E(rep.get()) + " = " + E(x.plafond + rep.get())]);
+        st.push(["Le montant déductible", x.deductible < v.get() ? "Plafonné à " + E(x.deductible) : E(x.deductible) + " (tout le versement)", x.deductible < v.get() ? "Le versement dépasse le plafond : " + E(v.get() - x.deductible) + " ne seront pas déduits." : "Le versement passe sous le plafond."]);
+        st.push(["L'économie d'impôt", E(x.deductible) + " × " + P(T) + " = " + E(x.economie), "Le versement baisse le revenu imposé ; on gagne la TMI sur chaque euro déduit."]);
+        st.push(["L'effort réel", E(v.get()) + " − " + E(x.economie) + " = " + E(v.get() - x.economie), "Ce que le versement lui coûte vraiment."]);
+        return {label:"Économie d'impôt", value:E(x.economie), sub:"Le versement de " + E(v.get()) + " ne lui coûte réellement que " + E(v.get() - x.economie) + ".", lines:[["Plafond de l'année", E(x.plafond)], ["Montant déductible", E(x.deductible)]], steps:st,
+          say:"En versant " + E(v.get()) + " sur votre PER, vous payez " + E(x.economie) + " d'impôt en moins l'an prochain. Cet argent sera imposé à la sortie, à la retraite, souvent dans une tranche plus basse.",
+          warn: T === 0 ? "Avec une TMI à 0 %, la déduction ne sert à rien : le PER n'a pas d'intérêt fiscal à l'entrée." : null}; };
+    }},
+  bonus:{ q:"Quel sera mon bonus-malus l'an prochain ?",
+    note:"Le coefficient est arrondi à 2 décimales vers le bas à chaque calcul. Plancher 0,50 (50 % de bonus), plafond 3,50.",
+    build(form){
+      const c = field("b-c", "Coefficient actuel", 1, {hint:"Sur le relevé d'information ou l'avis d'échéance. 1 = ni bonus ni malus."});
+      const r = field("b-r", "Sinistres dont il est entièrement responsable cette année", 0), p = field("b-p", "Sinistres à responsabilité partagée cette année", 0);
+      const n = field("b-n", "Si aucun sinistre : nombre d'années à projeter", 1, {suf:"ans"});
+      const top = checkbox("b-top", "Il est à 0,50 depuis au moins 3 ans", false);
+      form.append(c.el, r.el, p.el, n.el, top.el);
+      const tr = x => Math.floor(x * 100 + 1e-9) / 100, f2 = x => nf.format(x);
+      return () => { let k = c.get(); if (!(k > 0)) return {err:"Indique le coefficient actuel."};
+        const R = Math.max(0, Math.round(r.get())), Pp = Math.max(0, Math.round(p.get())), st = []; n.el.hidden = R + Pp > 0;
+        if (R + Pp === 0){ const N = Math.min(20, Math.max(1, Math.round(n.get())));
+          for (let i = 1; i <= N; i++){ const nk = Math.max(0.5, tr(k * 0.95)); if (i <= 6 || i === N) st.push(["Année " + i + " sans sinistre", f2(k) + " × 0,95 = " + f2(nk), i === 1 ? "−5 % par an sans sinistre responsable, arrondi vers le bas." : null]); else if (i === 7) st.push(["…", null]); k = nk; }
+        } else {
+          let R2 = R; if (top.get() && k <= 0.5 && R2 > 0){ R2--; st.push(["Le 1er sinistre est pardonné", "0,50 depuis 3 ans", "Ce premier sinistre responsable ne fait pas perdre le bonus."]); }
+          for (let i = 0; i < R2; i++){ const nk = tr(k * 1.25); st.push(["Sinistre responsable", f2(k) + " × 1,25 = " + f2(nk), "+25 % par sinistre entièrement responsable."]); k = nk; }
+          for (let i = 0; i < Pp; i++){ const nk = tr(k * 1.125); st.push(["Sinistre partagé", f2(k) + " × 1,125 = " + f2(nk), "+12,5 % quand la responsabilité est partagée."]); k = nk; }
+          if (k > 3.5){ st.push(["Plafond", f2(k) + " → 3,50"]); k = 3.5; }
+          st.push(["Pas de baisse de 5 % cette année", null, "Une année avec un sinistre responsable ne donne pas de bonus."]);
+        }
+        const lab = k < 1 ? "bonus de " + nf0.format((1 - k) * 100) + " %" : k > 1 ? "malus de " + nf0.format((k - 1) * 100) + " %" : "ni bonus ni malus";
+        return {label:"Nouveau coefficient", value:f2(k), sub:"Soit un " + lab + " : sa prime de base est multipliée par " + f2(k) + ".", steps:st,
+          say:"Votre coefficient passera à " + f2(k) + ", soit un " + lab + ". Votre prime d'assurance est calculée en multipliant le tarif de base par ce coefficient."}; };
+    }}
 };
 
 /* ---------- Leçons ---------- */
@@ -904,7 +1084,7 @@ function renderLesson(){
         let good = q.t === "calc" ? nf.format(q.a) + (q.suf ? " " + q.suf : "") : q.t === "vf" ? (q.a ? "Vrai" : "Faux") : q.t === "ordre" ? q.o.map((x, i) => (i+1) + ". " + x).join("  ") : q.t === "paires" ? q.p.map(p => p[0] + " → " + p[1]).join(" · ") : q.c[q.a];
         foot.append(h("div", {class:"answer"}, (q.t === "paires" ? "" : "Bonne réponse : ") + good));
       }
-      foot.append(h("p", {class:"explain"}, q.x));
+      if (q.t === "calc"){ const parts = q.x.split(/(?<=[.;])\s+(?=[A-ZÀ-ÖØ-Þ0-9(])/).map(t => t.replace(/[;.]$/, "")).filter(Boolean); foot.append(parts.length > 1 ? h("ol", {class:"xsteps"}, ...parts.map(t => h("li", null, t))) : h("p", {class:"explain"}, q.x)); } else foot.append(h("p", {class:"explain"}, q.x));
       if (!L.ok && !it.retry && ["lesson","review","calcs"].includes(L.mode)) foot.append(h("small", {class:"muted"}, "Elle reviendra en fin de série."));
       footBtn = h("button", {class:"big", onclick:next}, "Continuer");
     } else footBtn = h("button", {class:"big", onclick:check, disabled: canCheck() ? null : true}, "Vérifier");

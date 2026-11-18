@@ -26,6 +26,16 @@
     }
     return total;
   }
+  /* Détail tranche par tranche : [[de, à, taux, montant taxé, droits]] */
+  function baremeDetail(base, tranches) {
+    let reste = Math.max(0, base), bas = 0; const out = [];
+    for (const [haut, taux] of tranches) {
+      if (reste <= 0) break;
+      const part = Math.min(reste, haut - bas);
+      out.push([bas, bas + part, taux, part, round2(part * taux)]); reste -= part; bas = haut;
+    }
+    return out;
+  }
   /* liens : enfant, petitenfant (donation), conjoint_don, conjoint_succ, fratrie, neveu, autre */
   const LIENS = {
     enfant: {abatt: 100000, bar: "direct"},
@@ -45,7 +55,7 @@
     if (opts.handicap) abatt += 159325;
     if (opts.donFamilial && (lien === "enfant" || lien === "petitenfant")) abatt += 31865;
     const base = Math.max(0, montant - abatt);
-    return {abattement: abatt, base, droits: round2(bareme(base, BAREMES[L.bar]))};
+    return {abattement: abatt, base, droits: round2(bareme(base, BAREMES[L.bar])), detail: baremeDetail(base, BAREMES[L.bar]), abattBase: L.abatt};
   }
 
   /* Assurance vie au décès, pour UN bénéficiaire */
@@ -148,6 +158,6 @@
     return {sixMois: round2(sixMois), troisPourcent: round2(trois), ira: round2(Math.min(sixMois, trois))};
   }
 
-  const C = {R, droits, bareme, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
+  const C = {R, LIENS, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
   if (typeof module !== "undefined" && module.exports) module.exports = C; else root.Calc = C;
 })(typeof window !== "undefined" ? window : this);
