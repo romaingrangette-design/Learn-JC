@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiches DCI · Learn JC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111816;--muted:#6B7570;--green:#007A55;--green-soft:#EEF6F2;--line:#E5E9E7;--soft:#F5F7F6;--gold:#B7791F;--gold-soft:#FBF4E6;--bad:#C2372D;--violet:#7357E8;--violet-soft:#F1EEFD;--surface:#FFFFFF;--body:"Inter",Arial,sans-serif;color-scheme:light}
+@page{size:A4;margin:13mm 14mm 14mm}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;font-size:9.4pt;line-height:1.45}
+p{margin:0}
+.fiche{break-before:page}
+.fiche:first-child{break-before:auto}
+.kicker{font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:700;display:flex;align-items:center;gap:3mm}
+.kicker::before{content:"";width:6mm;height:.7mm;background:var(--green);border-radius:1mm}
+h1{font-size:21pt;line-height:1.12;margin:2mm 0 4mm;font-weight:700;letter-spacing:-.02em}
+h2{font-size:8pt;text-transform:uppercase;letter-spacing:.12em;color:var(--green);font-weight:700;margin:5mm 0 2.5mm;display:flex;align-items:center;gap:2.5mm;break-after:avoid}
+h2::after{content:"";flex:1;height:.3mm;background:var(--line)}
+.box{border-radius:3mm;padding:3.2mm 4.2mm;break-inside:avoid}
+.box small{display:block;font-size:7pt;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:1mm}
+.intro{background:var(--green-soft);font-size:10.4pt}
+.intro small{color:var(--green)}
+.story{background:var(--violet-soft);margin-top:3mm}
+.story small{color:var(--violet)}
+.points{display:grid;grid-template-columns:1fr 1fr;gap:3mm 6mm}
+.pt{display:flex;gap:2.6mm;break-inside:avoid}
+.pt>span{flex:none;width:5.2mm;height:5.2mm;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:700;font-size:7.6pt;display:grid;place-items:center}
+.pt b{display:block;font-size:9.6pt;font-weight:600;margin-bottom:.4mm}
+.pt p{color:#3C4642;font-size:8.9pt}
+.chif{display:grid;grid-template-columns:1fr 1fr;gap:2.2mm}
+.c{background:var(--soft);border-radius:2.4mm;padding:2.2mm 3.2mm;break-inside:avoid}
+.c small{display:block;font-size:7.4pt;color:var(--muted)}
+.c b{display:block;font-size:9.8pt;font-weight:700;margin:.3mm 0}
+.c p{font-size:8pt;color:#3C4642;line-height:1.35}
+table{width:100%;border-collapse:collapse;font-size:8.4pt;font-variant-numeric:tabular-nums;break-inside:avoid;margin-bottom:2mm}
+caption{text-align:left;font-weight:600;font-size:8.8pt;margin-bottom:1.5mm}
+th{background:var(--soft);text-align:left;font-weight:600;color:var(--muted);font-size:7.6pt;padding:1.6mm 2mm}
+td{padding:1.6mm 2mm;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font-weight:600}
+.schema{border:1px solid var(--line);border-radius:2.5mm;padding:3mm 4mm;break-inside:avoid}
+.schema h3{margin:0 0 1.5mm;font-size:8.8pt;font-weight:600}
+.schema svg{max-height:60mm;width:100%}
+.schema svg text{font-family:var(--body)}
+.ex{border:1px solid #EBDDBF;break-inside:avoid}
+.ex .t{font-weight:600;font-size:9.8pt;margin-bottom:2mm}
+.ex ol{margin:0;padding-left:5mm;display:flex;flex-direction:column;gap:1.1mm;font-variant-numeric:tabular-nums}
+.ex li::marker{color:var(--gold);font-weight:700}
+.ex .c2{margin-top:2.6mm;background:var(--gold-soft);border-radius:2mm;padding:2mm 3mm;font-weight:500}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+.pg{display:flex;flex-direction:column;gap:2.4mm}
+.pg>div{border-left:.7mm solid var(--bad);padding-left:3mm;break-inside:avoid}
+.pg b{display:block;font-weight:600}
+.pg p{color:#3C4642;font-size:8.7pt}
+dl{margin:0;display:flex;flex-direction:column;gap:1.6mm}
+dt{font-weight:600}
+dd{margin:0;color:#3C4642;font-size:8.7pt}
+.memo{background:var(--gold-soft);border:1px dashed #E3C98F;margin-top:4mm;font-weight:600;font-size:10pt}
+.memo small{color:var(--gold)}
+.maj{background:#FFF4E5;border-left:1mm solid #E08A00;margin-top:3mm}
+.maj small{color:#8A5300}
+.maj ul{margin:0;padding-left:4mm;color:#5C3A00;font-size:8.6pt;display:flex;flex-direction:column;gap:1mm}
+.foot{margin-top:5mm;padding-top:2mm;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:7pt;color:var(--muted)}
+.cover{height:265mm;display:flex;flex-direction:column;justify-content:center}
+.cover h1{font-size:32pt;max-width:150mm}
+.cover .lead{font-size:11.5pt;color:var(--muted);max-width:140mm;line-height:1.5}
+.cover .toc{columns:2;column-gap:10mm;font-size:10pt;line-height:2;margin-top:10mm;border-top:1px solid var(--line);padding-top:6mm}
+.cover .toc span{color:var(--green);font-weight:700;display:inline-block;width:8mm}
+@media screen{body{background:#F1F3F2}.fiche,.cover{background:#fff;max-width:210mm;margin:8mm auto;padding:13mm 14mm;box-shadow:0 1px 8px rgba(0,0,0,.08)}}
+</style>
+</head>
+<body>
+<main id="root"></main>
+<script src="fiches.js"></script>
+<script>
+(function(){
+const root = document.getElementById("root");
+const e = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+fetch("dci.json").then(r => r.json()).then(d => {
+  const only = location.hash.slice(1);
+  const mods = only ? d.modules.filter(m => m.id === only) : d.modules;
+  let html = "";
+  if (!only) html += '<section class="cover"><div class="kicker">Learn JC · DCI</div><h1>Fiches de révision DCI · Crédit immobilier</h1><p class="lead">Les 12 modules de la formation, en clair : l\'essentiel, une situation client, les chiffres à connaître, un exemple chiffré, les pièges, le vocabulaire et un mémo.</p><div class="toc">' +
+    d.modules.map(m => '<span>' + String(m.n).padStart(2,"0") + '</span>' + e(m.titre)).join("<br>") + '</div><p style="margin-top:10mm;font-size:8.5pt;color:var(--muted)">' + e(d.meta.avertissement) + ' Mise à jour : ' + e(d.meta.maj) + '.</p></section>';
+  mods.forEach(m => {
+    const N = String(m.n).padStart(2,"0"), sch = m.schemas || [];
+    html += '<section class="fiche"><div class="kicker">DCI · Module ' + N + ' / 12</div><h1>' + e(m.titre) + '</h1>' +
+      '<div class="box intro"><small>En bref</small>' + e(m.intro) + '</div>' +
+      (m.histoire ? '<div class="box story"><small>En situation</small>' + e(m.histoire) + '</div>' : '') +
+      '<h2>Comment ça marche</h2><div class="points">' + m.points.map((p, k) => '<div class="pt"><span>' + (k+1) + '</span><div><b>' + e(p[0]) + '</b><p>' + e(p[1]) + '</p></div></div>').join("") + '</div>' +
+      '<h2>Les chiffres à connaître</h2><div class="chif">' + m.chiffres.map(c => '<div class="c"><small>' + e(c[0]) + '</small><b>' + e(c[1]) + '</b>' + (c[2] ? '<p>' + e(c[2]) + '</p>' : '') + '</div>').join("") + '</div>' +
+      ((m.tableaux || []).length ? '<h2>Les tableaux</h2>' + m.tableaux.map(t => '<table><caption>' + e(t.titre) + '</caption><thead><tr>' + t.entetes.map(x => '<th>' + e(x) + '</th>').join("") + '</tr></thead><tbody>' + t.lignes.map(r => '<tr>' + r.map(c => '<td>' + e(c) + '</td>').join("") + '</tr>').join("") + '</tbody></table>').join("") : '') +
+      (sch.length ? '<h2>En schéma</h2>' + sch.map(s => '<div class="schema"><h3>' + e(s.title) + '</h3>' + Fiches.render(s) + '</div>').join("") : '') +
+      '<h2>Exemple</h2><div class="box ex"><div class="t">' + e(m.exemple.titre) + '</div><ol>' + m.exemple.etapes.map(x => '<li>' + e(x) + '</li>').join("") + '</ol><div class="c2">' + e(m.exemple.conclusion) + '</div></div>' +
+      '<div class="cols"><div><h2>Les pièges</h2><div class="pg">' + m.pieges.map(p => '<div><b>' + e(p[0]) + '</b><p>' + e(p[1]) + '</p></div>').join("") + '</div></div>' +
+      '<div><h2>Les mots à comprendre</h2><dl>' + m.mots.map(x => '<dt>' + e(x[0]) + '</dt><dd>' + e(x[1]) + '</dd>').join("") + '</dl></div></div>' +
+      '<div class="box memo"><small>Le mémo</small>' + e(m.memo) + '</div>' +
+      ((m.maj || []).length ? '<div class="box maj"><small>À jour 2026 · différent du support</small><ul>' + m.maj.map(x => '<li>' + e(x) + '</li>').join("") + '</ul></div>' : '') +
+      '<div class="foot"><span>Learn JC · Fiche DCI ' + N + ' · ' + e(m.titre) + '</span><span>Mise à jour : ' + e(d.meta.maj) + '</span></div></section>';
+  });
+  root.innerHTML = html;
+  document.body.dataset.ready = "1";
+});
+})();
+</script>
+</body>
+</html>

@@ -153,8 +153,11 @@
   }
 
   /* Indemnités de remboursement anticipé (crédit immobilier) */
-  function ira(capitalRembourse, tauxAnnuel) {
-    const sixMois = capitalRembourse * tauxAnnuel / 100 / 2, trois = capitalRembourse * 0.03;
+  /* Indemnité de remboursement anticipé (crédit immobilier) : 6 mois d'intérêts sur la somme remboursée,
+     plafonnés à 3 % du capital restant dû avant le remboursement */
+  function ira(capitalRembourse, tauxAnnuel, crdAvant) {
+    const crd = crdAvant > 0 ? crdAvant : capitalRembourse;
+    const sixMois = capitalRembourse * tauxAnnuel / 100 / 2, trois = crd * 0.03;
     return {sixMois: round2(sixMois), troisPourcent: round2(trois), ira: round2(Math.min(sixMois, trois))};
   }
 

@@ -96,8 +96,8 @@ details.drop[open]>summary::after{transform:rotate(-135deg);margin-top:8px}
 .lvl.locked b{opacity:.5}
 
 /* Navigation basse */
-.nav{position:sticky;bottom:0;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:5}
-.nav button{background:none;border:0;padding:6px 2px;font-weight:500;font-size:11px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px}
+.nav{position:sticky;bottom:0;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:5}
+.nav button{background:none;border:0;padding:6px 0;font-weight:500;font-size:10.5px;min-width:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px}
 .nav button svg{width:22px;height:22px}
 .nav button[aria-current="page"]{color:var(--green);font-weight:600}
 
@@ -439,6 +439,53 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .f-mots dt:first-child{margin-top:0}
 .f-mots dd{margin:0;font-size:13.5px;color:#3D4743;line-height:1.45}
 @media (min-width:560px){.f-chif{grid-template-columns:1fr 1fr}}
+
+/* DCI */
+.dci-prog .bar{height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.dci-prog .bar i{display:block;height:100%;background:var(--green);border-radius:99px}
+.dci-prog p{margin-top:8px;font-size:13.5px}
+.dci-actions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.dci-actions .ghost{display:flex;align-items:center;justify-content:center;gap:8px}
+.dci-actions .ghost svg{width:18px;height:18px;flex:none}
+.block{min-width:0}
+.schema-app{min-width:0;overflow-x:auto}
+.dtab-wrap{max-width:100%;-webkit-overflow-scrolling:touch}
+.dci-n{background:var(--green-soft);color:var(--green);font-weight:700}
+.row .score{font-size:12.5px;font-weight:700;border-radius:99px;padding:3px 8px;background:var(--soft);color:var(--muted);white-space:nowrap}
+.row .score.ok{background:var(--green-soft);color:var(--green)}
+.row .score.mid{background:var(--gold-soft);color:var(--gold)}
+.story{background:#F1EEFD;border-radius:18px;padding:16px 18px}
+.story small{font-size:12px;font-weight:700;color:#7357E8;text-transform:uppercase;letter-spacing:.08em}
+.story p{font-size:15px;line-height:1.55;margin-top:4px}
+.memo{background:var(--gold-soft);border-radius:18px;padding:16px 18px;border:1px dashed #E3C98F}
+.memo small{font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+.memo p{font-size:15.5px;font-weight:600;line-height:1.5;margin-top:4px}
+.maj{background:#FFF4E5;border-radius:18px;padding:14px 18px;border-left:4px solid #E08A00}
+.maj small{font-size:12px;font-weight:700;color:#8A5300;text-transform:uppercase;letter-spacing:.08em}
+.maj ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5;color:#5C3A00}
+.dtab-wrap{overflow-x:auto;margin:0 -2px}
+.dtab-t{display:none}
+.dtab{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.dtab th{background:var(--soft);font-weight:600;text-align:left;padding:8px;font-size:12px;color:var(--muted);white-space:nowrap}
+.dtab td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.35}
+.dtab.num td{white-space:nowrap}
+.dtab-hint{font-size:12px;color:var(--muted);margin-top:6px}
+.dtab td:first-child{font-weight:600}
+.actions-row.end{justify-content:center}
+.missed{display:flex;flex-direction:column;gap:6px;width:100%;max-width:420px;text-align:left;margin:6px 0}
+.missed>b{font-size:14px}
+.missed .ic.r{font-weight:700;font-size:13px}
+@media (min-width:960px){
+  .wrap.v-dci:not(.detail){display:block;column-count:2;column-gap:24px}
+  .wrap.v-dci:not(.detail)>*{break-inside:avoid;margin:0 0 24px;display:flex}
+  .wrap.v-dci>.ptitle,.wrap.v-dci>.foot-note{column-span:all;display:block}
+  .wrap.v-dci.detail{display:block;column-count:2;column-gap:24px}
+  .wrap.v-dci.detail>*{break-inside:avoid;margin:0 0 24px}
+  .wrap.v-dci.detail>section{display:flex}
+  .wrap.v-dci.detail>.backbar,.wrap.v-dci.detail>.ptitle,.wrap.v-dci.detail>.actions-row,.wrap.v-dci.detail>.f-intro,.wrap.v-dci.detail>.story{column-span:all}
+  .wrap.v-dci.detail>.actions-row{max-width:420px;display:flex}
+  .wrap.v-dci.detail .f-chif{grid-template-columns:1fr}
+}
 /* ===== Ordinateur : toute la largeur ===== */
 .tool-right{display:flex;flex-direction:column;gap:16px}
 .nav-brand{display:none}
@@ -502,7 +549,7 @@ const LVL = ["Découverte","Bases","Pratique","Expert","Maître"];
 const TYPES = {qcm:"QCM", vf:"Vrai ou faux", calc:"Calcul", phrase:"Phrase client", cas:"Cas pratique", paires:"Associer", ordre:"Remettre dans l'ordre"};
 const app = document.getElementById("app");
 const C = window.Calc;
-let DATA = null, S = null, tab = "news", L = null, toolOpen = null;
+let DATA = null, S = null, tab = "news", L = null, toolOpen = null; let dciOpen = null;
 
 /* ---------- utilitaires ---------- */
 function h(tag, attrs, ...kids){
@@ -538,6 +585,7 @@ const ICON = {
   chat:'<path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/>',
   x:'<path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/>',
   back:'<path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/>',
+  house:'<path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 11l9-7 9 7M5 10v10h5v-6h4v6h5V10"/>',
   medal:'<circle cx="12" cy="15" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M8 2h3l1 5-3 1zM16 2h-3l-1 5 3 1z"/><path fill="currentColor" d="m12 12 1 2h2l-1.6 1.2.6 2-2-1.3-2 1.3.6-2L9 14h2z"/>'
 };
 function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
@@ -563,7 +611,7 @@ function normalize(){
   }
   S.xp = S.xp || 0; S.streak = S.streak || 0; S.last = S.last || null; S.day = S.day || {};
   S.cards = S.cards || {}; S.done = S.done || {}; S.cours = S.cours || {}; S.goal = S.goal || 150;
-  S.stats = S.stats || {answered:0, correct:0, lessons:0}; S.best = S.best || {chrono:0, exam:0}; S.badges = S.badges || {}; S.name = S.name || "";
+  S.stats = S.stats || {answered:0, correct:0, lessons:0}; S.best = S.best || {chrono:0, exam:0}; S.badges = S.badges || {}; S.name = S.name || ""; S.dci = S.dci || {}; if (S.best.dciExam === undefined) S.best.dciExam = 0;
   if (S.last && S.last !== today() && S.last !== addDays(today(), -1)) S.streak = 0;
 }
 function save(){ try { localStorage.setItem(LS, JSON.stringify(S)); } catch(e){} }
@@ -599,11 +647,12 @@ let ficheOpen = null;
 function render(){
   if (L) return renderLesson();
   app.innerHTML = "";
-  const body = h("main", {class:"wrap v-" + tab + ((tab === "tools" && toolOpen) || (tab === "fiches" && ficheOpen) ? " detail" : "")});
+  const body = h("main", {class:"wrap v-" + tab + ((tab === "tools" && toolOpen) || (tab === "fiches" && ficheOpen) || (tab === "dci" && dciOpen) ? " detail" : "")});
   if (tab === "news") newsView(body);
   if (tab === "home") homeView(body);
   if (tab === "tools") toolsView(body);
   if (tab === "fiches") fichesView(body);
+  if (tab === "dci") dciView(body);
   if (tab === "profile") profileView(body);
   app.append(band(), body, nav());
   window.scrollTo(0,0);
@@ -627,8 +676,8 @@ function row(icon, color, title, sub, onclick, extra){
   return h("button", {class:"row", onclick}, h("span", {class:"ic " + color}, svg(icon)), h("span", {class:"tx"}, h("b", null, title), sub ? h("small", null, sub) : null), extra || null, svg(ICON.chev));
 }
 function nav(){
-  const item = (id, label, icon) => h("button", {"aria-current": tab === id ? "page" : null, onclick:() => { tab = id; toolOpen = null; ficheOpen = null; render(); }}, svg(icon), label);
-  return h("nav", {class:"nav"}, h("div", {class:"nav-brand"}, h("span", {class:"logo", "aria-hidden":"true"}, "JC"), h("span", null, "Learn JC", h("small", null, "Le coach du conseiller"))), item("news","Accueil",ICON.news), item("home","Apprendre",ICON.path), item("tools","Outils",ICON.calc), item("fiches","Fiches",ICON.book), item("profile","Profil",ICON.user));
+  const item = (id, label, icon) => h("button", {"aria-current": tab === id ? "page" : null, onclick:() => { tab = id; toolOpen = null; ficheOpen = null; dciOpen = null; render(); }}, svg(icon), label);
+  return h("nav", {class:"nav"}, h("div", {class:"nav-brand"}, h("span", {class:"logo", "aria-hidden":"true"}, "JC"), h("span", null, "Learn JC", h("small", null, "Le coach du conseiller"))), item("news","Accueil",ICON.news), item("home","Apprendre",ICON.path), item("dci","DCI",ICON.house), item("tools","Outils",ICON.calc), item("fiches","Fiches",ICON.book), item("profile","Profil",ICON.user));
 }
 
 /* ---------- Accueil : marchés et actualités ---------- */
@@ -658,6 +707,7 @@ function homeView(body){
   body.append(block(ICON.target, "g", "Ta journée", x + " / " + S.goal + " XP",
     h("div", {class:"day"}, h("div", {class:"ringwrap"}, ring, h("b", null, pct + "%")),
       h("div", null, h("b", null, pct >= 100 ? "Objectif atteint 🎉" : x ? "Encore " + (S.goal - x) + " XP" : "Prêt à commencer ?"), h("p", {class:"muted"}, "Série : " + S.streak + " jour" + (S.streak > 1 ? "s" : "") + " · environ 20 min par jour")))));
+  body.append(block(ICON.house, "v", "Préparer la DCI", "crédit immobilier", row(ICON.house, "v", "12 modules, fiches et examen blanc", "La partie dédiée à la formation DCI", () => { tab = "dci"; dciOpen = null; render(); })));
   const due = dueIds().length;
   body.append(block(ICON.bolt, "o", "S'entraîner", null,
     row(ICON.loop, "g", "Révisions", due ? due + " question" + (due > 1 ? "s" : "") + " à revoir" : "Rien d'urgent, tes points faibles", startReview, due ? h("span", {class:"badge-n"}, due) : null),
@@ -709,6 +759,9 @@ function fichesView(body){
   groups.forEach(([g, ids], gi) => body.append(block(ICON.book, ["g","b","v","o","g"][gi], g, ids.length + " fiches",
     ...ids.map(id => { const u = DATA.unitById[id], i = DATA.units.indexOf(u), col = UCOL[i % UCOL.length];
       return h("button", {class:"row", onclick:() => { ficheOpen = id; render(); }}, h("span", {class:"unit-badge sm", style:"background:" + col[1] + ";color:" + col[0]}, String(i+1).padStart(2,"0")), h("span", {class:"tx"}, h("b", null, u.titre), h("small", null, u.fiche.intro.split(". ")[0] + ".")), svg(ICON.chev)); }))));
+  if (DATA.dci) body.append(block(ICON.house, "v", "Fiches DCI · crédit immobilier", "12 fiches",
+    h("button", {class:"dl", onclick:() => downloadFile("dci-recueil.pdf", "Fiches DCI - recueil.pdf")}, svg(ICON.dl), "Les 12 fiches DCI en PDF"),
+    ...DATA.dci.modules.map(m => h("button", {class:"row", onclick:() => { tab = "dci"; dciOpen = m.id; render(); }}, h("span", {class:"unit-badge sm dci-n"}, String(m.n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, m.intro.split(". ")[0] + ".")), svg(ICON.chev)))));
 }
 function ficheDetail(body, u){
   const f = u.fiche, idx = DATA.units.indexOf(u) + 1;
@@ -772,7 +825,7 @@ const TOOL_GROUPS = [
   ["Épargne", "g", ICON.percent, [["livret","Combien rapporte un livret ?","Livret A, LDDS, LEP, CEL, PEL, livret bancaire"],["quinz","Intérêts entre deux dates","La règle des quinzaines du Livret A"]]],
   ["Assurance vie", "b", ICON.spark, [["rachat","Retrait d'assurance vie","Ce que le client touche vraiment"],["avdeces","Assurance vie au décès","Ce que paie chaque bénéficiaire"]]],
   ["Transmission", "v", ICON.user, [["patri","Simulation de succession complète","Famille, biens, dettes, assurance vie : qui reçoit quoi"],["succ","Droits sur une somme","Donation ou succession, pour un seul héritier"]]],
-  ["Crédit", "o", ICON.chart, [["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable"],["ira","Pénalités de remboursement anticipé","Le plus petit de 6 mois d'intérêts ou 3 %"]]],
+  ["Crédit", "o", ICON.chart, [["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable"],["ira","Pénalités de remboursement anticipé","6 mois d'intérêts, plafonnés à 3 % du restant dû"]]],
   ["Retraite et assurances", "g", ICON.target, [["per","Économie d'impôt PER","Plafond, montant déductible, gain"],["bonus","Bonus-malus auto","Le nouveau coefficient"]]]
 ];
 const TOOLS = TOOL_GROUPS.flatMap(g => g[3].map(t => ({id:t[0], t:t[1], d:t[2]})));
@@ -1041,17 +1094,21 @@ const TOOL_SPECS = {
           warn: d > 25 ? "Au-delà de 25 ans (27 avec différé), le dossier sort de la règle HCSF." : null}; };
     }},
   ira:{ q:"Si je rembourse mon crédit immobilier en avance, combien de pénalités ?",
-    note:"Crédit immobilier uniquement. Le contrat peut prévoir moins, ou rien. Pas d'indemnité si le remboursement suit une vente liée à une mutation professionnelle, au décès ou à la perte forcée de l'emploi.",
+    note:"Crédit immobilier uniquement. Le contrat peut prévoir moins, ou rien. Pas d'indemnité si le remboursement suit une vente liée à une mutation professionnelle, au décès ou à la cessation forcée d'activité (de l'emprunteur ou de son conjoint). Un remboursement partiel doit faire au moins 10 % du prêt initial.",
     build(form){
-      const k = field("i-k", "Le capital remboursé en avance", 100000, {suf:"€", hint:"Seulement la somme remboursée, pas tout le prêt."}), t = field("i-t", "Le taux du prêt", 3, {suf:"%"});
-      form.append(k.el, t.el);
-      return () => { const K = k.get(); if (!(K > 0)) return {err:"Indique le capital remboursé."};
-        const x = C.ira(K, t.get()), six = x.sixMois <= x.troisPourcent;
-        return {label:"Pénalités maximum", value:E(x.ira), sub:"Le plus petit des deux plafonds : " + (six ? "6 mois d'intérêts." : "3 % du capital."),
-          steps:[["Plafond 1 : 6 mois d'intérêts", E(K) + " × " + P(t.get()) + " ÷ 2 = " + E(x.sixMois), "Un an d'intérêts sur la somme, divisé par 2."],
-            ["Plafond 2 : 3 % du capital remboursé", E(K) + " × 3 % = " + E(x.troisPourcent)],
+      const k = field("i-k", "La somme remboursée en avance", 50000, {suf:"€", hint:"Seulement ce que le client rembourse maintenant."});
+      const c = field("i-c", "Le capital restant dû avant ce remboursement", 120000, {suf:"€", hint:"Sur le tableau d'amortissement, à la date du remboursement."});
+      const t = field("i-t", "Le taux du prêt", 3, {suf:"%"});
+      form.append(k.el, c.el, t.el);
+      return () => { const K = k.get(), CRD = c.get(); if (!(K > 0)) return {err:"Indique la somme remboursée."};
+        if (CRD > 0 && K > CRD) return {err:"La somme remboursée ne peut pas dépasser le capital restant dû."};
+        const x = C.ira(K, t.get(), CRD), six = x.sixMois <= x.troisPourcent;
+        return {label:"Pénalités maximum", value:E(x.ira), sub: six ? "6 mois d'intérêts : le plafond de 3 % n'est pas atteint." : "Les 6 mois d'intérêts dépassent le plafond : on s'arrête à 3 % du capital restant dû.",
+          steps:[["6 mois d'intérêts sur la somme remboursée", E(K) + " × " + P(t.get()) + " ÷ 2 = " + E(x.sixMois), "Un an d'intérêts sur la somme, divisé par 2."],
+            ["Le plafond : 3 % du capital restant dû", E(CRD || K) + " × 3 % = " + E(x.troisPourcent), "Capital restant dû avant le remboursement."],
             ["On garde le plus petit", "Entre " + E(x.sixMois) + " et " + E(x.troisPourcent) + " → " + E(x.ira), "La loi interdit à la banque de demander plus."]],
-          say:"Pour un remboursement anticipé de " + E(K) + ", la banque peut vous demander au maximum " + E(x.ira) + " d'indemnités. Votre contrat peut prévoir moins : je vérifie."}; };
+          say:"Pour un remboursement anticipé de " + E(K) + ", la banque peut vous demander au maximum " + E(x.ira) + " d'indemnités. Votre contrat peut prévoir moins : je vérifie.",
+          warn: K < CRD ? "Remboursement partiel : il doit représenter au moins 10 % du montant initial du prêt." : null}; };
     }},
   per:{ q:"Si je verse sur un PER, combien d'impôt je vais économiser ?",
     note:"C'est un décalage d'impôt : à la sortie, le capital issu de ces versements sera imposé. Le plafond exact est indiqué sur l'avis d'imposition.",
@@ -1099,6 +1156,67 @@ const TOOL_SPECS = {
           say:"Votre coefficient passera à " + f2(k) + ", soit un " + lab + ". Votre prime d'assurance est calculée en multipliant le tarif de base par ce coefficient."}; };
     }}
 };
+
+/* ---------- DCI : partie dédiée au crédit immobilier ---------- */
+const dciPdf = m => "dci-" + String(m.n).padStart(2,"0") + "-" + m.id + ".pdf";
+function startDci(id){
+  const pool = DATA.dci.questions.filter(q => q.u === id);
+  const due = new Set(dueIds(q => q.u === id));
+  const pick = shuffle(pool.filter(q => due.has(q.id))).concat(shuffle(pool.filter(q => !due.has(q.id)))).slice(0, 12);
+  newLesson("dci", shuffle(pick), {du:id});
+}
+function startDciExam(){
+  // 30 questions réparties sur les 12 modules (2 ou 3 par module)
+  const Q = DATA.dci.questions, out = [];
+  DATA.dci.modules.forEach((m, i) => out.push(...shuffle(Q.filter(q => q.u === m.id)).slice(0, i < 6 ? 3 : 2)));
+  newLesson("dciexam", shuffle(out));
+}
+function dciView(body){
+  if (!DATA.dci){ body.append(pageTitle("DCI", "Chargement…")); return; }
+  if (dciOpen) return dciDetail(body, DATA.unitById[dciOpen]);
+  const M = DATA.dci.modules, done = M.filter(m => (S.dci[m.id] || 0) >= 80).length;
+  body.append(pageTitle("DCI · Crédit immobilier", "Les 12 modules de la formation, en fiches claires et en questions."));
+  const pct = Math.round(100 * done / M.length);
+  body.append(block(ICON.target, "g", "Ta préparation", done + " / " + M.length + " modules",
+    h("div", {class:"dci-prog"}, h("div", {class:"bar"}, h("i", {style:"width:" + pct + "%"})),
+      h("p", {class:"muted"}, "Un module est maîtrisé à 80 % de bonnes réponses du premier coup. Meilleur examen blanc : " + (S.best.dciExam || 0) + " %.")),
+    h("div", {class:"dci-actions"},
+      h("button", {class:"big", onclick:startDciExam}, "Examen blanc · 30 questions"),
+      h("button", {class:"ghost", onclick:() => downloadFile("dci-recueil.pdf", "Fiches DCI - recueil.pdf")}, svg(ICON.dl), "Toutes les fiches en PDF"))));
+  const groups = [["Le cadre", [1,2]], ["Le projet et les prêts réglementés", [3,4,5,6]], ["Les autres prêts et les techniques", [7,8]], ["Assurance et garanties", [9,10]], ["Le dossier, de l'étude au suivi", [11,12]]];
+  groups.forEach(([g, ns], gi) => body.append(block(ICON.house, ["g","b","v","o","g"][gi], g, null, ...ns.map(n => {
+    const m = M.find(x => x.n === n), sc = S.dci[m.id], col = sc === undefined ? "" : sc >= 80 ? "ok" : "mid";
+    return h("button", {class:"row", onclick:() => { dciOpen = m.id; render(); window.scrollTo(0,0); }},
+      h("span", {class:"unit-badge sm dci-n"}, String(n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, DATA.dci.questions.filter(q => q.u === m.id).length + " questions")),
+      sc === undefined ? null : h("span", {class:"score " + col}, sc + " %"), svg(ICON.chev)); }))));
+  body.append(h("p", {class:"foot-note"}, DATA.dci.meta.avertissement));
+}
+function dtable(t){
+  const num = t.lignes.every(r => r.slice(1).every(c => /^[\d≤ \u202f\u00a0,.%€+—-]+$/.test(c) || c.length < 12));
+  return h("div", null, h("div", {class:"dtab-wrap"}, h("table", {class:"dtab" + (num ? " num" : "")},
+    h("thead", null, h("tr", null, t.entetes.map(e => h("th", null, e)))),
+    h("tbody", null, t.lignes.map(r => h("tr", null, r.map(c => h("td", null, c))))))),
+    t.entetes.length > 4 ? h("p", {class:"dtab-hint"}, "Fais glisser le tableau sur le côté pour tout voir.") : null);
+}
+function dciDetail(body, m){
+  body.append(h("div", {class:"backbar"}, h("button", {class:"iconbtn", "aria-label":"Retour aux modules", onclick:() => { dciOpen = null; render(); }}, svg(ICON.back)), h("span", null, "DCI")));
+  body.append(pageTitle(m.titre, "Module " + m.n + " sur 12" + (S.dci[m.id] !== undefined ? " · ton meilleur score : " + S.dci[m.id] + " %" : "")));
+  body.append(h("div", {class:"actions-row"},
+    h("button", {class:"dl alt", onclick:() => startDci(m.id)}, svg(ICON.bolt), "M'entraîner"),
+    h("button", {class:"dl", onclick:() => downloadFile(dciPdf(m), "DCI " + String(m.n).padStart(2,"0") + " - " + m.titre.replace(/[:\/]/g, "") + ".pdf")}, svg(ICON.dl), "PDF")));
+  body.append(h("div", {class:"f-intro"}, h("small", null, "En bref"), h("p", null, m.intro)));
+  if (m.histoire) body.append(h("div", {class:"story"}, h("small", null, "En situation"), h("p", null, m.histoire)));
+  body.append(block(ICON.spark, "g", "Comment ça marche", null, h("div", {class:"f-points"}, m.points.map((p, i) => h("div", {class:"f-point"}, h("span", null, i + 1), h("div", null, h("b", null, p[0]), h("p", null, p[1])))))));
+  body.append(block(ICON.percent, "b", "Les chiffres à connaître", null, h("div", {class:"f-chif"}, m.chiffres.map(c => h("div", {class:"f-c"}, h("small", null, c[0]), h("b", null, c[1]), c[2] ? h("p", null, c[2]) : null)))));
+  (m.tableaux || []).forEach(t => body.append(block(ICON.chart, "b", t.titre, "tableau", dtable(t))));
+  (m.schemas || []).forEach(sc => { const box = h("div", {class:"schema-app"}); box.innerHTML = window.Fiches ? window.Fiches.render(sc) : ""; body.append(block(ICON.chart, "v", sc.title, "schéma", box)); });
+  body.append(block(ICON.calc, "o", "Exemple", null, h("p", {class:"f-ex-t"}, m.exemple.titre), h("ol", {class:"f-ex"}, m.exemple.etapes.map(x => h("li", null, x))), h("p", {class:"f-ex-c"}, m.exemple.conclusion)));
+  body.append(block(ICON.alert, "r", "Les pièges", null, h("div", {class:"f-pieges"}, m.pieges.map(p => h("div", null, h("b", null, p[0]), h("p", null, p[1]))))));
+  body.append(block(ICON.book, "v", "Les mots à comprendre", null, h("dl", {class:"f-mots"}, ...m.mots.flatMap(x => [h("dt", null, x[0]), h("dd", null, x[1])]))));
+  body.append(h("div", {class:"memo"}, h("small", null, "Le mémo"), h("p", null, m.memo)));
+  if (m.maj && m.maj.length) body.append(h("div", {class:"maj"}, h("small", null, "À jour 2026 · différent du support"), h("ul", null, m.maj.map(x => h("li", null, x)))));
+  body.append(h("div", {class:"actions-row end"}, h("button", {class:"dl alt", onclick:() => startDci(m.id)}, svg(ICON.bolt), "M'entraîner sur ce module")));
+}
 
 /* ---------- Leçons ---------- */
 function openLevel(u, l){
@@ -1158,9 +1276,10 @@ function check(){
   else ok = L.pick === q.a;
   L.ok = ok; L.state = "shown";
   S.stats.answered++; if (ok) S.stats.correct++;
+  if (!it.retry && !ok){ L.missed = L.missed || {}; L.missed[q.u] = (L.missed[q.u] || 0) + 1; }
   if (!it.retry){ updateCard(q.id, ok); if (ok){ L.firstOk++; const g = L.mode === "chrono" ? 5 : 10; L.xp += g; gainXp(g); } }
   else if (ok){ L.xp += 5; gainXp(5); }
-  if (!ok && ["lesson","review","calcs"].includes(L.mode) && (L.requeued[q.id] || 0) < 2){ L.requeued[q.id] = (L.requeued[q.id] || 0) + 1; L.queue.push({q, retry:true, review:it.review}); }
+  if (!ok && ["lesson","review","calcs","dci"].includes(L.mode) && (L.requeued[q.id] || 0) < 2){ L.requeued[q.id] = (L.requeued[q.id] || 0) + 1; L.queue.push({q, retry:true, review:it.review}); }
   save();
   if (L.mode === "chrono"){ L.answeredChrono = (L.answeredChrono || 0) + 1; if (Date.now() >= L.end) return finish(); return next(); }
   renderLesson();
@@ -1183,6 +1302,8 @@ function finish(){
   }
   if (L.mode === "chrono") S.best.chrono = Math.max(S.best.chrono, L.firstOk);
   if (L.mode === "exam") S.best.exam = Math.max(S.best.exam, pct);
+  if (L.mode === "dci"){ S.dci[L.du] = Math.max(S.dci[L.du] || 0, pct); }
+  if (L.mode === "dciexam") S.best.dciExam = Math.max(S.best.dciExam || 0, pct);
   L.won = checkBadges();
   save();
   L.state = "end"; L.pct = pct; L.unlocked = unlocked; L.totalShown = total;
@@ -1215,7 +1336,7 @@ function renderLesson(){
   const chips = h("div", {class:"chips"}, h("span", {class:"chip"}, TYPES[q.t]));
   if (it.retry) chips.append(h("span", {class:"chip gold"}, "Deuxième chance"));
   else if (it.review || L.mode === "review") chips.append(h("span", {class:"chip gold"}, "Révision"));
-  chips.append(h("span", {class:"chip plain"}, DATA.unitById[q.u].court + " · " + LVL[q.l-1]));
+  chips.append(h("span", {class:"chip plain"}, String(q.u).startsWith("dci") ? "DCI " + DATA.unitById[q.u].n + " · " + DATA.unitById[q.u].court : DATA.unitById[q.u].court + " · " + LVL[q.l-1]));
   body.append(chips, h("div", {class:"qtext"}, q.q));
 
   if (q.t === "vf"){
@@ -1290,9 +1411,19 @@ function renderEnd(){
     if (L.unlocked) actions.prepend(h("button", {class:"big", onclick:() => openLevel(L.u, L.l + 1)}, "Niveau suivant : " + L.unlocked));
   }
   if (M === "chrono") actions.append(h("button", {class:"ghost", onclick:startChrono}, "Rejouer"));
+  if (M === "dci"){
+    title = pct >= 80 ? "Module maîtrisé" : pct >= 60 ? "Presque" : "À retravailler"; msg = pct >= 80 ? "Tes erreurs reviendront dans les révisions." : "Relis la fiche du module, puis relance une série.";
+    actions.append(h("button", {class:"ghost", onclick:() => startDci(L.du)}, "Nouvelle série"));
+    actions.append(h("button", {class:"ghost", onclick:() => { const u = L.du; L = null; tab = "dci"; dciOpen = u; render(); }}, "Voir la fiche du module"));
+  }
+  if (M === "dciexam"){
+    title = "Examen blanc DCI"; msg = pct >= 80 ? "Très bon niveau." : pct >= 60 ? "Correct : revois les modules ci-dessous." : "Reprends les fiches des modules ci-dessous.";
+    actions.append(h("button", {class:"ghost", onclick:startDciExam}, "Nouvel examen blanc"));
+  }
   app.append(h("div", {class:"lesson"}, h("div", {class:"result pop"},
     M === "chrono" ? null : ring(pct), h("h2", null, title), h("p", {class:"muted", style:"max-width:40ch"}, msg),
     L.won && L.won.length ? h("div", {class:"chips", style:"justify-content:center"}, L.won.map(w => h("span", {class:"chip gold"}, "Badge : " + w))) : null,
+    M === "dciexam" && L.missed ? h("div", {class:"missed"}, h("b", null, "À revoir en priorité"), ...Object.entries(L.missed).sort((a,b) => b[1] - a[1]).map(([id, n]) => { const m = DATA.unitById[id]; return h("button", {class:"row", onclick:() => { L = null; tab = "dci"; dciOpen = id; render(); }}, h("span", {class:"ic r"}, String(m.n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, n + " erreur" + (n > 1 ? "s" : ""))), svg(ICON.chev)); })) : null,
     h("div", {class:"tiles"}, h("div", {class:"tile"}, h("b", null, "+" + L.xp), h("small", null, "XP gagnés")), h("div", {class:"tile"}, h("b", null, L.firstOk + " / " + L.totalShown), h("small", null, "du premier coup"))),
     actions)));
   window.scrollTo(0,0);
@@ -1305,6 +1436,7 @@ document.addEventListener("keydown", e => {
 /* ---------- démarrage ---------- */
 fetch("questions.json", {cache:"no-store"}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
   DATA = d; DATA.byId = {}; d.questions.forEach(q => DATA.byId[q.id] = q); DATA.unitById = {}; d.units.forEach(u => DATA.unitById[u.id] = u);
+  fetch("dci.json?t=" + Date.now(), {cache:"no-store"}).then(r => r.ok ? r.json() : null).then(x => { if (!x) return; DATA.dci = x; x.modules.forEach(m => DATA.unitById[m.id] = m); x.questions.forEach(q => DATA.byId[q.id] = q); if (!L && tab === "dci") render(); }).catch(() => {});
   if (!C) throw new Error("calc");
   load(); save(); render();
   const loadNews = () => fetch("news.json?t=" + Date.now(), {cache:"no-store"}).then(r => r.ok ? r.json() : null).then(n => { if (n && JSON.stringify(n) !== JSON.stringify(DATA.news)){ DATA.news = n; if (!L && tab === "news") render(); } }).catch(() => {});
