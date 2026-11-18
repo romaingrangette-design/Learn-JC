@@ -472,6 +472,12 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .dtab-hint{font-size:12px;color:var(--muted);margin-top:6px}
 .dtab td:first-child{font-weight:600}
 .actions-row.end{justify-content:center}
+.dci-switch{margin:-4px 0 18px}.dci-switch button{flex:1;padding:10px 14px;font-size:15px}
+.corr{width:100%;max-width:640px;text-align:left;display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.corr-head{display:flex;flex-direction:column;gap:8px}
+.corr-item{border:1px solid var(--line);border-left:4px solid var(--green);border-radius:var(--r);padding:12px 14px;background:var(--surface)}
+.corr-item.ko{border-left-color:var(--bad)}.corr-item p{margin:6px 0 0;font-size:14.5px}.corr-q{font-weight:600}
+.hist{display:flex;flex-direction:column}.hist-row{display:grid;grid-template-columns:52px 1fr auto auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:14px}.hist-row:first-child{border-top:0}
 .missed{display:flex;flex-direction:column;gap:6px;width:100%;max-width:420px;text-align:left;margin:6px 0}
 .missed>b{font-size:14px}
 .missed .ic.r{font-weight:700;font-size:13px}
@@ -549,7 +555,7 @@ const LVL = ["Découverte","Bases","Pratique","Expert","Maître"];
 const TYPES = {qcm:"QCM", vf:"Vrai ou faux", calc:"Calcul", phrase:"Phrase client", cas:"Cas pratique", paires:"Associer", ordre:"Remettre dans l'ordre"};
 const app = document.getElementById("app");
 const C = window.Calc;
-let DATA = null, S = null, tab = "news", L = null, toolOpen = null; let dciOpen = null;
+let DATA = null, S = null, tab = "news", L = null, toolOpen = null; let dciOpen = null, dciPart = "cours";
 
 /* ---------- utilitaires ---------- */
 function h(tag, attrs, ...kids){
@@ -620,7 +626,8 @@ function gainXp(n){ S.xp += n; S.day[today()] = todayXp() + n; }
 const isDone = (u, l) => !!(S.done[u] && S.done[u][l] !== undefined);
 const isOpen = (u, l) => l === 1 || isDone(u, l-1);
 const qsFor = (u, l) => DATA.questions.filter(q => q.u === u && q.l === l);
-function dueIds(filter){ const t = today(); return Object.keys(S.cards).filter(id => S.cards[id].due <= t && DATA.byId[id] && (!filter || filter(DATA.byId[id]))); }
+const isDci = q => String(q.u).startsWith("dci");
+function dueIds(filter){ const t = today(), f = filter || (q => !isDci(q)); return Object.keys(S.cards).filter(id => S.cards[id].due <= t && DATA.byId[id] && f(DATA.byId[id])); }
 function mastery(u){ const qs = DATA.questions.filter(q => !u || q.u === u); return Math.round(100 * qs.filter(q => S.cards[q.id] && S.cards[q.id].box >= 3).length / qs.length); }
 function updateCard(id, ok){ const c = S.cards[id] || {box:0, due:today()}; if (ok){ c.box = Math.min(5, c.box+1); c.due = addDays(today(), INTERVALS[c.box]); } else { c.box = 0; c.due = today(); } S.cards[id] = c; }
 function markActive(){ const t = today(); if (S.last !== t){ S.streak = (S.last === addDays(t, -1)) ? S.streak + 1 : 1; S.last = t; } }
@@ -707,7 +714,7 @@ function homeView(body){
   body.append(block(ICON.target, "g", "Ta journée", x + " / " + S.goal + " XP",
     h("div", {class:"day"}, h("div", {class:"ringwrap"}, ring, h("b", null, pct + "%")),
       h("div", null, h("b", null, pct >= 100 ? "Objectif atteint 🎉" : x ? "Encore " + (S.goal - x) + " XP" : "Prêt à commencer ?"), h("p", {class:"muted"}, "Série : " + S.streak + " jour" + (S.streak > 1 ? "s" : "") + " · environ 20 min par jour")))));
-  body.append(block(ICON.house, "v", "Préparer la DCI", "crédit immobilier", row(ICON.house, "v", "12 modules, fiches et examen blanc", "La partie dédiée à la formation DCI", () => { tab = "dci"; dciOpen = null; render(); })));
+  body.append(block(ICON.house, "v", "Préparer la DCI", "crédit immobilier", row(ICON.house, "v", "Cours et fiches DCI", "Les 12 modules de la formation", () => { tab = "dci"; dciPart = "cours"; dciOpen = null; render(); }), row(ICON.target, "o", "Quiz et examens DCI", "Une partie à part, avec examen en conditions réelles", () => { tab = "dci"; dciPart = "quiz"; dciOpen = null; render(); })));
   const due = dueIds().length;
   body.append(block(ICON.bolt, "o", "S'entraîner", null,
     row(ICON.loop, "g", "Révisions", due ? due + " question" + (due > 1 ? "s" : "") + " à revoir" : "Rien d'urgent, tes points faibles", startReview, due ? h("span", {class:"badge-n"}, due) : null),
@@ -1165,6 +1172,27 @@ function startDci(id){
   const pick = shuffle(pool.filter(q => due.has(q.id))).concat(shuffle(pool.filter(q => !due.has(q.id)))).slice(0, 12);
   newLesson("dci", shuffle(pick), {du:id});
 }
+function startDciQuick(){ newLesson("dciquick", shuffle(DATA.dci.questions).slice(0, 10)); }
+function startDciRev(){
+  let ids = dueIds(isDci);
+  if (!ids.length) ids = Object.keys(S.cards).filter(id => DATA.byId[id] && isDci(DATA.byId[id]) && S.cards[id].box <= 2);
+  if (!ids.length){ toast("Rien à revoir pour l'instant : fais d'abord un quiz"); return; }
+  newLesson("dcirev", shuffle(ids).slice(0, 15).map(id => DATA.byId[id]));
+}
+function weakMods(){ return DATA.dci.modules.slice().sort((a, b) => (S.dci[a.id] ?? -1) - (S.dci[b.id] ?? -1) || a.n - b.n).slice(0, 3); }
+function startDciWeak(){ const w = new Set(weakMods().map(m => m.id)); newLesson("dciweak", shuffle(DATA.dci.questions.filter(q => w.has(q.u))).slice(0, 12)); }
+function startDciChrono(){
+  newLesson("dcichrono", shuffle(DATA.dci.questions.filter(q => q.t === "qcm" || q.t === "vf")), {end: Date.now() + 90000, chrono:true});
+  L.timer = setInterval(() => { if (!L || !L.chrono) return; const left = Math.max(0, Math.ceil((L.end - Date.now())/1000)); const el = document.getElementById("timer"); if (el) el.textContent = left + " s"; if (left <= 0) finish(); }, 250);
+}
+function startDciReal(){
+  const Q = DATA.dci.questions.filter(q => q.t !== "paires"), out = [];
+  DATA.dci.modules.forEach(m => out.push(...shuffle(Q.filter(q => q.u === m.id)).slice(0, 4)));
+  const used = new Set(out.map(q => q.id)); out.push(...shuffle(Q.filter(q => !used.has(q.id))).slice(0, 2));
+  newLesson("dcireal", shuffle(out));
+  L.timer = setInterval(() => { if (!L || L.mode !== "dcireal" || L.state === "end") return; const el = document.getElementById("timer"); if (el) el.textContent = (L.i + 1) + " / " + L.total + " · " + mmss((Date.now() - L.t0) / 1000); }, 1000);
+}
+const DCI_START = {dciquick:startDciQuick, dcirev:startDciRev, dciweak:startDciWeak};
 function startDciExam(){
   // 30 questions réparties sur les 12 modules (2 ou 3 par module)
   const Q = DATA.dci.questions, out = [];
@@ -1175,13 +1203,15 @@ function dciView(body){
   if (!DATA.dci){ body.append(pageTitle("DCI", "Chargement…")); return; }
   if (dciOpen) return dciDetail(body, DATA.unitById[dciOpen]);
   const M = DATA.dci.modules, done = M.filter(m => (S.dci[m.id] || 0) >= 80).length;
-  body.append(pageTitle("DCI · Crédit immobilier", "Les 12 modules de la formation, en fiches claires et en questions."));
+  body.append(pageTitle("DCI · Crédit immobilier", "Une partie à part : ta progression ici ne se mélange pas avec le reste de l'appli."));
+  body.append(h("div", {class:"seg dci-switch", role:"group", "aria-label":"Partie DCI"}, [["cours", "Cours et fiches"], ["quiz", "Quiz et examens"]].map(([k, lab]) => h("button", {"aria-pressed": dciPart === k ? "true" : "false", onclick:() => { dciPart = k; render(); }}, lab))));
+  if (dciPart === "quiz") return dciQuiz(body);
   const pct = Math.round(100 * done / M.length);
   body.append(block(ICON.target, "g", "Ta préparation", done + " / " + M.length + " modules",
     h("div", {class:"dci-prog"}, h("div", {class:"bar"}, h("i", {style:"width:" + pct + "%"})),
       h("p", {class:"muted"}, "Un module est maîtrisé à 80 % de bonnes réponses du premier coup. Meilleur examen blanc : " + (S.best.dciExam || 0) + " %.")),
     h("div", {class:"dci-actions"},
-      h("button", {class:"big", onclick:startDciExam}, "Examen blanc · 30 questions"),
+      h("button", {class:"big", onclick:() => { dciPart = "quiz"; render(); window.scrollTo(0,0); }}, "Aller aux quiz et examens"),
       h("button", {class:"ghost", onclick:() => downloadFile("dci-recueil.pdf", "Fiches DCI - recueil.pdf")}, svg(ICON.dl), "Toutes les fiches en PDF"))));
   const groups = [["Le cadre", [1,2]], ["Le projet et les prêts réglementés", [3,4,5,6]], ["Les autres prêts et les techniques", [7,8]], ["Assurance et garanties", [9,10]], ["Le dossier, de l'étude au suivi", [11,12]]];
   groups.forEach(([g, ns], gi) => body.append(block(ICON.house, ["g","b","v","o","g"][gi], g, null, ...ns.map(n => {
@@ -1190,6 +1220,32 @@ function dciView(body){
       h("span", {class:"unit-badge sm dci-n"}, String(n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, DATA.dci.questions.filter(q => q.u === m.id).length + " questions")),
       sc === undefined ? null : h("span", {class:"score " + col}, sc + " %"), svg(ICON.chev)); }))));
   body.append(h("p", {class:"foot-note"}, DATA.dci.meta.avertissement));
+}
+function dciQuiz(body){
+  const Q = DATA.dci.questions, st = S.dciStats || {answered:0, correct:0}, due = dueIds(isDci).length;
+  const seen = Object.keys(S.cards).filter(id => DATA.byId[id] && isDci(DATA.byId[id])).length;
+  body.append(block(ICON.target, "g", "Tes chiffres DCI", null, h("div", {class:"tiles"},
+    h("div", {class:"tile"}, h("b", null, seen + " / " + Q.length), h("small", null, "questions déjà vues")),
+    h("div", {class:"tile"}, h("b", null, st.answered ? Math.round(100 * st.correct / st.answered) + " %" : "—"), h("small", null, "de bonnes réponses")),
+    h("div", {class:"tile"}, h("b", null, (S.best.dciReal || 0) + " %"), h("small", null, "meilleur examen")),
+    h("div", {class:"tile"}, h("b", null, String(due)), h("small", null, "à revoir aujourd'hui")))));
+  const wk = weakMods();
+  body.append(block(ICON.bolt, "b", "Quiz", "s'entraîner",
+    row(ICON.bolt, "b", "Quiz rapide", "10 questions au hasard sur les 12 modules", startDciQuick),
+    row(ICON.refresh || ICON.bolt, "o", "Mes erreurs", due ? due + " question" + (due > 1 ? "s" : "") + " à revoir aujourd'hui" : "Les questions ratées reviennent ici", startDciRev),
+    row(ICON.target, "v", "Mes points faibles", "12 questions sur " + wk.map(m => "DCI " + m.n).join(", "), startDciWeak),
+    row(ICON.clock || ICON.bolt, "g", "Sprint 90 secondes", "Un maximum de bonnes réponses · record " + (S.best.dciChrono || 0), startDciChrono)));
+  body.append(block(ICON.house, "v", "Quiz par module", "12 modules", ...DATA.dci.modules.map(m => { const sc = S.dci[m.id];
+    return h("button", {class:"row", onclick:() => startDci(m.id)}, h("span", {class:"unit-badge sm dci-n"}, String(m.n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, "12 questions")),
+      sc === undefined ? null : h("span", {class:"score " + (sc >= 80 ? "ok" : "mid")}, sc + " %"), svg(ICON.chev)); })));
+  body.append(block(ICON.target, "o", "Examens", "se tester",
+    row(ICON.target, "o", "Examen en conditions réelles", "50 questions sur tous les modules · chrono · correction seulement à la fin", startDciReal),
+    row(ICON.target, "b", "Examen blanc guidé", "30 questions · correction après chaque question", startDciExam),
+    h("p", {class:"muted", style:"font-size:13px;margin-top:6px"}, "Pas de note officielle ici : vise 80 % ou plus avant l'examen.")));
+  const H = (S.dciHist || []).slice(0, 10), NAMES = {dcireal:"Examen réel", dciexam:"Examen guidé", dciquick:"Quiz rapide", dcirev:"Mes erreurs", dciweak:"Points faibles", dcichrono:"Sprint 90 s", dci:"Module"};
+  body.append(block(ICON.book, "g", "Historique", H.length ? H.length + " dernières séries" : null,
+    H.length ? h("div", {class:"hist"}, ...H.map(x => h("div", {class:"hist-row"}, h("span", null, x.d.split("-").reverse().slice(0, 2).join("/")), h("b", null, NAMES[x.m] + (x.du ? " " + DATA.unitById[x.du].n : "")), h("span", {class:"muted"}, x.s ? mmss(x.s) : ""), h("span", {class:"score " + (x.pct >= 80 ? "ok" : "mid")}, x.m === "dcichrono" ? x.n + " rép." : x.pct + " %"))))
+      : h("p", {class:"muted"}, "Tes quiz et examens DCI s'afficheront ici.")));
 }
 function dtable(t){
   const num = t.lignes.every(r => r.slice(1).every(c => /^[\d≤ \u202f\u00a0,.%€+—-]+$/.test(c) || c.length < 12));
@@ -1228,7 +1284,7 @@ function showCourse(u, l, thenStart){
   L = {mode:"course", u, l, thenStart}; render();
 }
 function newLesson(mode, items, meta){
-  L = Object.assign({mode, queue:items.map(q => ({q, retry:false, review:!!q._review})), i:0, firstOk:0, total:items.length, xp:0, requeued:{}, state:"ask"}, meta || {});
+  L = Object.assign({mode, queue:items.map(q => ({q, retry:false, review:!!q._review})), i:0, firstOk:0, total:items.length, xp:0, requeued:{}, state:"ask", t0:Date.now(), answers:[]}, meta || {});
   prep(); render();
 }
 function startLesson(u, l){
@@ -1238,7 +1294,7 @@ function startLesson(u, l){
 }
 function startReview(){
   let ids = dueIds();
-  if (!ids.length) ids = Object.keys(S.cards).filter(id => DATA.byId[id]).sort((a,b) => S.cards[a].box - S.cards[b].box).slice(0, 30);
+  if (!ids.length) ids = Object.keys(S.cards).filter(id => DATA.byId[id] && !isDci(DATA.byId[id])).sort((a,b) => S.cards[a].box - S.cards[b].box).slice(0, 30);
   if (!ids.length){ toast("Fais d'abord une leçon"); tab = "home"; return render(); }
   newLesson("review", shuffle(ids).slice(0, 15).map(id => DATA.byId[id]));
 }
@@ -1247,8 +1303,8 @@ function startExam(){ newLesson("exam", shuffle(unlockedPool()).slice(0, 20)); }
 function startCalcs(){ const p = unlockedPool().filter(q => q.t === "calc"); if (!p.length){ toast("Débloque d'abord des niveaux Bases ou Pratique"); return; } newLesson("calcs", shuffle(p).slice(0, 10)); }
 function startChrono(){
   const p = shuffle(unlockedPool().filter(q => q.t === "qcm" || q.t === "vf"));
-  newLesson("chrono", p, {end: Date.now() + 90000});
-  L.timer = setInterval(() => { if (!L || L.mode !== "chrono") return; const left = Math.max(0, Math.ceil((L.end - Date.now())/1000)); const el = document.getElementById("timer"); if (el) el.textContent = left + " s"; if (left <= 0) finish(); }, 250);
+  newLesson("chrono", p, {end: Date.now() + 90000, chrono:true});
+  L.timer = setInterval(() => { if (!L || !L.chrono) return; const left = Math.max(0, Math.ceil((L.end - Date.now())/1000)); const el = document.getElementById("timer"); if (el) el.textContent = left + " s"; if (left <= 0) finish(); }, 250);
 }
 const cur = () => L.queue[L.i];
 function prep(){
@@ -1274,23 +1330,30 @@ function check(){
   else if (q.t === "paires") ok = L.pm.errors === 0;
   else if (q.t === "ordre") ok = L.om.seq.every((v, k) => v === k);
   else ok = L.pick === q.a;
+  const st = L.mode.startsWith("dci") ? (S.dciStats = S.dciStats || {answered:0, correct:0}) : S.stats;
+  st.answered++; if (ok) st.correct++;
+  if (L.mode === "dcireal"){
+    L.answers.push({q, ok, pick: q.t === "ordre" ? L.om.seq.slice() : L.pick});
+    if (!ok){ L.missed = L.missed || {}; L.missed[q.u] = (L.missed[q.u] || 0) + 1; }
+    updateCard(q.id, ok); if (ok){ L.firstOk++; L.xp += 10; gainXp(10); }
+    save(); return next();
+  }
   L.ok = ok; L.state = "shown";
-  S.stats.answered++; if (ok) S.stats.correct++;
   if (!it.retry && !ok){ L.missed = L.missed || {}; L.missed[q.u] = (L.missed[q.u] || 0) + 1; }
-  if (!it.retry){ updateCard(q.id, ok); if (ok){ L.firstOk++; const g = L.mode === "chrono" ? 5 : 10; L.xp += g; gainXp(g); } }
+  if (!it.retry){ updateCard(q.id, ok); if (ok){ L.firstOk++; const g = L.chrono ? 5 : 10; L.xp += g; gainXp(g); } }
   else if (ok){ L.xp += 5; gainXp(5); }
-  if (!ok && ["lesson","review","calcs","dci"].includes(L.mode) && (L.requeued[q.id] || 0) < 2){ L.requeued[q.id] = (L.requeued[q.id] || 0) + 1; L.queue.push({q, retry:true, review:it.review}); }
+  if (!ok && ["lesson","review","calcs","dci","dciquick","dcirev","dciweak"].includes(L.mode) && (L.requeued[q.id] || 0) < 2){ L.requeued[q.id] = (L.requeued[q.id] || 0) + 1; L.queue.push({q, retry:true, review:it.review}); }
   save();
-  if (L.mode === "chrono"){ L.answeredChrono = (L.answeredChrono || 0) + 1; if (Date.now() >= L.end) return finish(); return next(); }
+  if (L.chrono){ L.answeredChrono = (L.answeredChrono || 0) + 1; if (Date.now() >= L.end) return finish(); return next(); }
   renderLesson();
 }
 function next(){ L.i++; if (L.i >= L.queue.length) return finish(); prep(); renderLesson(); }
 function finish(){
   if (L.timer) clearInterval(L.timer);
   if (L.state === "end") return;
-  const total = L.mode === "chrono" ? (L.answeredChrono || 0) : L.total;
+  const total = L.chrono ? (L.answeredChrono || 0) : L.total;
   const pct = total ? Math.round(100 * L.firstOk / total) : 0;
-  const bonus = L.mode === "chrono" ? 0 : 15 + (pct === 100 ? 10 : 0);
+  const bonus = L.chrono ? 0 : 15 + (pct === 100 ? 10 : 0);
   gainXp(bonus); L.xp += bonus;
   markActive(); S.stats.lessons++;
   if (pct === 100 && L.mode !== "chrono" && total >= 4) S.badges.perfect = true;
@@ -1301,9 +1364,12 @@ function finish(){
     if (!was && L.l < 5) unlocked = LVL[L.l];
   }
   if (L.mode === "chrono") S.best.chrono = Math.max(S.best.chrono, L.firstOk);
+  if (L.mode === "dcichrono") S.best.dciChrono = Math.max(S.best.dciChrono || 0, L.firstOk);
   if (L.mode === "exam") S.best.exam = Math.max(S.best.exam, pct);
   if (L.mode === "dci"){ S.dci[L.du] = Math.max(S.dci[L.du] || 0, pct); }
   if (L.mode === "dciexam") S.best.dciExam = Math.max(S.best.dciExam || 0, pct);
+  if (L.mode === "dcireal") S.best.dciReal = Math.max(S.best.dciReal || 0, pct);
+  if (L.mode.startsWith("dci")){ L.dur = Math.round((Date.now() - L.t0) / 1000); S.dciHist = S.dciHist || []; S.dciHist.unshift({d:today(), m:L.mode, du:L.du || null, pct, n:total, s:L.dur}); S.dciHist = S.dciHist.slice(0, 30); }
   L.won = checkBadges();
   save();
   L.state = "end"; L.pct = pct; L.unlocked = unlocked; L.totalShown = total;
@@ -1328,21 +1394,23 @@ function renderLesson(){
   app.innerHTML = "";
   if (L.state === "end") return renderEnd();
   const it = cur(), q = it.q, shown = L.state === "shown";
-  const progress = L.mode === "chrono" ? 0 : Math.round(100 * L.i / L.queue.length);
+  const progress = L.chrono ? 0 : Math.round(100 * L.i / L.queue.length);
   const top = h("div", {class:"lesson-top"}, h("button", {class:"iconbtn", "aria-label":"Quitter", onclick:quit}, svg(ICON.x)));
-  if (L.mode === "chrono") top.append(h("div", {style:"flex:1;font-weight:700"}, "Bonnes réponses : " + L.firstOk), h("span", {class:"timer", id:"timer"}, Math.max(0, Math.ceil((L.end - Date.now())/1000)) + " s"));
+  if (L.chrono) top.append(h("div", {style:"flex:1;font-weight:700"}, "Bonnes réponses : " + L.firstOk), h("span", {class:"timer", id:"timer"}, Math.max(0, Math.ceil((L.end - Date.now())/1000)) + " s"));
+  else if (L.mode === "dcireal") top.append(h("div", {class:"bar", role:"progressbar", "aria-label":"Progression", "aria-valuenow":progress, "aria-valuemin":0, "aria-valuemax":100}, h("span", {style:"width:" + progress + "%"})), h("span", {class:"timer", id:"timer"}, (L.i + 1) + " / " + L.total + " · " + mmss((Date.now() - L.t0) / 1000)));
   else top.append(h("div", {class:"bar", role:"progressbar", "aria-label":"Progression", "aria-valuenow":progress, "aria-valuemin":0, "aria-valuemax":100}, h("span", {style:"width:" + progress + "%"})));
   const body = h("div", {class:"lesson-body pop"});
   const chips = h("div", {class:"chips"}, h("span", {class:"chip"}, TYPES[q.t]));
   if (it.retry) chips.append(h("span", {class:"chip gold"}, "Deuxième chance"));
-  else if (it.review || L.mode === "review") chips.append(h("span", {class:"chip gold"}, "Révision"));
+  else if (it.review || L.mode === "review" || L.mode === "dcirev") chips.append(h("span", {class:"chip gold"}, "Révision"));
+  if (L.mode === "dcireal") chips.append(h("span", {class:"chip gold"}, "Examen · correction à la fin"));
   chips.append(h("span", {class:"chip plain"}, String(q.u).startsWith("dci") ? "DCI " + DATA.unitById[q.u].n + " · " + DATA.unitById[q.u].court : DATA.unitById[q.u].court + " · " + LVL[q.l-1]));
   body.append(chips, h("div", {class:"qtext"}, q.q));
 
   if (q.t === "vf"){
     const g = h("div", {class:"vf"});
     [[true,"Vrai"],[false,"Faux"]].forEach(([v, lab]) => { let cls = "choice"; if (shown){ if (v === q.a) cls += " right"; else if (v === L.pick) cls += " wrong"; }
-      g.append(h("button", {class:cls, "aria-pressed": L.pick === v ? "true" : "false", disabled: shown || null, onclick:() => { L.pick = v; if (L.mode === "chrono") return check(); renderLesson(); }}, lab)); });
+      g.append(h("button", {class:cls, "aria-pressed": L.pick === v ? "true" : "false", disabled: shown || null, onclick:() => { L.pick = v; if (L.chrono) return check(); renderLesson(); }}, lab)); });
     body.append(g);
   } else if (q.t === "calc"){
     const inp = h("input", {id:"calc-input", type:"text", inputmode:"decimal", autocomplete:"off", placeholder:"Ta réponse", "aria-label":"Ta réponse", disabled: shown || null});
@@ -1368,7 +1436,7 @@ function renderLesson(){
   } else {
     const g = h("div", {class:"choices"});
     L.order.forEach(k => { let cls = "choice" + (q.c[k].length > 90 ? " long" : ""); if (shown){ if (k === q.a) cls += " right"; else if (k === L.pick) cls += " wrong"; }
-      g.append(h("button", {class:cls, "aria-pressed": L.pick === k ? "true" : "false", disabled: shown || null, onclick:() => { L.pick = k; if (L.mode === "chrono") return check(); renderLesson(); }}, q.c[k])); });
+      g.append(h("button", {class:cls, "aria-pressed": L.pick === k ? "true" : "false", disabled: shown || null, onclick:() => { L.pick = k; if (L.chrono) return check(); renderLesson(); }}, q.c[k])); });
     body.append(g);
   }
   const wrap = h("div", {class:"lesson"}, top, body);
@@ -1382,9 +1450,9 @@ function renderLesson(){
         foot.append(h("div", {class:"answer"}, (q.t === "paires" ? "" : "Bonne réponse : ") + good));
       }
       if (q.t === "calc"){ const parts = q.x.split(/(?<=[.;])\s+(?=[A-ZÀ-ÖØ-Þ0-9(])/).map(t => t.replace(/[;.]$/, "")).filter(Boolean); foot.append(parts.length > 1 ? h("ol", {class:"xsteps"}, ...parts.map(t => h("li", null, t))) : h("p", {class:"explain"}, q.x)); } else foot.append(h("p", {class:"explain"}, q.x));
-      if (!L.ok && !it.retry && ["lesson","review","calcs"].includes(L.mode)) foot.append(h("small", {class:"muted"}, "Elle reviendra en fin de série."));
+      if (!L.ok && !it.retry && ["lesson","review","calcs","dci","dciquick","dcirev","dciweak"].includes(L.mode)) foot.append(h("small", {class:"muted"}, "Elle reviendra en fin de série."));
       footBtn = h("button", {class:"big", onclick:next}, "Continuer");
-    } else footBtn = h("button", {class:"big", onclick:check, disabled: canCheck() ? null : true}, "Vérifier");
+    } else footBtn = h("button", {class:"big", onclick:check, disabled: canCheck() ? null : true}, L.mode === "dcireal" ? (L.i + 1 === L.total ? "Terminer l'examen" : "Valider et passer à la suivante") : "Vérifier");
     foot.append(footBtn); wrap.append(foot);
   }
   app.append(wrap);
@@ -1416,6 +1484,16 @@ function renderEnd(){
     actions.append(h("button", {class:"ghost", onclick:() => startDci(L.du)}, "Nouvelle série"));
     actions.append(h("button", {class:"ghost", onclick:() => { const u = L.du; L = null; tab = "dci"; dciOpen = u; render(); }}, "Voir la fiche du module"));
   }
+  if (["dciquick","dcirev","dciweak"].includes(M)){
+    title = M === "dcirev" ? "Révision DCI terminée" : M === "dciweak" ? "Points faibles travaillés" : "Quiz DCI terminé"; msg = pct >= 80 ? "Très bien. Tes erreurs reviendront dans « Mes erreurs »." : "Tes erreurs reviendront dans « Mes erreurs ». Relis les fiches des modules concernés.";
+    actions.append(h("button", {class:"ghost", onclick:() => DCI_START[M]()}, "Relancer"));
+    actions.append(h("button", {class:"ghost", onclick:() => { L = null; tab = "dci"; dciPart = "quiz"; dciOpen = null; render(); }}, "Retour aux quiz DCI"));
+  }
+  if (M === "dcichrono"){ title = L.firstOk + " bonnes réponses"; msg = "En 90 secondes, sur la DCI. Record : " + (S.best.dciChrono || 0) + "."; actions.append(h("button", {class:"ghost", onclick:startDciChrono}, "Rejouer")); }
+  if (M === "dcireal"){
+    title = "Examen DCI terminé"; msg = (pct >= 80 ? "Très bon niveau. " : pct >= 60 ? "Correct, mais revois les modules ci-dessous. " : "Il faut retravailler les modules ci-dessous. ") + "Durée : " + mmss(L.dur) + ".";
+    actions.append(h("button", {class:"ghost", onclick:startDciReal}, "Repasser un examen"));
+  }
   if (M === "dciexam"){
     title = "Examen blanc DCI"; msg = pct >= 80 ? "Très bon niveau." : pct >= 60 ? "Correct : revois les modules ci-dessous." : "Reprends les fiches des modules ci-dessous.";
     actions.append(h("button", {class:"ghost", onclick:startDciExam}, "Nouvel examen blanc"));
@@ -1423,10 +1501,37 @@ function renderEnd(){
   app.append(h("div", {class:"lesson"}, h("div", {class:"result pop"},
     M === "chrono" ? null : ring(pct), h("h2", null, title), h("p", {class:"muted", style:"max-width:40ch"}, msg),
     L.won && L.won.length ? h("div", {class:"chips", style:"justify-content:center"}, L.won.map(w => h("span", {class:"chip gold"}, "Badge : " + w))) : null,
-    M === "dciexam" && L.missed ? h("div", {class:"missed"}, h("b", null, "À revoir en priorité"), ...Object.entries(L.missed).sort((a,b) => b[1] - a[1]).map(([id, n]) => { const m = DATA.unitById[id]; return h("button", {class:"row", onclick:() => { L = null; tab = "dci"; dciOpen = id; render(); }}, h("span", {class:"ic r"}, String(m.n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, n + " erreur" + (n > 1 ? "s" : ""))), svg(ICON.chev)); })) : null,
+    (M === "dciexam" || M === "dcireal") && L.missed ? h("div", {class:"missed"}, h("b", null, "À revoir en priorité"), ...Object.entries(L.missed).sort((a,b) => b[1] - a[1]).map(([id, n]) => { const m = DATA.unitById[id]; return h("button", {class:"row", onclick:() => { L = null; tab = "dci"; dciOpen = id; render(); }}, h("span", {class:"ic r"}, String(m.n)), h("span", {class:"tx"}, h("b", null, m.titre), h("small", null, n + " erreur" + (n > 1 ? "s" : ""))), svg(ICON.chev)); })) : null,
     h("div", {class:"tiles"}, h("div", {class:"tile"}, h("b", null, "+" + L.xp), h("small", null, "XP gagnés")), h("div", {class:"tile"}, h("b", null, L.firstOk + " / " + L.totalShown), h("small", null, "du premier coup"))),
-    actions)));
+    actions, M === "dcireal" ? correction() : null)));
   window.scrollTo(0,0);
+}
+function mmss(sec){ sec = Math.max(0, Math.round(sec)); return Math.floor(sec / 60) + " min " + String(sec % 60).padStart(2, "0"); }
+function fmtAns(q, v){
+  if (v === null || v === undefined || v === "") return "—";
+  if (q.t === "calc") return nf.format(typeof v === "number" ? v : parseNum(v)) + (q.suf ? " " + q.suf : "");
+  if (q.t === "vf") return v ? "Vrai" : "Faux";
+  if (q.t === "ordre") return v.map((k, i) => (i+1) + ". " + q.o[k]).join("  ");
+  return q.c[v];
+}
+function goodAns(q){ return q.t === "ordre" ? fmtAns(q, q.o.map((_, k) => k)) : fmtAns(q, q.a); }
+function correction(){
+  let onlyKo = true; const box = h("div", {class:"corr"});
+  const draw = () => {
+    box.innerHTML = "";
+    const ko = L.answers.filter(a => !a.ok).length;
+    box.append(h("div", {class:"corr-head"}, h("b", null, "Correction détaillée"),
+      h("div", {class:"seg", role:"group", "aria-label":"Filtre"}, [[true, "Mes erreurs (" + ko + ")"], [false, "Toutes (" + L.answers.length + ")"]].map(([v, lab]) => h("button", {"aria-pressed": onlyKo === v ? "true" : "false", onclick:() => { onlyKo = v; draw(); }}, lab)))));
+    L.answers.forEach((a, i) => { if (onlyKo && a.ok) return; const q = a.q, m = DATA.unitById[q.u];
+      box.append(h("div", {class:"corr-item " + (a.ok ? "ok" : "ko")},
+        h("small", {class:"muted"}, "Question " + (i+1) + " · DCI " + m.n + " · " + m.court),
+        h("p", {class:"corr-q"}, q.q),
+        h("p", null, h("b", null, a.ok ? "✓ Ta réponse : " : "✗ Ta réponse : "), fmtAns(q, a.pick)),
+        a.ok ? null : h("p", null, h("b", null, "Bonne réponse : "), goodAns(q)),
+        h("p", {class:"muted"}, q.x))); });
+    if (onlyKo && !ko) box.append(h("p", {class:"muted"}, "Aucune erreur, bravo."));
+  };
+  draw(); return box;
 }
 document.addEventListener("keydown", e => {
   if (!L || L.state === "end" || L.mode === "course" || e.target.tagName === "INPUT") return;
