@@ -158,6 +158,80 @@
     return {sixMois: round2(sixMois), troisPourcent: round2(trois), ira: round2(Math.min(sixMois, trois))};
   }
 
-  const C = {R, LIENS, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
+
+  /* Barème de l'usufruit (art. 669 CGI) : valeur de l'usufruit selon l'âge de l'usufruitier */
+  function usufruit(age) {
+    const t = [[21, .9], [31, .8], [41, .7], [51, .6], [61, .5], [71, .4], [81, .3], [91, .2]];
+    for (const [a, v] of t) if (age < a) return v;
+    return 0.1;
+  }
+  const QD = n => n <= 0 ? 1 : n === 1 ? 1 / 2 : n === 2 ? 1 / 3 : 1 / 4;
+
+  /* Simulation complète d'une succession.
+     o.situation : seul | marie | pacs | concubin
+     o.biens : [{type, montant, commun}]  (commun = détenu à deux : 50 % au défunt)
+     o.dettes : dettes du défunt (hors prêts couverts par l'assurance emprunteur)
+     o.enfants, o.enfantsCommuns, o.ageConjoint, o.option (quart | usufruit | qd | quart_us), o.testament (partenaire ou concubin)
+     o.parents (0-2), o.freres, o.donations (par enfant, < 15 ans), o.rpOccupee
+     o.av : {avant70, apres70, benef: conjoint | enfants | aucun} */
+  function succession(o) {
+    const couple = o.situation !== "seul", n = Math.max(0, Math.floor(o.enfants || 0));
+    const lignes = []; let brut = 0, abattRP = 0;
+    for (const b of (o.biens || [])) {
+      const m = Math.max(0, b.montant || 0); if (!m) continue;
+      const part = couple && b.commun ? 0.5 : 1; let v = m * part, ab = 0;
+      if (b.type === "rp" && o.rpOccupee) { ab = v * 0.2; abattRP += ab; }
+      lignes.push({type: b.type, montant: m, part, valeur: v, abattRP: ab}); brut += v - ab;
+    }
+    const OBS = 1500, dettes = Math.max(0, o.dettes || 0);
+    const net = Math.max(0, brut - dettes - OBS);
+    const h = []; // héritiers : {qui, nb, lien, fraction (valeur taxable), pp, us, np, texte}
+    let regle = "", option = o.option;
+    const u = usufruit(o.ageConjoint || 70);
+    if (n > 0) {
+      if (o.situation === "marie") {
+        if (option === "usufruit" && !o.enfantsCommuns) option = "quart";
+        if (option === "usufruit") { h.push({qui: "conjoint", nb: 1, lien: "conjoint", frac: u, desc: "100 % en usufruit"}); h.push({qui: "enfant", nb: n, lien: "enfant", frac: (1 - u) / n, desc: "nue-propriété, 1/" + n + " chacun"}); regle = "usufruit"; }
+        else if (option === "qd") { const q = QD(n); h.push({qui: "conjoint", nb: 1, lien: "conjoint", frac: q, desc: "quotité disponible en pleine propriété"}); h.push({qui: "enfant", nb: n, lien: "enfant", frac: (1 - q) / n, desc: "le reste à parts égales"}); regle = "qd"; }
+        else if (option === "quart_us") { h.push({qui: "conjoint", nb: 1, lien: "conjoint", frac: 0.25 + 0.75 * u, desc: "1/4 en pleine propriété + 3/4 en usufruit"}); h.push({qui: "enfant", nb: n, lien: "enfant", frac: 0.75 * (1 - u) / n, desc: "nue-propriété des 3/4"}); regle = "quart_us"; }
+        else { h.push({qui: "conjoint", nb: 1, lien: "conjoint", frac: 0.25, desc: "1/4 en pleine propriété"}); h.push({qui: "enfant", nb: n, lien: "enfant", frac: 0.75 / n, desc: "3/4 à parts égales"}); regle = "quart"; }
+      } else if ((o.situation === "pacs" || o.situation === "concubin") && o.testament) {
+        const q = QD(n); h.push({qui: o.situation === "pacs" ? "partenaire" : "concubin", nb: 1, lien: o.situation === "pacs" ? "conjoint" : "autre", frac: q, desc: "quotité disponible par testament"}); h.push({qui: "enfant", nb: n, lien: "enfant", frac: (1 - q) / n, desc: "la réserve à parts égales"}); regle = "testament";
+      } else { h.push({qui: "enfant", nb: n, lien: "enfant", frac: 1 / n, desc: "tout, à parts égales"}); regle = "enfants"; }
+    } else {
+      const p = Math.min(2, Math.max(0, Math.floor(o.parents || 0))), f = Math.max(0, Math.floor(o.freres || 0));
+      if (o.situation === "marie") {
+        if (option === "qd" || p === 0) { h.push({qui: "conjoint", nb: 1, lien: "conjoint", frac: 1, desc: "tout"}); regle = p ? "ddv0" : "conjoint0"; }
+        else { h.push({qui: "conjoint", nb: 1, lien: "conjoint", frac: 1 - p / 4, desc: (p === 2 ? "1/2" : "3/4") + " en pleine propriété"}); h.push({qui: "parent", nb: p, lien: "enfant", frac: 0.25, desc: "1/4 chacun"}); regle = "parents_conjoint"; }
+      } else if ((o.situation === "pacs" || o.situation === "concubin") && o.testament) {
+        h.push({qui: o.situation === "pacs" ? "partenaire" : "concubin", nb: 1, lien: o.situation === "pacs" ? "conjoint" : "autre", frac: 1, desc: "tout, par testament"}); regle = "testament0";
+      } else if (f > 0) {
+        if (p) h.push({qui: "parent", nb: p, lien: "enfant", frac: 0.25, desc: "1/4 chacun"});
+        h.push({qui: "frere", nb: f, lien: "fratrie", frac: (1 - p / 4) / f, desc: (p === 2 ? "1/2" : p === 1 ? "3/4" : "tout") + " à partager"}); regle = "fratrie";
+      } else if (p > 0) { h.push({qui: "parent", nb: p, lien: "enfant", frac: 1 / p, desc: p === 2 ? "1/2 chacun" : "tout (ou la moitié si des grands-parents de l'autre côté sont en vie)"}); regle = "parents"; }
+      else return {erreur: "Sans enfant, conjoint, parents ni frères et sœurs, les héritiers sont plus éloignés (neveux, oncles, cousins) : ce cas n'est pas géré ici."};
+    }
+    // Assurance vie
+    const av = o.av || {}, avant = Math.max(0, av.avant70 || 0), apres = Math.max(0, av.apres70 || 0);
+    let benefAV = av.benef;
+    if (benefAV === "enfants" && n === 0) benefAV = "aucun";
+    const reint757 = Math.max(0, apres - R.AV_757B_ABATT);
+    for (const x of h) {
+      x.valeur = round2(net * x.frac); x.av990 = 0; x.avCapital = 0; x.av757 = 0; x.taxe990 = 0;
+      const conj = x.lien === "conjoint";
+      if (benefAV === "enfants" && x.qui === "enfant") { x.avCapital = avant / n; x.av757 = reint757 / n; }
+      if (benefAV === "conjoint" && (x.qui === "conjoint" || x.qui === "partenaire")) { x.avCapital = avant; x.av757 = reint757; }
+      if (x.avCapital && !conj) { const d = avDeces({capitalAvant70: x.avCapital}); x.taxe990 = d.taxe990I; x.base990 = d.base990I; }
+      if (conj) { x.droits = 0; x.base = 0; x.abattement = 0; x.detail = []; }
+      else { const d = droits(x.valeur + x.av757, x.lien, {dejaUtilise: x.qui === "enfant" ? (o.donations || 0) : 0}); Object.assign(x, {droits: d.droits, base: d.base, abattement: d.abattement, detail: d.detail}); }
+      x.total = round2(x.droits + x.taxe990);
+      x.recu = round2(x.valeur + x.avCapital + (benefAV === "enfants" && x.qui === "enfant" ? apres / n : benefAV === "conjoint" && conj ? apres : 0));
+      x.netRecu = round2(x.recu - x.total);
+    }
+    const totalDroits = round2(h.reduce((s, x) => s + x.total * x.nb, 0));
+    return {lignes, brut: round2(brut), abattRP: round2(abattRP), dettes, obseques: OBS, net: round2(net), heritiers: h, regle, option, usufruitPct: u, totalDroits, benefAV};
+  }
+
+  const C = {R, LIENS, usufruit, QD, succession, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
   if (typeof module !== "undefined" && module.exports) module.exports = C; else root.Calc = C;
 })(typeof window !== "undefined" ? window : this);

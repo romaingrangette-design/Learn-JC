@@ -368,13 +368,31 @@ ul.plain.pieges li::marker{color:var(--bad)}
 [hidden]{display:none!important}
 .xsteps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.4;font-variant-numeric:tabular-nums}
 /* Outils v2 : calcul expliqué */
+.fsec{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
+.form>.fsec:first-child{margin-top:0;padding-top:0;border-top:0}
+.fhint{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:-6px}
+.biens{display:flex;flex-direction:column;gap:10px}
+.bien{background:var(--soft);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.bien-top{display:flex;gap:6px;align-items:center}
+.bien-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bien select{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);font-size:15px;width:100%;min-width:0}
+.bien-top select{font-weight:600}
+.bien .inp input{padding:10px;font-size:16px;font-variant-numeric:tabular-nums;width:100%;background:transparent}
+.addbien{border:1.5px dashed var(--line);background:none;border-radius:12px;padding:11px;font-weight:600;color:var(--green)}
+.steps .op{white-space:pre-line}
+.htab{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums;margin-top:6px}
+.htab th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
+.htab td{text-align:right;white-space:nowrap;padding:8px 4px;border-bottom:1px solid var(--line)}
+.htab th:first-child,.htab td:first-child{text-align:left;white-space:normal}
+.htab td:last-child{font-weight:700;color:var(--green)}
+
 .ask{background:var(--green-soft);border-radius:var(--r);padding:12px 14px}
 .ask small{font-size:12px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em}
 .ask p{font-size:15.5px;font-weight:600;line-height:1.35;margin-top:2px}
 .field small{font-size:12.5px;color:var(--muted);line-height:1.35}
 .inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 .inp:focus-within{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
-.field .inp input{border:0;box-shadow:none!important;flex:1;min-width:0}
+.inp input{border:0!important;box-shadow:none!important;outline:none;flex:1;min-width:0}
 .inp span{padding:0 12px;color:var(--muted);font-weight:500;white-space:nowrap}
 .check span{line-height:1.3}
 .res{display:flex;flex-direction:column;gap:6px}
@@ -673,7 +691,7 @@ function profileView(body){
 const TOOL_GROUPS = [
   ["Épargne", "g", ICON.percent, [["livret","Combien rapporte un livret ?","Livret A, LDDS, LEP, CEL, PEL, livret bancaire"],["quinz","Intérêts entre deux dates","La règle des quinzaines du Livret A"]]],
   ["Assurance vie", "b", ICON.spark, [["rachat","Retrait d'assurance vie","Ce que le client touche vraiment"],["avdeces","Assurance vie au décès","Ce que paie chaque bénéficiaire"]]],
-  ["Transmission", "v", ICON.user, [["succ","Droits de succession ou donation","Abattement puis barème, tranche par tranche"]]],
+  ["Transmission", "v", ICON.user, [["patri","Simulation de succession complète","Famille, biens, dettes, assurance vie : qui reçoit quoi"],["succ","Droits sur une somme","Donation ou succession, pour un seul héritier"]]],
   ["Crédit", "o", ICON.chart, [["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable"],["ira","Pénalités de remboursement anticipé","Le plus petit de 6 mois d'intérêts ou 3 %"]]],
   ["Retraite et assurances", "g", ICON.target, [["per","Économie d'impôt PER","Plafond, montant déductible, gain"],["bonus","Bonus-malus auto","Le nouveau coefficient"]]]
 ];
@@ -712,13 +730,91 @@ function toolsView(body){
   const upd = SP.build(form);
   const run = () => { const r = upd();
     if (r.err){ res.replaceChildren(h("p", {class:"res-err"}, r.err)); steps.replaceChildren(); say.replaceChildren(h("p", {class:"muted"}, "Complète les infos ci-dessus.")); return; }
-    res.replaceChildren(...[h("span", {class:"res-label"}, r.label), h("b", {class:"res-val"}, r.value), r.sub ? h("p", {class:"res-sub"}, r.sub) : null, ...(r.lines || []).map(l => line(l[0], l[1]))].filter(Boolean));
+    res.replaceChildren(...[h("span", {class:"res-label"}, r.label), h("b", {class:"res-val"}, r.value), r.sub ? h("p", {class:"res-sub"}, r.sub) : null, ...(r.lines || []).map(l => line(l[0], l[1])), r.table || null].filter(Boolean));
     steps.replaceChildren(...r.steps.map(s => h("li", null, h("b", null, s[0]), s[1] ? h("div", {class:"op"}, s[1]) : null, s[2] ? h("p", null, s[2]) : null)));
     say.replaceChildren(...[h("p", {class:"quote"}, r.say), r.warn ? h("p", {class:"warn"}, r.warn) : null].filter(Boolean)); };
   form.addEventListener("input", run); form.addEventListener("change", run); run();
   if (SP.note) body.append(h("p", {class:"foot-note"}, SP.note));
 }
 const TOOL_SPECS = {
+  patri:{ q:"Si je décède, qui hérite de quoi, et combien chacun paiera de droits ?",
+    note:"Simulation indicative, hors frais de notaire. Ne tient pas compte des donations à réintégrer au partage civil, d'un testament inégal entre enfants, ni de l'exonération possible des frères et sœurs (célibataires, plus de 50 ans, vivant avec le défunt). Pour un vrai dossier : le notaire.",
+    build(form){
+      const sec = t => h("div", {class:"fsec"}, t);
+      const sit = select("pa-s", "Situation du défunt", [["marie","Marié"],["pacs","Pacsé"],["concubin","En concubinage"],["seul","Célibataire, veuf ou divorcé"]], "marie");
+      const nE = field("pa-n", "Nombre d'enfants", 2), com = checkbox("pa-ec", "Tous les enfants sont aussi ceux du conjoint", true);
+      const ag = field("pa-a", "Âge du conjoint", 70, {suf:"ans", hint:"Sert à calculer la valeur de l'usufruit."});
+      const opt = select("pa-o", "Ce que choisit le conjoint", [], "quart");
+      const tes = checkbox("pa-t", "Un testament le désigne", false);
+      const par = select("pa-p", "Parents du défunt encore en vie", [["0","Aucun"],["1","Un"],["2","Les deux"]], "0"), fr = field("pa-f", "Nombre de frères et sœurs", 0);
+      const don = field("pa-d", "Donations déjà faites à chaque enfant il y a moins de 15 ans", 0, {suf:"€", hint:"Par enfant. Elles réduisent l'abattement de 100 000 €."});
+      const TYPES = [["rp","Résidence principale"],["immo","Autre bien immobilier"],["comptes","Comptes et livrets"],["placements","Placements (PEA, titres…)"],["autres","Voiture, meubles, autres"]];
+      const list = h("div", {class:"biens"}); let nb = 0;
+      const addBien = (type, montant, commun) => { const i = nb++;
+        const ty = h("select", {"aria-label":"Type de bien"}, TYPES.map(t => h("option", {value:t[0], selected: t[0] === type ? true : null}, t[1])));
+        const mt = h("input", {type:"text", inputmode:"decimal", value:nf.format(montant), "aria-label":"Valeur", autocomplete:"off"});
+        mt.addEventListener("blur", () => { const v = parseNum(mt.value); if (!isNaN(v)) mt.value = nf.format(v); });
+        const ow = h("select", {"aria-label":"À qui appartient ce bien"}, h("option", {value:"1", selected: commun ? true : null}, "À deux (50 %)"), h("option", {value:"0", selected: commun ? null : true}, "Au défunt seul"));
+        const card = h("div", {class:"bien"}, h("div", {class:"bien-top"}, ty, h("button", {class:"iconbtn", type:"button", "aria-label":"Supprimer ce bien", onclick:() => { card.remove(); form.dispatchEvent(new Event("input")); }}, svg(ICON.x))),
+          h("div", {class:"bien-row"}, h("div", {class:"inp"}, mt, h("span", null, "€")), ow));
+        card._get = () => ({type:ty.value, montant:(v => isNaN(v) ? 0 : v)(parseNum(mt.value)), commun: ow.value === "1"}); card._ow = ow;
+        list.append(card); };
+      addBien("rp", 400000, true); addBien("comptes", 60000, true); addBien("placements", 120000, false);
+      const addBtn = h("button", {class:"addbien", type:"button", onclick:() => { addBien("comptes", 10000, false); form.dispatchEvent(new Event("input")); }}, "+ Ajouter un bien");
+      const rp = checkbox("pa-rp", "Le conjoint, le partenaire de PACS ou des enfants mineurs y vivent (−20 % sur la résidence principale)", true);
+      const det = field("pa-de", "Dettes du défunt", 0, {suf:"€", hint:"Crédits restants à sa charge, sauf ceux remboursés par l'assurance emprunteur."});
+      const av1 = field("pa-v1", "Assurance vie : versements faits AVANT 70 ans", 250000, {suf:"€", hint:"Valeur aujourd'hui, gains compris."}), av2 = field("pa-v2", "Assurance vie : versements faits APRÈS 70 ans", 0, {suf:"€", hint:"Seulement l'argent versé."});
+      const avb = select("pa-vb", "Bénéficiaire de l'assurance vie", [["enfants","Les enfants, à parts égales"],["conjoint","Le conjoint ou partenaire"]], "enfants");
+      form.append(sec("La famille"), sit.el, nE.el, com.el, ag.el, opt.el, tes.el, par.el, fr.el, don.el,
+        sec("Le patrimoine"), h("p", {class:"fhint"}, "Un bien par ligne, à sa valeur d'aujourd'hui. L'assurance vie se met à part, plus bas : elle est hors succession."), list, addBtn, rp.el, det.el,
+        sec("L'assurance vie"), av1.el, av2.el, avb.el);
+      const NOM = {conjoint:"Le conjoint", partenaire:"Le partenaire de PACS", concubin:"Le concubin", enfant:"Chaque enfant", parent:"Chaque parent", frere:"Chaque frère ou sœur"};
+      const LT = {rp:"Résidence principale", immo:"Autre bien immobilier", comptes:"Comptes et livrets", placements:"Placements", autres:"Autres biens"};
+      let lastKey = "";
+      return () => {
+        const S0 = sit.get(), n = Math.max(0, Math.round(nE.get())), couple = S0 !== "seul";
+        com.el.hidden = !(S0 === "marie" && n > 0); ag.el.hidden = S0 !== "marie"; tes.el.hidden = !(S0 === "pacs" || S0 === "concubin");
+        tes.el.querySelector("span").textContent = "Un testament lui lègue " + (n ? "la quotité disponible" : "tout");
+        par.el.hidden = fr.el.hidden = n > 0; don.el.hidden = n === 0; avb.el.hidden = !(couple || n > 0);
+        list.querySelectorAll(".bien").forEach(b => b._ow.hidden = !couple);
+        const key = S0 + "|" + (n > 0) + "|" + com.get();
+        if (key !== lastKey){ lastKey = key;
+          const o = S0 !== "marie" ? [] : n === 0 ? [["legal","Ce que prévoit la loi"],["qd","Tout (donation au dernier vivant)"]] :
+            [["quart","1/4 en pleine propriété (loi)"]].concat(com.get() ? [["usufruit","Tout en usufruit (loi)"]] : [], [["qd","Quotité disponible (donation au dernier vivant)"],["quart_us","1/4 + 3/4 en usufruit (donation au dernier vivant)"]]);
+          opt.set(o, o.length ? o[0][0] : ""); }
+        opt.el.hidden = S0 !== "marie"; if (S0 === "marie") ag.el.hidden = !(n > 0 && ["usufruit","quart_us"].includes(opt.get()));
+        const biens = [...list.querySelectorAll(".bien")].map(b => b._get());
+        rp.el.hidden = !biens.some(b => b.type === "rp" && b.montant > 0) || !(S0 === "marie" || S0 === "pacs" || n > 0);
+        const r = C.succession({situation:S0, biens, dettes:det.get(), enfants:n, enfantsCommuns:com.get(), ageConjoint:ag.get(), option:opt.get(), testament:tes.get(), parents:Number(par.get()), freres:Math.round(fr.get()), donations:don.get(), rpOccupee:!rp.el.hidden && rp.get(),
+          av:{avant70:av1.get(), apres70:av2.get(), benef: avb.el.hidden ? "aucun" : (avb.get() === "conjoint" && !couple ? "aucun" : avb.get())}});
+        if (r.erreur) return {err:r.erreur};
+        if (!r.lignes.length) return {err:"Ajoute au moins un bien avec sa valeur."};
+        const H = r.heritiers, st = [];
+        st.push(["Ce qui appartient au défunt", r.lignes.map(l => LT[l.type] + " : " + (l.part < 1 ? E(l.montant) + " × 50 % = " : "") + E(l.valeur)).join("\n"), couple ? "Un bien détenu à deux n'appartient au défunt que pour moitié. L'autre moitié reste au survivant et n'est pas dans la succession." : null]);
+        if (r.abattRP) st.push(["Abattement résidence principale", "− 20 % = − " + E(r.abattRP), "Parce que le conjoint, le partenaire de PACS ou des enfants mineurs y vivent."]);
+        st.push(["L'actif net de la succession", E(r.brut) + (r.dettes ? " − " + E(r.dettes) + " de dettes" : "") + " − 1 500 € d'obsèques = " + E(r.net), "Les frais d'obsèques sont déduits jusqu'à 1 500 € sans justificatif."]);
+        const u = r.usufruitPct, us = ["usufruit","quart_us"].includes(r.regle);
+        st.push(["Qui hérite", H.map(x => (x.nb > 1 ? NOM[x.qui] + " (" + x.nb + ")" : NOM[x.qui].replace("Chaque ", "L'").replace("L'enfant","L'enfant unique").replace("L'parent","Le parent")) + " : " + x.desc).join("\n"),
+          r.regle === "quart" ? "Choix par défaut de la loi quand il y a des enfants." : us ? "L'usufruit du conjoint vaut " + nf0.format(u * 100) + " % des biens à " + Math.round(ag.get()) + " ans (barème fiscal). Les enfants sont taxés sur la nue-propriété, " + nf0.format((1 - u) * 100) + " %." : r.regle === "testament" || r.regle === "testament0" ? "Sans testament, le " + (S0 === "pacs" ? "partenaire de PACS" : "concubin") + " n'hérite de rien." : r.regle === "enfants" && couple && S0 !== "marie" ? "Sans testament, le " + (S0 === "pacs" ? "partenaire de PACS" : "concubin") + " n'hérite de rien : tout va aux enfants." : r.regle === "parents_conjoint" ? "Sans enfant, chaque parent en vie reçoit 1/4, le reste va au conjoint. Les frères et sœurs n'héritent pas." : r.regle === "fratrie" ? "Sans enfant ni conjoint : chaque parent reçoit 1/4, les frères et sœurs se partagent le reste." : null]);
+        H.forEach(x => { if (x.lien === "conjoint"){ st.push([NOM[x.qui] + " : aucun droit", "Reçoit " + E(x.valeur) + " → 0 €", "Le conjoint et le partenaire de PACS sont exonérés de droits de succession."]); return; }
+          const parts = [E(x.valeur)]; if (x.av757) parts.push(E(x.av757) + " d'assurance vie après 70 ans");
+          st.push([NOM[x.qui] + " : ses droits", parts.join(" + ") + " − " + E(x.abattement) + " d'abattement = " + E(x.base) + " taxables" + (x.detail.length ? "\n" + x.detail.map(d => E(d[3]) + " × " + P(d[2] * 100) + " = " + E(d[4])).join("\n") + "\nTotal : " + E(x.droits) : "\nDroits : 0 €"),
+            x.lien === "fratrie" ? "Frère ou sœur : 15 932 € d'abattement, puis 35 % et 45 %." : x.lien === "autre" ? "Concubin : 1 594 € d'abattement, puis 60 %." : (x.qui === "enfant" && don.get() ? "Abattement de 100 000 € moins les donations des 15 dernières années." : "Abattement de 100 000 € en ligne directe, puis le barème par tranches.")]); });
+        if (av1.get() || av2.get()){
+          const e = H.find(x => x.avCapital);
+          if (!e) st.push(["L'assurance vie", "Hors succession", "Elle va au bénéficiaire désigné dans le contrat."]);
+          else if (e.lien === "conjoint") st.push(["L'assurance vie", E(av1.get() + av2.get()) + " au conjoint → 0 €", "Le conjoint et le partenaire de PACS ne paient rien sur l'assurance vie."]);
+          else st.push(["L'assurance vie (versements avant 70 ans)", E(e.avCapital) + " par enfant − 152 500 € = " + E(e.base990 || 0) + " → taxe " + E(e.taxe990), "152 500 € sans taxe par bénéficiaire, puis 20 % (31,25 % au-delà de 700 000 € taxables). C'est en plus des droits de succession."]);
+        }
+        st.push(["Total pour la famille", H.filter(x => x.total).map(x => (x.nb > 1 ? x.nb + " × " : "") + E(x.total)).join(" + ") + (H.some(x => x.total) ? " = " : "") + E(r.totalDroits)]);
+        const rows = H.map(x => h("tr", null, h("td", null, x.nb > 1 ? NOM[x.qui] + " (×" + x.nb + ")" : NOM[x.qui].replace("Chaque ","L'").replace("L'parent","Le parent")), h("td", null, nf0.format(x.recu) + " €"), h("td", null, nf0.format(x.total) + " €"), h("td", null, nf0.format(x.netRecu) + " €")));
+        const tbl = h("table", {class:"htab"}, h("thead", null, h("tr", null, h("th", null, "Héritier"), h("th", null, "Reçoit"), h("th", null, "Paie"), h("th", null, "Garde"))), h("tbody", null, ...rows));
+        const enf = H.find(x => x.qui === "enfant"), cj = H.find(x => x.lien === "conjoint");
+        const say = "Votre succession représenterait environ " + E(r.net) + " après dettes" + (r.lignes.some(l => l.part < 1) ? ", en comptant seulement votre moitié des biens communs" : "") + ". " +
+          (cj ? NOM[cj.qui] + " ne paierait aucun droit. " : "") + (enf ? (n > 1 ? "Chacun de vos enfants" : "Votre enfant") + " paierait environ " + E(enf.total) + "." : "Au total, " + E(r.totalDroits) + " de droits.");
+        return {label:"Droits à payer pour toute la famille", value:E(r.totalDroits), sub:"Actif net de la succession : " + E(r.net) + ".", table:tbl, steps:st, say,
+          warn: n > 0 && S0 !== "marie" && !tes.get() && couple ? "Le " + (S0 === "pacs" ? "partenaire de PACS" : "concubin") + " n'hérite de rien sans testament : piste à aborder avec le client (testament, assurance vie)." : null}; };
+    }},
   livret:{ q:"Si je place cette somme, combien ça va me rapporter ?",
     note:"Taux actuels supposés constants. En réalité, les intérêts des livrets sont calculés par quinzaine et versés au 31 décembre.",
     build(form){
