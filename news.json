@@ -1,19 +1,19 @@
 {
  "date": "2026-11-19",
  "titre": "Le point du matin · jeudi 19 novembre",
- "maj": "19/11/2026 à 9 h 06",
+ "maj": "19/11/2026 à 17 h 58",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "8 146,83 pts",
-   "variation": -0.85,
-   "note": "Clôture du 18/11"
+   "valeur": "8 080,74 pts",
+   "variation": -0.81,
+   "note": "Clôture du 19/11 · 17 h 49"
   },
   {
    "nom": "Crédit Agricole S.A.",
-   "valeur": "15,66 €",
-   "variation": 0.58,
-   "note": "Ouverture du 19/11 · 9 h 01"
+   "valeur": "15,50 €",
+   "variation": -0.45,
+   "note": "19/11 · 16 h 37"
   }
  ],
  "actus": [
