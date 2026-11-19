@@ -1,86 +1,78 @@
 {
- "date": "2026-11-18",
- "titre": "Le point du matin · mercredi 18 novembre",
- "maj": "18/11/2026 à 11 h 30",
+ "date": "2026-11-19",
+ "titre": "Le point du matin · jeudi 19 novembre",
+ "maj": "19/11/2026 à 7 h 41",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "8 223,26 pts",
-   "variation": 0.08,
-   "note": "Ouverture du 18/11 · 9 h 06"
+   "valeur": "8 146,83 pts",
+   "variation": -0.85,
+   "note": "Clôture du 18/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
-   "valeur": "15,67 €",
-   "variation": -1.17,
-   "note": "Clôture du 17/11"
+   "valeur": "15,57 €",
+   "variation": -0.76,
+   "note": "Clôture du 18/11"
   }
  ],
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "Le CAC 40 recule de 1,6 % avant les résultats de Nvidia",
-   "resume": "Paris a clôturé à 8 216,78 points, plombée par les valeurs technologiques après de nouvelles restrictions américaines sur les puces d'IA, et par le luxe (Hermès, Kering, LVMH).",
-   "impact": "Clients en actions (PEA, unités de compte) : rappeler que la volatilité fait partie du long terme et revoir l'horizon de placement plutôt que vendre dans la panique.",
+   "titre": "Le CAC 40 cède encore 0,85 % malgré les bons chiffres de Nvidia",
+   "resume": "Paris a terminé mercredi à 8 146,83 points : les résultats records de Nvidia n'ont pas levé les doutes sur la rentabilité des investissements dans l'IA. Alstom et Accor ont figuré parmi les plus fortes baisses.",
+   "impact": "Après deux séances de repli, des clients exposés aux actions peuvent s'inquiéter : l'occasion de revenir sur leur horizon de placement et la diversification, sans réagir à chaud.",
    "source": "BFM Bourse",
-   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-plombe-par-les-inquietudes-autour-de-nvidia-et-le-recul-du-luxe-le-cac-40-cloture-en-forte-baisse-1173960.html"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "Crédit conso : les nouvelles règles s'appliquent ce vendredi 20 novembre",
-   "resume": "Paiement en 3 ou 4 fois, mini-crédits de moins de 200 € et découverts accordés à partir du 20/11 entrent dans le régime du crédit à la consommation : information précontractuelle, vérification de solvabilité, FICP consulté. Un refus décidé par un algorithme peut être réexaminé par un humain. Les contrats en cours restent sous l'ancien régime.",
-   "impact": "Pour toute nouvelle autorisation de découvert ou tout crédit conso à partir de vendredi : fiche d'information, étude de solvabilité documentée et consultation FICP systématiques.",
-   "source": "Service-public.fr",
-   "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/N96?id=8127"
-  },
-  {
-   "tag": "Épargne",
-   "titre": "Livret A : les projections pour le 1er février 2027 tournent autour de 2,4 à 2,6 %",
-   "resume": "Le Livret A est à 1,70 % depuis le 1er août. La formule (moyenne €STR + inflation hors tabac de juillet à décembre 2026) donnerait entre 2,4 % et 2,6 % selon les estimations, sous réserve d'une décision du gouvernement, qui peut déroger en cas de « circonstances exceptionnelles ». Le LEP pourrait monter vers 2,8 à 3,1 %.",
-   "impact": "Clients qui hésitent à remplir leur Livret A ou LEP : la hausse attendue en février est une bonne accroche, mais rester prudent, rien n'est officiel avant mi-janvier.",
-   "source": "JeChange / Meilleurtaux",
-   "url": "https://placement.meilleurtaux.com/livret-epargne/actualites/2026-octobre/taux-du-livret-a-au-1er-fevrier-2027-le-calcul.html"
+   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-les-resultats-tonitruants-de-nvidia-ne-suffisent-pas-a-apaiser-wall-street-le-cac-40-termine-en-nette-baisse-1174041.html"
   },
   {
    "tag": "Taux",
-   "titre": "BCE : taux inchangés le 29 octobre, une hausse évoquée pour décembre",
-   "resume": "Le Conseil des gouverneurs a laissé ses trois taux directeurs inchangés le 29 octobre, en pointant la hausse des prix de l'énergie. Certains économistes (Société Générale) anticipent une première hausse en décembre 2026.",
-   "impact": "Clients en projet immobilier : les taux de crédit remontent déjà, mieux vaut ne pas trop attendre pour se positionner et sécuriser une offre.",
-   "source": "Banque de France",
-   "url": "https://www.banque-france.fr/system/files/2026-10/Decisions_de_politique_monetaire_29-10.pdf"
+   "titre": "La BCE envisagerait de doubler les réserves obligatoires des banques",
+   "resume": "Selon des sources citées par Reuters, la BCE discuterait le 25 novembre de porter les réserves obligatoires de 1 % à 2 % des dépôts à court terme, une décision qui pourrait glisser à décembre. Le taux de dépôt reste à 2,50 %.",
+   "impact": "Une mesure qui pèserait sur la liquidité et la rentabilité des banques ; rien n'est décidé, à suivre avec la réunion de taux de décembre.",
+   "source": "Boursorama (Reuters)",
+   "url": "https://www.boursorama.com/actualite-economique/actualites/la-bce-va-debattre-d-une-augmentation-des-reserves-obligatoires-des-banques-selon-des-sources-f540f0dd5efaf04c5ca783476200e2d7"
   },
   {
    "tag": "Groupe",
-   "titre": "Banco BPM ouvre la porte aux discussions avec Crédit Agricole",
-   "resume": "Le conseil de la banque italienne a mandaté son directeur général pour négocier le projet de rapprochement proposé par Crédit Agricole, sous conditions, notamment de prix.",
-   "impact": "Un dossier stratégique pour le groupe en Italie : à suivre si un client actionnaire t'en parle.",
-   "source": "Zonebourse via Fortuneo",
-   "url": "https://bourse.fortuneo.fr/actions/cours-credit-agricole-ACA-FR0000045072-23"
+   "titre": "Banco BPM négocie avec Crédit Agricole mais pose ses conditions",
+   "resume": "Le conseil de Banco BPM a mandaté son directeur général pour discuter du projet d'intégration proposé par Crédit Agricole, à condition d'un prix qui compense ses actionnaires. Le groupe passerait d'environ 30 % à près de 45 % du capital ; le feu vert de Rome reste incertain.",
+   "impact": "Dossier stratégique pour le développement du groupe en Italie ; à évoquer avec prudence auprès des clients sociétaires ou actionnaires, l'opération n'étant pas conclue.",
+   "source": "Zonebourse",
+   "url": "https://www.zonebourse.com/actualite-bourse/banco-bpm-pose-ses-conditions-a-credit-agricole-ce785edfd18af62d"
   },
   {
    "tag": "Réglementation",
-   "titre": "Assurance emprunteur : le CCSF veut fluidifier les changements de contrat",
-   "resume": "Le Comité consultatif du secteur financier a adopté un avis pour simplifier et sécuriser la substitution d'assurance emprunteur. Il a aussi publié des recommandations pour mieux protéger les détenteurs de crypto-actifs.",
-   "impact": "Délégations d'assurance (loi Lemoine) : attends-toi à des process plus encadrés, réponse toujours sous 10 jours ouvrés.",
-   "source": "Banque de France",
-   "url": "https://www.banque-france.fr/fr/communiques-de-presse"
+   "titre": "Crédit conso : nouvelles règles dès demain, vendredi 20 novembre",
+   "resume": "Le paiement en 3 ou 4 fois, les mini-crédits et certains découverts entrent dans le cadre du crédit à la consommation, avec information précontractuelle et vérification de solvabilité renforcées.",
+   "impact": "Les demandes de crédit et de facilités de paiement demanderont plus de justificatifs ; prévenir les clients que les délais et les refus peuvent évoluer.",
+   "source": "Meilleurtaux",
+   "url": "https://www.meilleurtaux.com/credit-consommation/actualites/2026-novembre/credit-conso-les-regles-changent-des-le-20-novembre.html"
+  },
+  {
+   "tag": "Taux",
+   "titre": "Livret A : une hausse vers 2,6-2,7 % attendue au 1er février",
+   "resume": "Avec une inflation à 3,4 % sur un an en octobre, les projections placent le Livret A entre 2,60 % et 2,70 % (contre 1,70 %) et le LEP au moins à 3,20 %. Le taux sera fixé par le ministre sur recommandation de la Banque de France.",
+   "impact": "Question fréquente en agence : présenter ces chiffres comme des projections, pas comme des taux acquis, et vérifier l'éligibilité au LEP des clients modestes.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/livret-a/actualites/110315/taux-du-livret-a-et-du-lep-pourquoi-la-hausse-du-1er-fevrier-2027-sera-plus-importante-que-prevu"
+  },
+  {
+   "tag": "Taux",
+   "titre": "Crédit immobilier : les 4 % franchis pour certains profils",
+   "resume": "Les taux moyens relevés en novembre atteignent 3,56 % sur 15 ans, 3,76 % sur 20 ans et 3,85 % sur 25 ans, et dépassent 4 % sur 25 ans pour les revenus les plus modestes, dans le sillage de la remontée de l'OAT 10 ans.",
+   "impact": "Les capacités d'emprunt baissent : refaire les simulations des projets en cours et anticiper l'effet sur le taux d'endettement.",
+   "source": "Pretto",
+   "url": "https://www.pretto.fr/taux-immobilier/historique-taux-immobilier/2026/analyse-taux-immobilier-novembre-2026/"
   },
   {
    "tag": "Politique",
-   "titre": "Budget 2027 : le texte rejeté à l'Assemblée part au Sénat",
-   "resume": "Les députés ont rejeté la partie recettes le 4 novembre : tout le texte est considéré comme rejeté et le Sénat repart de la version du gouvernement, qui comporte un article sur le régime fiscal de l'assurance vie.",
-   "impact": "Rien n'est voté : aux clients inquiets pour leur assurance vie, rappeler que les règles actuelles s'appliquent tant que la loi n'est pas publiée.",
-   "source": "Vie-publique.fr",
-   "url": "https://www.vie-publique.fr/loi/305240-budget-2027-projet-de-loi-de-finances-plf"
-  },
-  {
-   "tag": "Banque",
-   "titre": "Les grandes banques françaises solides malgré un coût du risque en hausse",
-   "resume": "Sur les 9 premiers mois de 2026, BNP Paribas, Société Générale, Crédit Agricole et BPCE ont cumulé 115,5 Md€ de produit net bancaire, en hausse de 8,5 % sur un an.",
-   "impact": "Argument utile face à un client qui doute de la solidité des banques.",
-   "source": "Option Finance",
-   "url": "https://www.optionfinance.fr/actualites/les-banques-francaises-affichent-des-performances-solides-malgre-un-cout-du-risque-en-hausse.html"
+   "titre": "Le Sénat adopte le budget de la Sécurité sociale 2027 en première lecture",
+   "resume": "Les sénateurs ont voté mercredi le projet de loi de financement de la Sécurité sociale (201 voix contre 124) en modifiant la copie du gouvernement. Le texte n'est pas définitivement adopté : la navette parlementaire se poursuit.",
+   "impact": "Les mesures touchant les prélèvements sociaux sur l'épargne ne sont pas encore figées : attendre le texte final avant d'en parler comme d'un acquis.",
+   "source": "Touteleurope.eu",
+   "url": "https://www.touteleurope.eu/vie-politique-des-etats-membres/le-senat-adopte-le-budget-2027-de-la-securite-sociale-en-premiere-lecture/"
   }
  ],
- "avertissement": "Mis à jour chaque matin vers 8 h · cours de clôture de la veille · à vérifier avant d'en parler à un client."
+ "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
 }
