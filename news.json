@@ -1,13 +1,13 @@
 {
- "date": "2026-11-19",
- "titre": "Le point du matin · jeudi 19 novembre",
- "maj": "19/11/2026 à 17 h 58",
+ "date": "2026-11-20",
+ "titre": "Le point du matin · vendredi 20 novembre",
+ "maj": "20/11/2026 à 7 h 41",
  "marches": [
   {
    "nom": "CAC 40",
    "valeur": "8 080,74 pts",
    "variation": -0.81,
-   "note": "Clôture du 19/11 · 17 h 49"
+   "note": "Clôture du 19/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
@@ -19,59 +19,59 @@
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "Le CAC 40 cède encore 0,85 % malgré les bons chiffres de Nvidia",
-   "resume": "Paris a terminé mercredi à 8 146,83 points : les résultats records de Nvidia n'ont pas levé les doutes sur la rentabilité des investissements dans l'IA. Alstom et Accor ont figuré parmi les plus fortes baisses.",
-   "impact": "Après deux séances de repli, des clients exposés aux actions peuvent s'inquiéter : l'occasion de revenir sur leur horizon de placement et la diversification, sans réagir à chaud.",
-   "source": "BFM Bourse",
-   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-les-resultats-tonitruants-de-nvidia-ne-suffisent-pas-a-apaiser-wall-street-le-cac-40-termine-en-nette-baisse-1174041.html"
+   "titre": "Le CAC 40 recule de 0,81 % le jour de l'entrée en Bourse d'Anthropic",
+   "resume": "Paris a fini jeudi à 8 080,74 points, troisième séance de baisse, tandis que l'Europe reculait aussi (Stoxx 600 -0,88 %). À New York, Anthropic a fixé son prix d'introduction à 83 dollars, au-dessus de la fourchette prévue.",
+   "impact": "La nervosité autour des valeurs liées à l'IA peut susciter des questions de clients investis en actions : rappeler l'horizon de placement et l'intérêt de diversifier.",
+   "source": "ABC Bourse",
+   "url": "https://www.abcbourse.com/marches/cac-40-paris-s-essouffle-et-finit-dans-le-rouge-avant-les-debuts-d-anthropic-a_706394"
+  },
+  {
+   "tag": "Réglementation",
+   "titre": "Découverts et petits crédits : les nouvelles règles s'appliquent dès aujourd'hui",
+   "resume": "Depuis ce 20 novembre, la banque doit vérifier la solvabilité avant d'accorder un découvert, même inférieur à 200 €, et les minima forfaitaires d'agios disparaissent. Les autorisations déjà en place ne sont pas revues automatiquement.",
+   "impact": "Les nouvelles demandes de découvert ou de paiement fractionné demanderont des justificatifs : expliquer la démarche aux clients et anticiper d'éventuels refus.",
+   "source": "Le Journal de l'Économie",
+   "url": "https://www.journaldeleconomie.fr/decouverts-bancaires-changement-novembre/"
+  },
+  {
+   "tag": "Groupe",
+   "titre": "Barclays relève son objectif de cours sur Crédit Agricole S.A.",
+   "resume": "Le courtier garde une recommandation neutre (« pondération de marché ») mais porte son objectif de cours de 20,90 € à 21,40 €. La prochaine publication de résultats du groupe est attendue le 4 février.",
+   "impact": "Une opinion d'analyste parmi d'autres, à ne pas présenter comme une recommandation d'achat aux clients actionnaires ou sociétaires.",
+   "source": "Zonebourse",
+   "url": "https://zonebourse.com/actualite-bourse/credit-agricole-barclays-reste-a-ponderation-de-marche-avec-un-objectif-de-cours-releve-de-20-90-a-ce785ed2d18af624"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Budget 2027 : le projet de loi de finances arrive au Sénat",
+   "resume": "Rejeté à l'Assemblée nationale début novembre, le PLF 2027 est transmis au Sénat, qui l'examine en séance du 20 novembre au 9 décembre. Le texte vise un déficit public de 5 % du PIB en 2027.",
+   "impact": "Les mesures fiscales sur l'épargne et les placements restent en discussion : aucune n'est acquise tant que le texte n'est pas définitivement adopté.",
+   "source": "Kohen Avocats",
+   "url": "https://kohenavocats.fr/2026/11/19/plf-2027-rejete-assemblee-senat-19-novembre-2026-deficit-impots-navette/"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Le Sénat vote l'indexation complète des retraites sur l'inflation en 2027",
+   "resume": "En première lecture du budget de la Sécurité sociale, les sénateurs ont supprimé le gel des pensions au-delà de 1 260 € par mois et prévu leur revalorisation intégrale. En contrepartie, ils proposent de supprimer l'abattement fiscal de 10 % des retraités.",
+   "impact": "Sujet sensible pour la clientèle retraitée : présenter ces mesures comme des votes provisoires, la navette parlementaire n'étant pas terminée.",
+   "source": "Public Sénat",
+   "url": "https://www.publicsenat.fr/actualites/politique/retraites-le-senat-vote-lindexation-complete-des-pensions-sur-linflation-en-2027"
+  },
+  {
+   "tag": "Paiements",
+   "titre": "Fraude bancaire : 22 % des Français touchés en deux ans",
+   "resume": "Selon un sondage OpinionWay pour MoneyVox, plus d'un Français sur cinq a subi au moins une fraude sur son compte en deux ans ; 71 % des victimes disent avoir été remboursées. Les dates de versement des retraites 2027 sont par ailleurs avancées en janvier, mai et octobre.",
+   "impact": "Rappeler aux clients les bons réflexes face aux faux conseillers et aux demandes de codes, et les orienter vite vers l'opposition en cas de doute.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/votre-argent/actualites/111325/virement-de-retraite-avance-facture-energie-les-3-infos-argent-du-jeudi-19-novembre"
   },
   {
    "tag": "Taux",
    "titre": "La BCE envisagerait de doubler les réserves obligatoires des banques",
-   "resume": "Selon des sources citées par Reuters, la BCE discuterait le 25 novembre de porter les réserves obligatoires de 1 % à 2 % des dépôts à court terme, une décision qui pourrait glisser à décembre. Le taux de dépôt reste à 2,50 %.",
-   "impact": "Une mesure qui pèserait sur la liquidité et la rentabilité des banques ; rien n'est décidé, à suivre avec la réunion de taux de décembre.",
+   "resume": "Selon des sources citées par Reuters, la BCE pourrait discuter le 25 novembre de porter les réserves obligatoires de 1 % à 2 % des dépôts à court terme, une décision qui pourrait glisser à décembre. Le taux de dépôt reste à 2,50 %.",
+   "impact": "Une telle mesure pèserait sur la liquidité et la rentabilité des banques ; rien n'est décidé à ce stade.",
    "source": "Boursorama (Reuters)",
    "url": "https://www.boursorama.com/actualite-economique/actualites/la-bce-va-debattre-d-une-augmentation-des-reserves-obligatoires-des-banques-selon-des-sources-f540f0dd5efaf04c5ca783476200e2d7"
-  },
-  {
-   "tag": "Groupe",
-   "titre": "Banco BPM négocie avec Crédit Agricole mais pose ses conditions",
-   "resume": "Le conseil de Banco BPM a mandaté son directeur général pour discuter du projet d'intégration proposé par Crédit Agricole, à condition d'un prix qui compense ses actionnaires. Le groupe passerait d'environ 30 % à près de 45 % du capital ; le feu vert de Rome reste incertain.",
-   "impact": "Dossier stratégique pour le développement du groupe en Italie ; à évoquer avec prudence auprès des clients sociétaires ou actionnaires, l'opération n'étant pas conclue.",
-   "source": "Zonebourse",
-   "url": "https://www.zonebourse.com/actualite-bourse/banco-bpm-pose-ses-conditions-a-credit-agricole-ce785edfd18af62d"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "Crédit conso : nouvelles règles dès demain, vendredi 20 novembre",
-   "resume": "Le paiement en 3 ou 4 fois, les mini-crédits et certains découverts entrent dans le cadre du crédit à la consommation, avec information précontractuelle et vérification de solvabilité renforcées.",
-   "impact": "Les demandes de crédit et de facilités de paiement demanderont plus de justificatifs ; prévenir les clients que les délais et les refus peuvent évoluer.",
-   "source": "Meilleurtaux",
-   "url": "https://www.meilleurtaux.com/credit-consommation/actualites/2026-novembre/credit-conso-les-regles-changent-des-le-20-novembre.html"
-  },
-  {
-   "tag": "Taux",
-   "titre": "Livret A : une hausse vers 2,6-2,7 % attendue au 1er février",
-   "resume": "Avec une inflation à 3,4 % sur un an en octobre, les projections placent le Livret A entre 2,60 % et 2,70 % (contre 1,70 %) et le LEP au moins à 3,20 %. Le taux sera fixé par le ministre sur recommandation de la Banque de France.",
-   "impact": "Question fréquente en agence : présenter ces chiffres comme des projections, pas comme des taux acquis, et vérifier l'éligibilité au LEP des clients modestes.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/livret-a/actualites/110315/taux-du-livret-a-et-du-lep-pourquoi-la-hausse-du-1er-fevrier-2027-sera-plus-importante-que-prevu"
-  },
-  {
-   "tag": "Taux",
-   "titre": "Crédit immobilier : les 4 % franchis pour certains profils",
-   "resume": "Les taux moyens relevés en novembre atteignent 3,56 % sur 15 ans, 3,76 % sur 20 ans et 3,85 % sur 25 ans, et dépassent 4 % sur 25 ans pour les revenus les plus modestes, dans le sillage de la remontée de l'OAT 10 ans.",
-   "impact": "Les capacités d'emprunt baissent : refaire les simulations des projets en cours et anticiper l'effet sur le taux d'endettement.",
-   "source": "Pretto",
-   "url": "https://www.pretto.fr/taux-immobilier/historique-taux-immobilier/2026/analyse-taux-immobilier-novembre-2026/"
-  },
-  {
-   "tag": "Politique",
-   "titre": "Le Sénat adopte le budget de la Sécurité sociale 2027 en première lecture",
-   "resume": "Les sénateurs ont voté mercredi le projet de loi de financement de la Sécurité sociale (201 voix contre 124) en modifiant la copie du gouvernement. Le texte n'est pas définitivement adopté : la navette parlementaire se poursuit.",
-   "impact": "Les mesures touchant les prélèvements sociaux sur l'épargne ne sont pas encore figées : attendre le texte final avant d'en parler comme d'un acquis.",
-   "source": "Touteleurope.eu",
-   "url": "https://www.touteleurope.eu/vie-politique-des-etats-membres/le-senat-adopte-le-budget-2027-de-la-securite-sociale-en-premiere-lecture/"
   }
  ],
  "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
