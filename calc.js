@@ -235,6 +235,97 @@
     return {lignes, brut: round2(brut), abattRP: round2(abattRP), dettes, obseques: OBS, net: round2(net), heritiers: h, regle, option, usufruitPct: u, totalDroits, benefAV};
   }
 
-  const C = {R, LIENS, usufruit, QD, succession, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
+  /* ===== Outils v3 ===== */
+  /* Frais de notaire (règles 2026). Émoluments : art. A444-91 C. com. ; DMTO : LF 2025 art. 116 (départements à 5 %, primo-accédants exclus de la hausse). */
+  const EMOL = [[6500, .03870], [17000, .01596], [60000, .01064], [Infinity, .00799]];
+  function notaire(o) {
+    const prix = Math.max(0, o.prix || 0), meubles = Math.min(prix, Math.max(0, o.meubles || 0)), base = prix - meubles;
+    let tauxDroits;
+    if (o.neuf) tauxDroits = 0.00715;
+    else tauxDroits = (o.dep45 || o.primo) ? 0.0580665 : 0.063185;
+    const droits = base * tauxDroits;
+    const emolHT = bareme(base, EMOL), emol = emolHT * 1.2;
+    const csi = Math.max(15, base * 0.001), debours = o.debours === undefined ? 1200 : o.debours;
+    const total = droits + emol + csi + debours;
+    return {base, tauxDroits, droits: round2(droits), emolHT: round2(emolHT), emolTVA: round2(emolHT * 0.2), emol: round2(emol), emolDetail: baremeDetail(base, EMOL), csi: round2(csi), debours: round2(debours), total: round2(total), pct: prix ? round2(total / prix * 100) : 0};
+  }
+  /* Tableau d'amortissement (mensualités constantes) */
+  function amortissement(capital, tauxAnnuel, annees, tauxAss, assSurCRD) {
+    const n = Math.round(annees * 12), r = tauxAnnuel / 100 / 12, M = r === 0 ? capital / n : capital * r / (1 - Math.pow(1 + r, -n));
+    let crd = capital, ans = [], cur = {annee: 1, interets: 0, capital: 0, assurance: 0}, totI = 0, totA = 0;
+    for (let m = 1; m <= n; m++) {
+      const i = crd * r, c = M - i, a = assSurCRD ? crd * (tauxAss || 0) / 100 / 12 : capital * (tauxAss || 0) / 100 / 12;
+      crd = Math.max(0, crd - c); cur.interets += i; cur.capital += c; cur.assurance += a; totI += i; totA += a;
+      if (m % 12 === 0 || m === n) { cur.crd = crd; ans.push(Object.fromEntries(Object.entries(cur).map(([k, v]) => [k, k === "annee" ? v : round2(v)]))); cur = {annee: cur.annee + 1, interets: 0, capital: 0, assurance: 0}; }
+    }
+    return {mensualite: round2(M), mensAss: round2(assSurCRD ? capital * (tauxAss || 0) / 1200 : capital * (tauxAss || 0) / 1200), interets: round2(totI), assurance: round2(totA), cout: round2(totI + totA), annees: ans};
+  }
+  /* Budget d'achat : prix maximum du logement */
+  function budgetAchat(o) {
+    const cap = capacite(o), pret = o.pretSouhaite > 0 ? Math.min(o.pretSouhaite, cap.capital) : cap.capital;
+    const garantie = pret * (o.tauxGarantie || 0) / 100, dispo = pret + (o.apport || 0) - garantie - (o.fraisDossier || 0);
+    let lo = 0, hi = dispo;
+    for (let k = 0; k < 60; k++) { const mid = (lo + hi) / 2; if (mid + notaire({prix: mid, neuf: o.neuf, primo: o.primo, dep45: o.dep45, debours: o.debours}).total <= dispo) lo = mid; else hi = mid; }
+    const prix = Math.floor(lo / 1000) * 1000, nt = notaire({prix, neuf: o.neuf, primo: o.primo, dep45: o.dep45, debours: o.debours});
+    return {cap, pret, garantie: round2(garantie), dispo: round2(dispo), prix, notaire: nt, marge: round2(dispo - prix - nt.total)};
+  }
+  /* Épargne régulière, intérêts capitalisés chaque mois */
+  function epargne(o) {
+    const n = Math.round(o.annees * 12), r = Math.pow(1 + (o.taux || 0) / 100, 1 / 12) - 1;
+    let cap = o.initial || 0, verse = o.initial || 0; const ans = [];
+    for (let m = 1; m <= n; m++) { cap = cap * (1 + r) + (o.mensuel || 0); verse += (o.mensuel || 0); if (m % 12 === 0) ans.push({annee: m / 12, verse: round2(verse), capital: round2(cap)}); }
+    return {capital: round2(cap), verse: round2(verse), gains: round2(cap - verse), annees: ans, tauxMensuel: r};
+  }
+  function objectifEpargne(o) {
+    const n = Math.round(o.annees * 12), r = Math.pow(1 + (o.taux || 0) / 100, 1 / 12) - 1, f = Math.pow(1 + r, n);
+    const futInit = (o.initial || 0) * f, reste = o.objectif - futInit;
+    const mensuel = reste <= 0 ? 0 : (r === 0 ? reste / n : reste * r / (f - 1));
+    return {mensuel: Math.ceil(mensuel), futInit: round2(futInit), reste: round2(reste), n};
+  }
+  /* Impôt sur le revenu 2026 (revenus 2025) */
+  const IR = {tranches: [[11600, 0], [29579, .11], [84577, .30], [181917, .41], [Infinity, .45]], plafondDemiPart: 1807, decoteSeul: 897, decoteCouple: 1483, decoteTaux: .4525};
+  function partsFiscales(couple, enfants) { let p = couple ? 2 : 1; for (let i = 1; i <= enfants; i++) p += i <= 2 ? .5 : 1; return p; }
+  function impotRevenu(o) {
+    const base = o.couple ? 2 : 1, parts = partsFiscales(o.couple, o.enfants || 0), R0 = Math.max(0, o.revenu);
+    const brutParts = bareme(R0 / parts, IR.tranches) * parts, brutBase = bareme(R0 / base, IR.tranches) * base;
+    const demi = (parts - base) * 2, avantage = brutBase - brutParts, plafond = demi * IR.plafondDemiPart;
+    const plafonne = avantage > plafond, apresQF = plafonne ? brutBase - plafond : brutParts;
+    const dPlaf = o.couple ? IR.decoteCouple : IR.decoteSeul, seuil = dPlaf / IR.decoteTaux;
+    const decote = apresQF > 0 && apresQF < seuil ? Math.min(apresQF, dPlaf - IR.decoteTaux * apresQF) : 0;
+    let net = Math.max(0, apresQF - decote); if (net < 61) net = 0;
+    const q = R0 / parts; let tmi = 0; for (const [lim, t] of IR.tranches) { tmi = t; if (q <= lim) break; }
+    return {parts, quotient: round2(q), detail: baremeDetail(q, IR.tranches), brutParts: Math.round(brutParts), brutBase: Math.round(brutBase), avantage: Math.round(avantage), plafond, plafonne, apresQF: Math.round(apresQF), decote: Math.round(decote), net: Math.round(net), tmi: tmi * 100, tauxMoyen: R0 ? round2(net / R0 * 100) : 0};
+  }
+  /* Fiscalité d'un gain selon l'enveloppe */
+  function enveloppes(o) {
+    const G = Math.max(0, o.gain), ab = o.couple ? R.AV_ABATT_COUPLE : R.AV_ABATT_SEUL;
+    const L = [
+      {id: "livret", nom: "Livret A, LDDS, LEP", impot: 0, detail: "Aucun impôt ni prélèvement social"},
+      {id: "pea5", nom: "PEA de plus de 5 ans", impot: G * R.PS_STD, detail: "Pas d'impôt, seulement 18,6 % de prélèvements sociaux"},
+      {id: "av8", nom: "Assurance vie de plus de 8 ans", impot: Math.max(0, G - ab) * R.AV_TAUX_8ANS + G * R.PS_AV, detail: "Abattement de " + ab.toLocaleString("fr-FR") + " € puis 7,5 % d'impôt, + 17,2 % de prélèvements sociaux"},
+      {id: "av", nom: "Assurance vie de moins de 8 ans", impot: G * (R.IR_PFU + R.PS_AV), detail: "12,8 % d'impôt + 17,2 % de prélèvements sociaux = 30 %"},
+      {id: "pel", nom: "PEL ou CEL ouvert depuis 2018", impot: G * R.PFU_LOGEMENT, detail: "12,8 % d'impôt + 17,2 % de prélèvements sociaux = 30 %"},
+      {id: "cto", nom: "Compte-titres ou PEA de moins de 5 ans", impot: G * R.PFU, detail: "Flat tax : 12,8 % d'impôt + 18,6 % de prélèvements sociaux = 31,4 %"}
+    ].map(x => Object.assign(x, {impot: round2(x.impot), net: round2(G - x.impot)}));
+    return L;
+  }
+  /* Remboursement anticipé partiel : réduire la durée ou la mensualité */
+  function rembPartiel(o) {
+    const r = o.taux / 100 / 12, n = Math.round(o.annees * 12), M = r === 0 ? o.crd / n : o.crd * r / (1 - Math.pow(1 + r, -n));
+    const crd2 = Math.max(0, o.crd - o.somme), avant = M * n;
+    const n2 = crd2 <= 0 ? 0 : r === 0 ? crd2 / M : -Math.log(1 - r * crd2 / M) / Math.log(1 + r);
+    const M2 = crd2 <= 0 ? 0 : r === 0 ? crd2 / n : crd2 * r / (1 - Math.pow(1 + r, -n));
+    const iraR = ira(o.somme, o.taux, o.crd);
+    return {mensualite: round2(M), crd2: round2(crd2), interetsAvant: round2(avant - o.crd),
+      duree: {mois: Math.ceil(n2), gagnes: n - Math.ceil(n2), economie: round2(avant - o.somme - M * n2)},
+      mens: {mensualite: round2(M2), baisse: round2(M - M2), economie: round2(avant - o.somme - M2 * n)}, ira: iraR};
+  }
+  /* Assurance emprunteur : banque vs délégation */
+  function assurance(o) {
+    const a = amortissement(o.capital, o.taux, o.annees, o.tauxA, o.crdA), b = amortissement(o.capital, o.taux, o.annees, o.tauxB, o.crdB);
+    return {coutA: a.assurance, coutB: b.assurance, economie: round2(a.assurance - b.assurance), mensA: round2(a.assurance / (o.annees * 12)), mensB: round2(b.assurance / (o.annees * 12))};
+  }
+
+  const C = {R, EMOL, IR, notaire, amortissement, budgetAchat, epargne, objectifEpargne, partsFiscales, impotRevenu, enveloppes, rembPartiel, assurance, LIENS, usufruit, QD, succession, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
   if (typeof module !== "undefined" && module.exports) module.exports = C; else root.Calc = C;
 })(typeof window !== "undefined" ? window : this);

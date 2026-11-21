@@ -380,6 +380,25 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .bien .inp input{padding:10px;font-size:16px;font-variant-numeric:tabular-nums;width:100%;background:transparent}
 .addbien{border:1.5px dashed var(--line);background:none;border-radius:12px;padding:11px;font-weight:600;color:var(--green)}
 .steps .op{white-space:pre-line}
+.tsearch{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--soft);margin-bottom:10px}
+.chips-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}
+.chipb{flex:none;font:inherit;font-size:13.5px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chipb[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.newb{flex:none;font-size:11px;font-weight:700;color:var(--green);background:var(--green-soft);border-radius:999px;padding:3px 8px;margin-left:auto}
+.explain{margin:12px 0 0;background:var(--blue-soft);border-color:transparent}.explain-b p{margin:0 0 10px;font-size:14.5px;line-height:1.5}
+.gloss{margin:0 0 14px;display:grid;gap:4px}.gloss dt{font-weight:700;font-size:14px;margin-top:8px}.gloss dd{margin:0;font-size:14px;color:var(--muted);line-height:1.45}
+.mots-t{margin-top:16px}.flabel{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.seg-f{display:flex;width:100%}.seg-f button{flex:1}
+.copybtn{margin-top:12px;width:100%}
+.hbars{display:flex;flex-direction:column;gap:10px;margin:14px 0 6px}.hb-l{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;margin-bottom:4px}.hb-l b{font-variant-numeric:tabular-nums}
+.hb-t{height:10px;background:var(--soft);border-radius:6px;overflow:hidden}.hb-t i{display:block;height:100%;border-radius:6px;background:var(--green)}.hb.best .hb-l span{font-weight:700}
+.vchart{margin-top:4px}.vbars{display:flex;align-items:flex-end;gap:2px;height:170px;border-bottom:1px solid var(--line)}
+.vb{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative}.vb-s{flex:1;display:flex;flex-direction:column-reverse;justify-content:flex-start}.vb-s i{display:block;width:100%}
+.vb small{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:24px;font-size:12.5px;color:var(--muted)}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.stackw{margin:14px 0 4px}.stackbar{display:flex;height:16px;border-radius:8px;overflow:hidden}.stackbar i{display:block;height:100%}.stackw .legend{margin-top:8px}
+.tscroll{overflow-x:auto;max-height:420px}.drop.inner{margin-top:18px}
+.tool-extra:empty{display:none}
 .htab{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums;margin-top:6px}
 .htab th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
 .htab td{text-align:right;white-space:nowrap;padding:8px 4px;border-bottom:1px solid var(--line)}
@@ -526,7 +545,10 @@ ul.plain.pieges li::marker{color:var(--bad)}
   .v-news .nlist .nitem{border:1px solid var(--line);box-shadow:none;border-radius:14px;padding:16px}
   /* Outil ouvert : infos à gauche, résultat et calcul à droite */
   .wrap.v-tools.detail{display:grid;grid-template-columns:minmax(360px,460px) minmax(0,1fr);column-gap:28px;row-gap:20px;align-items:start}
-  .wrap.v-tools.detail>.backbar,.wrap.v-tools.detail>.ptitle,.wrap.v-tools.detail>.ask,.wrap.v-tools.detail>.foot-note{grid-column:1/-1}
+  .wrap.v-tools.detail>.backbar,.wrap.v-tools.detail>.ptitle,.wrap.v-tools.detail>.ask,.wrap.v-tools.detail>.foot-note,.wrap.v-tools.detail>.explain{grid-column:1/-1}
+  .wrap.v-tools.detail>.explain{max-width:900px}
+  .wrap.v-tools.detail>.mots-t{grid-column:1}
+  .wrap.v-tools.detail>.tool-right{grid-row:span 3}
   .wrap.v-tools.detail>.ask{max-width:900px}
   .wrap.v-tools.detail>section{grid-column:1}
   .wrap.v-tools.detail>.tool-right{grid-column:2;position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto;padding:2px 4px 8px;margin:-2px -4px 0;scrollbar-width:thin}
@@ -829,52 +851,112 @@ function profileView(body){
 
 /* ---------- Outils (simulateurs) ---------- */
 const TOOL_GROUPS = [
-  ["Épargne", "g", ICON.percent, [["livret","Combien rapporte un livret ?","Livret A, LDDS, LEP, CEL, PEL, livret bancaire"],["quinz","Intérêts entre deux dates","La règle des quinzaines du Livret A"]]],
-  ["Assurance vie", "b", ICON.spark, [["rachat","Retrait d'assurance vie","Ce que le client touche vraiment"],["avdeces","Assurance vie au décès","Ce que paie chaque bénéficiaire"]]],
-  ["Transmission", "v", ICON.user, [["patri","Simulation de succession complète","Famille, biens, dettes, assurance vie : qui reçoit quoi"],["succ","Droits sur une somme","Donation ou succession, pour un seul héritier"]]],
-  ["Crédit", "o", ICON.chart, [["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable"],["ira","Pénalités de remboursement anticipé","6 mois d'intérêts, plafonnés à 3 % du restant dû"]]],
-  ["Retraite et assurances", "g", ICON.target, [["per","Économie d'impôt PER","Plafond, montant déductible, gain"],["bonus","Bonus-malus auto","Le nouveau coefficient"]]]
+  ["Acheter un logement", "o", ICON.house, [
+    ["budget","Quel logement peut-il s'offrir ?","Prix maximum, frais de notaire et prêt compris","achat budget prix maison appartement apport capacité emprunt immobilier"],
+    ["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable","capacité emprunt endettement hcsf 35 revenus prêt"],
+    ["mensu","Combien va-t-il payer par mois ?","Mensualité, coût total et tableau d'amortissement","mensualité crédit coût intérêts amortissement tableau prêt"],
+    ["notaire","Combien de frais de notaire ?","Ancien ou neuf, primo-accédant, détail des frais","notaire frais droits mutation dmto achat émoluments"],
+    ["assur","Changer d'assurance emprunteur","Ce que coûte le contrat et ce qu'on gagne à changer","assurance emprunteur délégation lemoine changer"],
+    ["remb","Rembourser une partie de son crédit","Réduire la durée ou la mensualité ?","remboursement anticipé partiel durée mensualité économie"],
+    ["ira","Pénalités de remboursement anticipé","6 mois d'intérêts, plafonnés à 3 % du restant dû","ira pénalités indemnités remboursement anticipé"]]],
+  ["Épargner et placer", "g", ICON.percent, [
+    ["livret","Combien rapporte un livret ?","Livret A, LDDS, LEP, CEL, PEL, livret bancaire","livret a ldds lep cel pel intérêts taux épargne"],
+    ["epargne","Épargner chaque mois : combien à la fin ?","Versements réguliers et intérêts composés","épargne mensuelle versement programmé intérêts composés capital"],
+    ["objectif","Combien mettre de côté par mois ?","Pour atteindre une somme à une date","objectif projet épargne mois atteindre"],
+    ["envel","Quel placement taxe le moins ?","Livret, PEA, assurance vie, compte-titres, PEL","fiscalité flat tax pfu pea assurance vie compte titres impôt gain comparer"],
+    ["quinz","Intérêts entre deux dates","La règle des quinzaines du Livret A","quinzaine livret a dates intérêts"],
+    ["inflation","Que vaudra son argent plus tard ?","L'effet de l'inflation sur le pouvoir d'achat","inflation pouvoir achat valeur"]]],
+  ["Impôts et retraite", "b", ICON.target, [
+    ["ir","Combien d'impôt sur le revenu ?","Parts, tranche marginale (TMI), décote","impôt revenu ir tmi tranche parts quotient familial décote"],
+    ["per","Économie d'impôt PER","Plafond, montant déductible, gain","per retraite déduction impôt"]]],
+  ["Assurance vie", "b", ICON.spark, [
+    ["rachat","Retrait d'assurance vie","Ce que le client touche vraiment","rachat retrait assurance vie fiscalité"],
+    ["avdeces","Assurance vie au décès","Ce que paie chaque bénéficiaire","décès bénéficiaire assurance vie 990 757"]]],
+  ["Transmission", "v", ICON.user, [
+    ["patri","Simulation de succession complète","Famille, biens, dettes, assurance vie : qui reçoit quoi","succession héritage décès enfants conjoint patrimoine notaire"],
+    ["succ","Droits sur une somme","Donation ou succession, pour un seul héritier","donation droits abattement succession"]]],
+  ["Assurances", "g", ICON.medal, [
+    ["bonus","Bonus-malus auto","Le nouveau coefficient","bonus malus auto voiture coefficient"]]]
 ];
-const TOOLS = TOOL_GROUPS.flatMap(g => g[3].map(t => ({id:t[0], t:t[1], d:t[2]})));
+const TOOLS = TOOL_GROUPS.flatMap(g => g[3].map(t => ({id:t[0], t:t[1], d:t[2], k:t[3] || "", g:g[0], col:g[1]})));
+const NEW_TOOLS = ["budget","mensu","notaire","assur","remb","epargne","objectif","envel","inflation","ir"];
+const INTENTS = [["Il achète un logement","Acheter un logement"],["Il veut épargner","Épargner et placer"],["Il paie trop d'impôts","Impôts et retraite"],["Il prépare sa transmission","Transmission"]];
+let toolQuery = "", toolIntent = null;
 const nf2 = new Intl.NumberFormat("fr-FR", {minimumFractionDigits:2, maximumFractionDigits:2}), nf3 = new Intl.NumberFormat("fr-FR", {minimumFractionDigits:3, maximumFractionDigits:3});
 const E = x => { const v = Math.round(x * 100) / 100; return (Number.isInteger(v) ? nf0 : nf2).format(v) + " €"; };
+const E0 = x => nf0.format(Math.round(x)) + " €";
 const P = x => nf.format(x) + " %";
 const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const dur = m => { const a = Math.floor(m / 12), r = m % 12; return (a ? a + (a > 1 ? " ans" : " an") : "") + (a && r ? " et " : "") + (r ? r + " mois" : ""); };
 function field(id, label, value, o){ o = o || {};
   const i = h("input", {id, type:"text", inputmode:"decimal", value:nf.format(value), autocomplete:"off"});
   i.addEventListener("blur", () => { const n = parseNum(i.value); if (!isNaN(n)) i.value = nf.format(n); });
+  i.addEventListener("focus", () => setTimeout(() => i.select(), 0));
   const wrap = h("div", {class:"inp"}, i, o.suf ? h("span", null, o.suf) : null);
   const el = h("div", {class:"field"}, h("label", {for:id}, label), wrap, o.hint ? h("small", null, o.hint) : null);
-  return {el, get:() => { const n = parseNum(i.value); return isNaN(n) ? 0 : n; }, input:i}; }
+  return {el, get:() => { const n = parseNum(i.value); return isNaN(n) ? 0 : n; }, input:i, set(v){ i.value = nf.format(v); }}; }
 function select(id, label, opts, value, o){ o = o || {};
   const s = h("select", {id}, opts.map(x => h("option", {value:x[0], selected: x[0] === value ? true : null}, x[1])));
   return {el:h("div", {class:"field"}, h("label", {for:id}, label), s, o.hint ? h("small", null, o.hint) : null), get:() => s.value, input:s, set(opts2, v){ s.replaceChildren(...opts2.map(x => h("option", {value:x[0], selected: x[0] === v ? true : null}, x[1]))); }}; }
 function checkbox(id, label, val){ const c = h("input", {id, type:"checkbox", checked: val ? true : null}); return {el:h("label", {class:"check", for:id}, c, h("span", null, label)), get:() => c.checked, input:c}; }
+function seg(id, label, opts, value){ let v = value; const wrap = h("div", {class:"seg seg-f", role:"group", "aria-label":label});
+  const draw = () => wrap.replaceChildren(...opts.map(([k, l]) => h("button", {type:"button", "aria-pressed": v === k ? "true" : "false", onclick:() => { v = k; draw(); wrap.dispatchEvent(new Event("change", {bubbles:true})); }}, l)));
+  draw(); return {el:h("div", {class:"field"}, h("span", {class:"flabel"}, label), wrap), get:() => v}; }
 function line(label, value, main){ return h("div", {class:"line" + (main ? " main" : "")}, h("span", null, label), h("b", null, value)); }
+/* Graphiques simples */
+function hbars(items, fmt){ const max = Math.max(1, ...items.map(x => x.v));
+  return h("div", {class:"hbars"}, ...items.map(x => h("div", {class:"hb" + (x.best ? " best" : "")}, h("div", {class:"hb-l"}, h("span", null, x.l), h("b", null, fmt(x.v))), h("div", {class:"hb-t"}, h("i", {style:"width:" + Math.max(x.v ? 1.5 : 0, x.v / max * 100) + "%;" + (x.c ? "background:" + x.c : "")}))))); }
+function vbars(cols, legend){ const max = Math.max(1, ...cols.map(c => c.parts.reduce((a, p) => a + p.v, 0)));
+  return h("div", {class:"vchart"}, h("div", {class:"vbars"}, ...cols.map(c => h("div", {class:"vb", title:c.t || ""}, h("div", {class:"vb-s"}, ...c.parts.map(p => h("i", {style:"height:" + (p.v / max * 100) + "%;background:" + p.c}))), h("small", null, c.l)))),
+    legend ? h("div", {class:"legend"}, ...legend.map(([c, l]) => h("span", null, h("i", {style:"background:" + c}), l))) : null); }
+function stack(parts){ const tot = parts.reduce((a, p) => a + p.v, 0) || 1;
+  return h("div", {class:"stackw"}, h("div", {class:"stackbar"}, ...parts.map(p => h("i", {style:"width:" + (p.v / tot * 100) + "%;background:" + p.c, title:p.l}))),
+    h("div", {class:"legend"}, ...parts.map(p => h("span", null, h("i", {style:"background:" + p.c}), p.l + " · " + E0(p.v))))); }
+const COL = {g:"var(--green)", b:"var(--blue)", v:"var(--violet)", o:"var(--gold)", t:"var(--teal)", r:"var(--bad)", l:"#C9D3CE"};
 function toolsView(body){
   if (!toolOpen){
-    body.append(pageTitle("Outils", "Choisis la question de ton client : l'outil donne le résultat et t'explique le calcul."));
-    TOOL_GROUPS.forEach(([g, col, icon, items]) => body.append(block(icon, col, g, null, ...items.map(t => row(ICON.calc, col, t[1], t[2], () => { toolOpen = t[0]; render(); window.scrollTo(0, 0); })))));
-    body.append(h("p", {class:"foot-note"}, "Règles au " + DATA.meta.maj + ". Ordres de grandeur, pas un document contractuel."));
+    body.append(pageTitle("Outils", "Choisis la question de ton client. L'outil donne le résultat, explique le calcul et te souffle la phrase à dire."));
+    const q = h("input", {type:"search", class:"tsearch", placeholder:"Chercher : notaire, impôt, mensualité, livret…", value:toolQuery, "aria-label":"Chercher un outil"});
+    const list = h("div", {class:"tlist"});
+    const chips = h("div", {class:"chips-row"}, h("button", {class:"chipb", "aria-pressed": toolIntent ? "false" : "true", onclick:() => { toolIntent = null; render(); }}, "Tout"),
+      ...INTENTS.map(([l, g]) => h("button", {class:"chipb", "aria-pressed": toolIntent === g ? "true" : "false", onclick:() => { toolIntent = g; toolQuery = ""; render(); }}, l)));
+    const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    const draw = () => { const Q = norm(toolQuery.trim()); list.replaceChildren();
+      const open = id => { toolOpen = id; render(); window.scrollTo(0, 0); };
+      if (Q){ const hits = TOOLS.filter(t => norm(t.t + " " + t.d + " " + t.k + " " + t.g).includes(Q));
+        list.append(block(ICON.calc, "g", hits.length + " outil" + (hits.length > 1 ? "s" : ""), null, ...(hits.length ? hits.map(t => row(ICON.calc, t.col, t.t, t.d, () => open(t.id), NEW_TOOLS.includes(t.id) ? h("span", {class:"newb"}, "Nouveau") : null)) : [h("p", {class:"muted"}, "Aucun outil ne correspond. Essaie un autre mot.")]))); return; }
+      TOOL_GROUPS.filter(g => !toolIntent || g[0] === toolIntent).forEach(([g, col, icon, items]) => list.append(block(icon, col, g, items.length + " outil" + (items.length > 1 ? "s" : ""), ...items.map(t => row(ICON.calc, col, t[1], t[2], () => open(t[0]), NEW_TOOLS.includes(t[0]) ? h("span", {class:"newb"}, "Nouveau") : null))))); };
+    q.addEventListener("input", () => { toolQuery = q.value; draw(); });
+    body.append(q, chips, list); draw();
+    body.append(h("p", {class:"foot-note"}, TOOLS.length + " outils · règles au " + DATA.meta.maj + ". Ordres de grandeur, pas un document contractuel."));
     return;
   }
-  const T = TOOLS.find(t => t.id === toolOpen), SP = TOOL_SPECS[toolOpen];
-  body.append(h("div", {class:"backbar"}, h("button", {class:"iconbtn", "aria-label":"Retour aux outils", onclick:() => { toolOpen = null; render(); }}, svg(ICON.back)), h("span", null, "Outils")));
+  const T = TOOLS.find(t => t.id === toolOpen), SP = TOOL_SPECS[toolOpen], X = TOOL_EXTRA[toolOpen] || {};
+  body.append(h("div", {class:"backbar"}, h("button", {class:"iconbtn", "aria-label":"Retour aux outils", onclick:() => { toolOpen = null; render(); }}, svg(ICON.back)), h("span", null, "Outils · " + T.g)));
   body.append(pageTitle(T.t, null));
   body.append(h("div", {class:"ask"}, h("small", null, "Ton client te demande"), h("p", null, "« " + SP.q + " »")));
-  const form = h("div", {class:"form"}), res = h("div", {class:"res", "aria-live":"polite"}), steps = h("ol", {class:"steps"}), say = h("div", {class:"say"});
+  if (X.ex) body.append(h("details", {class:"drop explain", open: S.toolsSeen && S.toolsSeen[toolOpen] ? null : true}, h("summary", null, "C'est quoi, en deux mots ?"), h("div", {class:"explain-b"}, ...X.ex.map(p => h("p", null, p)))));
+  S.toolsSeen = S.toolsSeen || {}; S.toolsSeen[toolOpen] = 1; save();
+  const form = h("div", {class:"form"}), res = h("div", {class:"res", "aria-live":"polite"}), steps = h("ol", {class:"steps"}), say = h("div", {class:"say"}), extra = h("div", {class:"tool-extra"});
   body.append(block(ICON.user, "b", "1. Les infos à demander", null, form),
-    h("div", {class:"tool-right"}, block(ICON.target, "g", "2. Le résultat", null, res),
+    h("div", {class:"tool-right"}, block(ICON.target, "g", "2. Le résultat", null, res), extra,
       block(ICON.calc, "v", "3. Le calcul expliqué", "étape par étape", steps),
       block(ICON.chat, "o", "4. Ce que tu peux dire au client", null, say)));
-  const upd = SP.build(form);
-  const run = () => { const r = upd();
-    if (r.err){ res.replaceChildren(h("p", {class:"res-err"}, r.err)); steps.replaceChildren(); say.replaceChildren(h("p", {class:"muted"}, "Complète les infos ci-dessus.")); return; }
-    res.replaceChildren(...[h("span", {class:"res-label"}, r.label), h("b", {class:"res-val"}, r.value), r.sub ? h("p", {class:"res-sub"}, r.sub) : null, ...(r.lines || []).map(l => line(l[0], l[1])), r.table || null].filter(Boolean));
+  const upd = SP.build(form); let last = null;
+  const run = () => { const r = upd(); last = r;
+    if (r.err){ res.replaceChildren(h("p", {class:"res-err"}, r.err)); steps.replaceChildren(); extra.replaceChildren(); say.replaceChildren(h("p", {class:"muted"}, "Complète les infos ci-dessus.")); return; }
+    res.replaceChildren(...[h("span", {class:"res-label"}, r.label), h("b", {class:"res-val"}, r.value), r.sub ? h("p", {class:"res-sub"}, r.sub) : null, r.chart || null, ...(r.lines || []).map(l => line(l[0], l[1])), r.table || null].filter(Boolean));
+    extra.replaceChildren(...(r.blocks || []));
     steps.replaceChildren(...r.steps.map(s => h("li", null, h("b", null, s[0]), s[1] ? h("div", {class:"op"}, s[1]) : null, s[2] ? h("p", null, s[2]) : null)));
-    say.replaceChildren(...[h("p", {class:"quote"}, r.say), r.warn ? h("p", {class:"warn"}, r.warn) : null].filter(Boolean)); };
+    const copy = h("button", {class:"ghost copybtn", type:"button", onclick:() => {
+      const txt = [T.t, r.label + " : " + r.value, r.sub || "", ...(r.lines || []).map(l => l[0] + " : " + l[1]), "", r.say, r.warn ? "\n" + r.warn : "", "\nSimulation indicative (Learn JC), à confirmer."].filter(x => x !== null).join("\n");
+      (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast("Résumé copié"), () => toast("Copie impossible sur cet appareil")); }}, "Copier le résumé");
+    say.replaceChildren(...[h("p", {class:"quote"}, r.say), r.warn ? h("p", {class:"warn"}, r.warn) : null, copy].filter(Boolean)); };
   form.addEventListener("input", run); form.addEventListener("change", run); run();
+  if (X.mots) body.append(h("details", {class:"drop mots-t"}, h("summary", null, "Les mots à connaître (" + X.mots.length + ")"), h("dl", {class:"gloss"}, ...X.mots.flatMap(([m, d]) => [h("dt", null, m), h("dd", null, d)]))));
   if (SP.note) body.append(h("p", {class:"foot-note"}, SP.note));
+  const others = TOOLS.filter(t => t.g === T.g && t.id !== T.id).slice(0, 4);
+  if (others.length) body.append(block(ICON.calc, T.col, "Autres outils · " + T.g, null, ...others.map(t => row(ICON.calc, t.col, t.t, t.d, () => { toolOpen = t.id; render(); window.scrollTo(0, 0); }))));
 }
 const TOOL_SPECS = {
   patri:{ q:"Si je décède, qui hérite de quoi, et combien chacun paiera de droits ?",
@@ -1163,6 +1245,238 @@ const TOOL_SPECS = {
           say:"Votre coefficient passera à " + f2(k) + ", soit un " + lab + ". Votre prime d'assurance est calculée en multipliant le tarif de base par ce coefficient."}; };
     }}
 };
+const TOOL_EXTRA = {
+  budget:{ex:["Pour acheter, le client a deux sources d'argent : son apport (ce qu'il a déjà) et le prêt de la banque.","Mais tout ne sert pas à payer le logement : il faut aussi payer le notaire et la garantie du prêt. L'outil cherche le prix le plus élevé qui laisse de quoi régler tous ces frais."],
+    mots:[["Apport","L'argent que le client met lui-même dans le projet, sans emprunter."],["Frais de notaire","Surtout des taxes pour l'État et le département, plus la rémunération du notaire. Environ 8 % du prix dans l'ancien, 2 à 3 % dans le neuf."],["Garantie","Ce qui protège la banque si le client ne rembourse plus : une caution (organisme qui se porte garant) ou une hypothèque. Elle a un coût."],["Primo-accédant","Personne qui n'a pas été propriétaire de sa résidence principale depuis 2 ans."]]},
+  credit:{ex:["La banque ne prête pas « à l'infini » : toutes les mensualités de crédit d'un foyer, assurance comprise, ne doivent pas dépasser 35 % de ses revenus nets.","À partir de cette mensualité maximum, on retrouve combien on peut emprunter selon la durée et le taux."],
+    mots:[["Taux d'endettement","La part des revenus qui part chaque mois dans les crédits."],["HCSF","Haut Conseil de stabilité financière : il fixe la règle des 35 % et la durée maximum de 25 ans."],["Reste à vivre","Ce qu'il reste au foyer chaque mois une fois les crédits payés."]]},
+  mensu:{ex:["Une mensualité de crédit mélange deux choses : des intérêts (le prix de l'argent prêté) et du capital (la part qui rembourse vraiment la dette).","Au début, on paie surtout des intérêts. Plus on avance, plus la mensualité rembourse du capital. C'est le tableau d'amortissement."],
+    mots:[["Capital","La somme empruntée."],["Intérêts","Ce que coûte l'emprunt : le loyer de l'argent."],["Capital restant dû","Ce que le client doit encore à la banque à une date donnée."],["Tableau d'amortissement","Le planning de remboursement, mois par mois."],["Coût du crédit","Tout ce que le client paie en plus de la somme empruntée : intérêts et assurance."]]},
+  notaire:{ex:["Les « frais de notaire » sont en réalité surtout des impôts : les droits de mutation, versés au département et à la commune.","Le notaire ne garde qu'environ 10 à 15 % du total. Dans le neuf, les droits sont très réduits, donc les frais tombent à 2 ou 3 % du prix."],
+    mots:[["Droits de mutation (DMTO)","La taxe payée quand un bien change de propriétaire. La plus grosse partie des frais."],["Émoluments","La rémunération du notaire, fixée par un barème officiel."],["Débours","Ce que le notaire avance pour le client (documents d'urbanisme, cadastre…) et se fait rembourser."],["Contribution de sécurité immobilière","Petite taxe de 0,10 % pour l'enregistrement de la vente."],["Meubles","Cuisine équipée, électroménager… S'ils sont listés à part dans l'acte, ils ne sont pas taxés."]]},
+  assur:{ex:["L'assurance emprunteur rembourse le crédit si le client décède ou ne peut plus travailler. Elle est presque toujours exigée.","Depuis la loi Lemoine, le client peut en changer à tout moment, sans frais, si le nouveau contrat offre des garanties équivalentes. L'écart de prix peut être énorme."],
+    mots:[["Délégation d'assurance","Prendre une assurance ailleurs que dans la banque qui prête."],["Sur capital initial","La cotisation reste la même pendant tout le prêt."],["Sur capital restant dû","La cotisation baisse au fil du temps, car la dette baisse."],["Équivalence de garanties","Le nouveau contrat doit protéger au moins aussi bien que l'ancien."]]},
+  remb:{ex:["Quand le client rembourse une partie de son crédit en avance, il doit moins d'argent à la banque. Il a alors deux choix :","garder la même mensualité et finir plus tôt, ou garder la même date de fin et payer moins chaque mois. Le premier fait presque toujours économiser plus d'intérêts."],
+    mots:[["Remboursement anticipé partiel","Rembourser une partie du crédit avant la date prévue."],["IRA","Indemnités de remboursement anticipé : les pénalités que la banque peut demander."],["Durée restante","Le temps qu'il reste avant la fin du crédit."]]},
+  ira:{ex:["Si le client rembourse son crédit immobilier en avance, la banque perd des intérêts qu'elle comptait toucher. La loi l'autorise à demander une compensation, mais plafonnée."],mots:[["IRA","Indemnités de remboursement anticipé."],["Capital restant dû","Ce que le client doit encore à la banque."]]},
+  livret:{ex:["Un livret est un compte d'épargne : l'argent reste disponible et rapporte des intérêts chaque année.","Les livrets réglementés (Livret A, LDDS, LEP) ne sont pas imposés. Les autres le sont : on enlève l'impôt pour savoir ce que le client gagne vraiment."],mots:[["Taux brut","Le taux affiché, avant impôt."],["Taux net","Ce que le client touche vraiment après impôts."],["Flat tax","Impôt forfaitaire sur les revenus de l'épargne : 31,4 % en 2026 (30 % pour l'épargne logement)."],["Plafond","Le montant maximum qu'on peut verser sur le livret."]]},
+  epargne:{ex:["Mettre un peu de côté chaque mois, c'est la base de l'épargne. Les intérêts gagnés rapportent eux aussi des intérêts : ce sont les intérêts composés.","Plus on commence tôt, plus cet effet « boule de neige » est fort."],mots:[["Intérêts composés","Les intérêts s'ajoutent au capital et rapportent à leur tour."],["Rendement","Ce que rapporte un placement en un an, en %."],["Versement programmé","Un virement automatique chaque mois vers l'épargne."]]},
+  objectif:{ex:["Le client a un projet : un apport pour acheter, un voyage, les études des enfants… L'outil calcule combien il doit mettre de côté chaque mois pour y arriver à temps, en tenant compte des intérêts."]},
+  envel:{ex:["Pour un même gain, l'impôt change complètement selon l'endroit où l'argent est placé. C'est ce qu'on appelle l'enveloppe fiscale.","Le Livret A n'est pas taxé, l'assurance vie devient très avantageuse après 8 ans, le PEA après 5 ans. Le compte-titres est le plus taxé."],
+    mots:[["Enveloppe","Le « contenant » du placement : livret, assurance vie, PEA, compte-titres… Chacun a sa fiscalité."],["Prélèvements sociaux","Une taxe sur les gains de l'épargne qui finance la Sécurité sociale : 17,2 % ou 18,6 % selon le placement."],["PFU ou flat tax","12,8 % d'impôt + les prélèvements sociaux."],["Abattement","Une part du gain qui n'est pas imposée : 4 600 € par an pour une personne seule en assurance vie de plus de 8 ans, 9 200 € pour un couple."]]},
+  quinz:{ex:["Sur le Livret A, on ne compte pas les intérêts au jour près mais par quinzaine : du 1er au 15 et du 16 à la fin du mois.","Un versement rapporte à partir de la quinzaine suivante ; un retrait arrête de rapporter dès le début de sa quinzaine."]},
+  inflation:{ex:["Quand les prix montent, un même billet permet d'acheter moins de choses : c'est l'inflation.","Un placement ne fait vraiment gagner de l'argent que s'il rapporte plus que l'inflation."],mots:[["Inflation","La hausse moyenne des prix sur un an."],["Pouvoir d'achat","Ce qu'on peut acheter avec une somme d'argent."],["Rendement réel","Le rendement du placement moins l'inflation."]]},
+  ir:{ex:["L'impôt sur le revenu se calcule par tranches : chaque tranche du revenu est taxée à son propre taux. On ne paie pas le même taux sur tout son revenu.","Pour tenir compte de la famille, on divise d'abord le revenu par le nombre de parts, on applique le barème, puis on remultiplie."],
+    mots:[["Revenu net imposable","Le revenu sur lequel l'impôt est calculé, après l'abattement de 10 % sur les salaires. Il est écrit sur l'avis d'impôt."],["Parts fiscales","1 par adulte, 0,5 pour chacun des 2 premiers enfants, 1 à partir du 3e."],["TMI","Tranche marginale d'imposition : le taux de la tranche la plus haute atteinte. C'est le taux qui compte pour le PER."],["Taux moyen","L'impôt divisé par le revenu : ce que le client paie vraiment en %."],["Décote","Une réduction d'impôt pour les foyers modestes."]]},
+  per:{ex:["Le PER est une épargne pour la retraite. Ce que le client y verse est déduit de son revenu imposable, donc il paie moins d'impôt tout de suite.","En contrepartie, l'argent est bloqué jusqu'à la retraite (sauf cas comme l'achat de la résidence principale), et il sera imposé à la sortie."],mots:[["TMI","Tranche marginale d'imposition : le taux auquel est taxé le dernier euro gagné."],["Plafond","Le montant maximum déductible chaque année."]]},
+  rachat:{ex:["Quand le client retire de l'argent de son assurance vie, il récupère en partie ce qu'il a versé et en partie des gains. Seuls les gains sont imposés."],mots:[["Rachat","Un retrait d'argent sur une assurance vie."],["Gains","Ce que le contrat a rapporté en plus des versements."]]},
+  avdeces:{ex:["Au décès, l'assurance vie est versée directement aux bénéficiaires choisis, hors succession. Elle profite d'abattements importants, surtout pour les versements faits avant 70 ans."],mots:[["Bénéficiaire","La personne qui reçoit l'argent au décès."],["Clause bénéficiaire","La phrase du contrat qui dit qui reçoit l'argent."]]},
+  patri:{ex:["Au décès, les biens du défunt sont partagés entre ses héritiers selon la loi, sauf testament. Chaque héritier paie ensuite des droits selon son lien de parenté.","Le conjoint marié ou pacsé ne paie jamais de droits. Les enfants ont 100 000 € d'abattement chacun."],mots:[["Usufruit","Le droit d'utiliser un bien ou d'en toucher les revenus (y habiter, le louer)."],["Nue-propriété","Être propriétaire sans pouvoir utiliser le bien ; on récupère l'usufruit plus tard."],["Abattement","Montant reçu sans payer de droits."],["Quotité disponible","La part que le défunt peut donner à qui il veut."]]},
+  succ:{ex:["Quand on donne ou qu'on transmet de l'argent, celui qui reçoit paie des droits, après un abattement qui dépend du lien de parenté. Plus le lien est proche, moins on paie."]},
+  bonus:{ex:["Le bonus-malus récompense les conducteurs sans accident responsable (−5 % par an) et pénalise ceux qui en ont (+25 % par accident responsable). Le coefficient multiplie le prix de base de l'assurance."]}
+};
+const TOOL_SPECS_V3 = {
+  budget:{ q:"Avec mes revenus et mon apport, je peux acheter à combien ?",
+    note:"Estimation : frais de notaire calculés avec les règles 2026 (droits de mutation à 5 % dans la plupart des départements, dont l'Ille-et-Vilaine). Le coût de la garantie et les frais de dossier sont à confirmer pour chaque dossier. La banque regarde aussi le reste à vivre, la stabilité des revenus et l'épargne restante.",
+    build(form){
+      const sec = t => h("div", {class:"fsec"}, t);
+      const rv = field("bu-rv", "Revenus nets mensuels du foyer", 4000, {suf:"€", hint:"Salaires de tous les acheteurs, avant impôt."}), ac = field("bu-ac", "Crédits en cours, par mois", 0, {suf:"€"});
+      const ap = field("bu-ap", "Apport", 30000, {suf:"€", hint:"Épargne que le client met dans le projet."});
+      const du = field("bu-du", "Durée du prêt", 25, {suf:"ans"}), tx = field("bu-tx", "Taux du prêt", 3.4, {suf:"%"}), ta = field("bu-ta", "Taux de l'assurance", 0.3, {suf:"% / an"});
+      const ty = seg("bu-ty", "Type de logement", [["ancien","Ancien"],["neuf","Neuf"]], "ancien"), pr = checkbox("bu-pr", "Primo-accédant (pas propriétaire de sa résidence principale depuis 2 ans)", true);
+      const ga = field("bu-ga", "Coût de la garantie", 1.2, {suf:"% du prêt", hint:"Caution ou hypothèque : souvent autour de 1 à 1,5 % du prêt. À vérifier."}), fd = field("bu-fd", "Frais de dossier", 500, {suf:"€"});
+      form.append(sec("Le foyer"), rv.el, ac.el, ap.el, sec("Le prêt"), du.el, tx.el, ta.el, sec("Le logement"), ty.el, pr.el, ga.el, fd.el);
+      return () => { if (!(rv.get() > 0)) return {err:"Indique les revenus du foyer."};
+        const neuf = ty.get() === "neuf"; pr.el.hidden = neuf;
+        const d = Math.min(30, Math.max(1, Math.round(du.get())));
+        const x = C.budgetAchat({revenus:rv.get(), autresCredits:ac.get(), taux:tx.get(), annees:d, tauxAssurance:ta.get(), apport:ap.get(), tauxGarantie:ga.get(), fraisDossier:fd.get(), neuf, primo:!neuf && pr.get()});
+        if (x.cap.mensualiteMax <= 0) return {err:"Les crédits en cours dépassent déjà 35 % des revenus."};
+        if (x.prix <= 0) return {err:"Le budget ne suffit pas à couvrir les frais."};
+        const nt = x.notaire, totalFrais = nt.total + x.garantie + fd.get(), mens = C.mensualite(x.pret, tx.get(), d), ass = x.pret * ta.get() / 1200;
+        const chart = stack([{v:x.prix, c:COL.g, l:"Logement"}, {v:nt.total, c:COL.o, l:"Notaire"}, {v:x.garantie + fd.get(), c:COL.v, l:"Garantie et dossier"}]);
+        const st = [["Ce qu'il peut rembourser chaque mois", E(rv.get()) + " × 35 %" + (ac.get() ? " − " + E(ac.get()) : "") + " = " + E(x.cap.mensualiteMax), "Règle des 35 % : tous les crédits, assurance comprise."],
+          ["Ce que la banque peut lui prêter", E(x.pret), "Sur " + d + " ans à " + P(tx.get()) + ", avec " + P(ta.get()) + " d'assurance. Voir l'outil « Combien peut-il emprunter ? » pour le détail."],
+          ["L'argent disponible pour le projet", E(x.pret) + " de prêt + " + E(ap.get()) + " d'apport − " + E(x.garantie) + " de garantie − " + E(fd.get()) + " de dossier = " + E(x.dispo)],
+          ["Le prix qui laisse de quoi payer le notaire", E0(x.prix) + " + " + E(nt.total) + " de notaire = " + E(x.prix + nt.total), "On cherche le prix le plus haut possible tel que prix + notaire ≤ l'argent disponible. Arrondi au millier inférieur."],
+          ["Les frais de notaire", nf.format(nt.pct) + " % du prix", neuf ? "Dans le neuf, les droits de mutation sont réduits à 0,715 %." : (pr.get() ? "Primo-accédant : droits à 5,81 %, sans la hausse de 2025." : "Droits de mutation à 6,32 % (département à 5 %).")]];
+        const apportOk = ap.get() >= totalFrais;
+        return {label:"Prix maximum du logement", value:E0(x.prix), sub:"Avec " + E0(x.pret) + " de prêt et " + E0(ap.get()) + " d'apport. Mensualité d'environ " + E0(mens + ass) + " assurance comprise.", chart,
+          lines:[["Frais de notaire", E0(nt.total)], ["Garantie et frais de dossier", E0(x.garantie + fd.get())], ["Coût total du projet", E0(x.prix + totalFrais)], ["Mensualité (crédit + assurance)", E0(mens + ass)]], steps:st,
+          say:"Avec vos revenus et " + E0(ap.get()) + " d'apport, vous pouvez viser un logement " + (neuf ? "neuf" : "ancien") + " jusqu'à environ " + E0(x.prix) + ". Il faut prévoir " + E0(nt.total) + " de frais de notaire et une mensualité d'environ " + E0(mens + ass) + " sur " + d + " ans.",
+          warn: !apportOk ? "L'apport (" + E0(ap.get()) + ") ne couvre pas les frais (" + E0(totalFrais) + ") : beaucoup de banques demandent au moins que l'apport paie les frais. Dossier à défendre." : null}; };
+    }},
+  mensu:{ q:"Si j'emprunte cette somme, combien je vais payer par mois, et combien ça me coûte au total ?",
+    note:"Prêt à taux fixe, mensualités constantes. Hors frais de dossier et de garantie.",
+    build(form){
+      const k = field("m-k", "Somme empruntée", 200000, {suf:"€"}), du = field("m-du", "Durée", 25, {suf:"ans"}), tx = field("m-tx", "Taux du prêt", 3.4, {suf:"%"});
+      const ta = field("m-ta", "Taux de l'assurance", 0.3, {suf:"% / an", hint:"Mettre 0 pour voir le crédit seul."}), mo = seg("m-mo", "Assurance calculée sur", [["init","Capital emprunté"],["crd","Capital restant dû"]], "init");
+      form.append(k.el, du.el, tx.el, ta.el, mo.el);
+      return () => { const K = k.get(), d = Math.min(35, Math.max(1, Math.round(du.get()))); if (!(K > 0)) return {err:"Indique la somme empruntée."};
+        const a = C.amortissement(K, tx.get(), d, ta.get(), mo.get() === "crd"), ass1 = a.annees[0].assurance / 12;
+        const cols = a.annees.map(y => ({l: y.annee % 5 === 0 || y.annee === 1 ? String(y.annee) : "", t:"Année " + y.annee, parts:[{v:y.capital, c:COL.g}, {v:y.interets, c:COL.o}, {v:y.assurance, c:COL.v}]}));
+        const tbl = h("div", {class:"tscroll"}, h("table", {class:"htab"}, h("thead", null, h("tr", null, ...["Année","Intérêts","Capital remboursé","Assurance","Reste dû"].map(x => h("th", null, x)))),
+          h("tbody", null, ...a.annees.map(y => h("tr", null, h("td", null, String(y.annee)), h("td", null, E0(y.interets)), h("td", null, E0(y.capital)), h("td", null, E0(y.assurance)), h("td", null, E0(y.crd)))))));
+        const r = tx.get() / 1200, n = d * 12, i1 = K * r;
+        return {label:"Mensualité, assurance comprise", value:E(a.mensualite + ass1), sub:E(a.mensualite) + " de crédit + " + E(ass1) + " d'assurance" + (mo.get() === "crd" ? " la 1re année (elle baisse ensuite)" : "") + ".",
+          lines:[["Total des intérêts", E0(a.interets)], ["Total de l'assurance", E0(a.assurance)], ["Coût total du crédit", E0(a.cout)], ["Total remboursé", E0(K + a.cout)]],
+          blocks:[block(ICON.chart, "g", "Année par année", "ce que paie le client", vbars(cols, [[COL.g, "Capital remboursé"], [COL.o, "Intérêts"], [COL.v, "Assurance"]]), h("details", {class:"drop inner"}, h("summary", null, "Voir le tableau d'amortissement"), tbl))],
+          steps:[["Le taux de chaque mois", P(tx.get()) + " ÷ 12 = " + new Intl.NumberFormat("fr-FR", {maximumFractionDigits:4}).format(tx.get() / 12) + " % par mois", "Sur " + n + " mois (" + d + " ans)."],
+            ["La mensualité du crédit", "Capital × taux mensuel ÷ (1 − (1 + taux mensuel) puissance −" + n + ") = " + E(a.mensualite), "C'est la formule des mensualités constantes : le client paie la même somme chaque mois, et la dette est remboursée pile au dernier mois."],
+            ["Le 1er mois", E(K) + " × " + P(tx.get()) + " ÷ 12 = " + E(i1) + " d'intérêts", "Le reste de la mensualité, " + E(a.mensualite - i1) + ", rembourse le capital. Chaque mois, la dette baisse, donc les intérêts aussi."],
+            ["L'assurance", mo.get() === "crd" ? "Capital restant dû × " + P(ta.get()) + " ÷ 12, chaque mois" : E(K) + " × " + P(ta.get()) + " ÷ 12 = " + E(ass1) + " par mois", mo.get() === "crd" ? "Elle diminue avec la dette." : "Elle reste la même pendant tout le prêt."],
+            ["Le coût total", E0(a.interets) + " d'intérêts + " + E0(a.assurance) + " d'assurance = " + E0(a.cout), "Ce que le crédit coûte en plus de la somme empruntée."]],
+          say:"Pour " + E0(K) + " sur " + d + " ans à " + P(tx.get()) + ", vous rembourserez " + E(a.mensualite + ass1) + " par mois, assurance comprise. Le crédit vous coûtera au total " + E0(a.cout) + ", dont " + E0(a.interets) + " d'intérêts."}; };
+    }},
+  notaire:{ q:"Combien je vais payer de frais de notaire ?",
+    note:"Barème des notaires 2026 et droits de mutation 2026. Département à 5 % : la grande majorité, dont l'Ille-et-Vilaine (hausse autorisée jusqu'au 31 mars 2028). Le notaire peut accorder une remise sur ses émoluments au-delà de 100 000 €. Les débours varient : demander le devis du notaire.",
+    build(form){
+      const p = field("n-p", "Prix du logement", 250000, {suf:"€", hint:"Hors frais d'agence si l'acheteur les paie à part."});
+      const ty = seg("n-ty", "Type de logement", [["ancien","Ancien"],["neuf","Neuf (moins de 5 ans)"]], "ancien");
+      const pr = checkbox("n-pr", "Primo-accédant (pas propriétaire de sa résidence principale depuis 2 ans)", false);
+      const dp = select("n-dp", "Département", [["5","Taux à 5 % (la plupart, dont l'Ille-et-Vilaine)"],["45","Taux resté à 4,5 %"]], "5");
+      const me = field("n-me", "Meubles inclus dans le prix", 0, {suf:"€", hint:"Cuisine équipée, électroménager… listés dans l'acte : non taxés."}), de = field("n-de", "Débours et formalités", 1200, {suf:"€", hint:"Estimation. Le devis du notaire donne le montant exact."});
+      form.append(p.el, ty.el, pr.el, dp.el, me.el, de.el);
+      return () => { const neuf = ty.get() === "neuf"; pr.el.hidden = dp.el.hidden = neuf; if (!(p.get() > 0)) return {err:"Indique le prix du logement."};
+        const x = C.notaire({prix:p.get(), neuf, primo:pr.get(), dep45:dp.get() === "45", meubles:me.get(), debours:de.get()});
+        const tauxTxt = neuf ? "0,715 %" : x.tauxDroits > 0.06 ? "6,32 %" : "5,81 %";
+        const st = [];
+        if (me.get()) st.push(["Le prix taxé", E0(p.get()) + " − " + E0(me.get()) + " de meubles = " + E0(x.base), "Les meubles ne supportent pas les droits de mutation."]);
+        st.push(["Les droits de mutation", E0(x.base) + " × " + tauxTxt + " = " + E(x.droits), neuf ? "Dans le neuf, la TVA est déjà dans le prix : il ne reste qu'une petite taxe de publicité foncière." : x.tauxDroits > 0.06 ? "5 % pour le département + 1,20 % pour la commune + 2,37 % de frais sur la part du département. Le département a utilisé la hausse permise depuis 2025." : (pr.get() ? "Primo-accédant : il échappe à la hausse de 2025. 4,5 % + 1,20 % + frais = 5,81 %." : "Département resté à 4,5 % : 4,5 % + 1,20 % + frais = 5,81 %.")]);
+        st.push(["La rémunération du notaire", x.emolDetail.map(d => E0(d[3]) + " × " + nf3.format(d[2] * 100) + " % = " + E(d[4])).join("\n") + "\nTotal : " + E(x.emolHT) + " + 20 % de TVA = " + E(x.emol), "Barème officiel par tranches, le même pour tous les notaires."]);
+        st.push(["Les autres frais", E(x.csi) + " de contribution de sécurité immobilière (0,10 %) + " + E0(x.debours) + " de débours"]);
+        st.push(["Le total", E(x.droits) + " + " + E(x.emol) + " + " + E(x.csi) + " + " + E0(x.debours) + " = " + E(x.total)]);
+        const chart = stack([{v:x.droits, c:COL.b, l:"Impôts (droits)"}, {v:x.emol, c:COL.g, l:"Notaire"}, {v:x.csi + x.debours, c:COL.l, l:"Débours et taxe"}]);
+        const comp = !neuf ? C.notaire({prix:p.get(), neuf:true, meubles:me.get(), debours:de.get()}).total : null;
+        return {label:"Frais de notaire", value:E0(x.total), sub:"Soit " + nf.format(x.pct) + " % du prix. Dont " + E0(x.droits) + " d'impôts : le notaire ne garde que " + E0(x.emolHT) + " hors TVA.", chart,
+          lines:[["Droits de mutation", E0(x.droits)], ["Rémunération du notaire (TTC)", E0(x.emol)], ["Taxe et débours", E0(x.csi + x.debours)]].concat(comp ? [["Pour comparer : le même prix dans le neuf", E0(comp)]] : []), steps:st,
+          say:"Pour un achat " + (neuf ? "neuf" : "dans l'ancien") + " à " + E0(p.get()) + ", comptez environ " + E0(x.total) + " de frais de notaire, soit " + nf.format(Math.round(x.pct * 10) / 10) + " % du prix. L'essentiel, ce sont des taxes reversées au département et à la commune.",
+          warn: !neuf && !pr.get() && dp.get() === "5" ? "Si le client n'a pas été propriétaire de sa résidence principale depuis 2 ans, coche « primo-accédant » : il économise environ " + E0(x.droits - C.notaire({prix:p.get(), primo:true, meubles:me.get(), debours:de.get()}).droits) + "." : null}; };
+    }},
+  assur:{ q:"Est-ce que je gagnerais à changer d'assurance de prêt ?",
+    note:"Changement possible à tout moment depuis la loi Lemoine (2022), sans frais, à garanties équivalentes. Les taux varient beaucoup avec l'âge, la santé, le métier et le fait de fumer : demander un devis réel.",
+    build(form){
+      const k = field("a-k", "Somme empruntée", 200000, {suf:"€"}), d = field("a-d", "Durée restante du prêt", 22, {suf:"ans"}), tx = field("a-tx", "Taux du prêt", 3.4, {suf:"%"});
+      const ta = field("a-ta", "Contrat actuel : taux", 0.34, {suf:"% / an"}), ma = seg("a-ma", "Contrat actuel calculé sur", [["init","Capital emprunté"],["crd","Capital restant dû"]], "init");
+      const tb = field("a-tb", "Nouveau contrat : taux", 0.12, {suf:"% / an", hint:"Le taux du devis de l'autre assureur."}), mb = seg("a-mb", "Nouveau contrat calculé sur", [["init","Capital emprunté"],["crd","Capital restant dû"]], "crd");
+      const nb = select("a-nb", "Nombre d'emprunteurs assurés à 100 %", [["1","1 emprunteur"],["2","2 emprunteurs (100 % chacun)"]], "1");
+      form.append(k.el, d.el, tx.el, h("div", {class:"fsec"}, "Le contrat actuel"), ta.el, ma.el, h("div", {class:"fsec"}, "Le nouveau contrat"), tb.el, mb.el, nb.el);
+      return () => { const K = k.get(), D = Math.min(35, Math.max(1, Math.round(d.get()))); if (!(K > 0)) return {err:"Indique la somme empruntée (ou le capital restant dû)."};
+        const q = Number(nb.get()), x = C.assurance({capital:K, taux:tx.get(), annees:D, tauxA:ta.get() * q, crdA:ma.get() === "crd", tauxB:tb.get() * q, crdB:mb.get() === "crd"});
+        const gain = x.economie;
+        return {label: gain >= 0 ? "Économie en changeant" : "Le nouveau contrat coûte plus", value:E0(Math.abs(gain)), sub:"Sur les " + D + " ans restants. Environ " + E0(Math.abs(x.mensA - x.mensB)) + " par mois en moyenne.",
+          chart:hbars([{l:"Contrat actuel", v:x.coutA, c:COL.o}, {l:"Nouveau contrat", v:x.coutB, c:COL.g, best: gain > 0}], E0),
+          lines:[["Contrat actuel : coût total", E0(x.coutA)], ["Nouveau contrat : coût total", E0(x.coutB)]],
+          steps:[["Le contrat actuel", ma.get() === "crd" ? "Chaque mois : capital restant dû × " + P(ta.get()) + " ÷ 12" + (q > 1 ? " × 2" : "") + " → " + E0(x.coutA) + " au total" : E0(K) + " × " + P(ta.get()) + (q > 1 ? " × 2" : "") + " × " + D + " ans = " + E0(x.coutA), ma.get() === "crd" ? "La cotisation baisse avec la dette." : "Cotisation fixe : le client paie autant la dernière année que la première, même si sa dette est presque remboursée."],
+            ["Le nouveau contrat", mb.get() === "crd" ? "Chaque mois : capital restant dû × " + P(tb.get()) + " ÷ 12" + (q > 1 ? " × 2" : "") + " → " + E0(x.coutB) + " au total" : E0(K) + " × " + P(tb.get()) + (q > 1 ? " × 2" : "") + " × " + D + " ans = " + E0(x.coutB)],
+            ["La différence", E0(x.coutA) + " − " + E0(x.coutB) + " = " + E0(gain)]],
+          say: gain > 0 ? "En changeant d'assurance emprunteur, vous pourriez économiser environ " + E0(gain) + " sur la durée restante du prêt. La loi permet d'en changer à tout moment, sans frais, si les garanties sont équivalentes." : "Le nouveau contrat ne serait pas moins cher : votre assurance actuelle reste compétitive.",
+          warn:"Vérifier l'équivalence des garanties (décès, invalidité, incapacité de travail) avant de comparer les prix."}; };
+    }},
+  remb:{ q:"J'ai de l'argent de côté : je rembourse une partie de mon crédit ? Et je réduis la durée ou la mensualité ?",
+    note:"Remboursement partiel : au moins 10 % du montant initial du prêt, sauf s'il s'agit du solde. Comparer aussi avec ce que rapporterait cet argent placé, et garder une épargne de précaution.",
+    build(form){
+      const c = field("r-c", "Capital restant dû aujourd'hui", 150000, {suf:"€", hint:"Sur le tableau d'amortissement."}), t = field("r-t", "Taux du prêt", 3.5, {suf:"%"}), d = field("r-d", "Durée restante", 18, {suf:"ans"});
+      const s = field("r-s", "Somme remboursée en avance", 20000, {suf:"€"}), pe = checkbox("r-pe", "Le contrat prévoit des pénalités (IRA)", true);
+      form.append(c.el, t.el, d.el, s.el, pe.el);
+      return () => { const CRD = c.get(), S = s.get(), D = Math.max(1 / 12, d.get()); if (!(CRD > 0 && S > 0)) return {err:"Indique le capital restant dû et la somme remboursée."}; if (S >= CRD) return {err:"La somme couvre tout le crédit : c'est un remboursement total. Utilise l'outil des pénalités."};
+        const x = C.rembPartiel({crd:CRD, taux:t.get(), annees:D, somme:S}), ira = pe.get() ? x.ira.ira : 0;
+        const best = x.duree.economie >= x.mens.economie;
+        return {label:"Économie d'intérêts en réduisant la durée", value:E0(x.duree.economie - ira), sub:"Le crédit se termine " + dur(x.duree.gagnes) + " plus tôt, même mensualité (" + E(x.mensualite) + ")." + (ira ? " Pénalités déduites : " + E0(ira) + "." : ""),
+          chart:hbars([{l:"Réduire la durée", v:Math.max(0, x.duree.economie - ira), c:COL.g, best}, {l:"Réduire la mensualité", v:Math.max(0, x.mens.economie - ira), c:COL.b, best:!best}], E0),
+          lines:[["Option 1 · Nouvelle durée", dur(x.duree.mois)], ["Option 1 · Intérêts économisés", E0(x.duree.economie)], ["Option 2 · Nouvelle mensualité", E(x.mens.mensualite) + " (−" + E0(x.mens.baisse) + ")"], ["Option 2 · Intérêts économisés", E0(x.mens.economie)], ["Pénalités maximum", E0(ira)]],
+          steps:[["Aujourd'hui", "Mensualité " + E(x.mensualite) + " pendant " + dur(Math.round(D * 12)), "Il reste " + E0(x.interetsAvant) + " d'intérêts à payer jusqu'à la fin."],
+            ["Après le remboursement", E0(CRD) + " − " + E0(S) + " = " + E0(x.crd2) + " restant dû"],
+            ["Option 1 : on garde la mensualité", "Le crédit dure " + dur(x.duree.mois) + " au lieu de " + dur(Math.round(D * 12)), "On paie moins de mois, donc beaucoup moins d'intérêts : " + E0(x.duree.economie) + " économisés."],
+            ["Option 2 : on garde la date de fin", "Nouvelle mensualité : " + E(x.mens.mensualite), "Le client gagne " + E0(x.mens.baisse) + " par mois, mais économise moins d'intérêts : " + E0(x.mens.economie) + "."],
+            ["Les pénalités", pe.get() ? "min(6 mois d'intérêts = " + E0(x.ira.sixMois) + " ; 3 % du restant dû = " + E0(x.ira.troisPourcent) + ") = " + E0(ira) : "0 €", "Déduites des économies ci-dessus."]],
+          say:"En remboursant " + E0(S) + " par anticipation, vous pouvez soit finir votre crédit " + dur(x.duree.gagnes) + " plus tôt et économiser environ " + E0(x.duree.economie - ira) + " d'intérêts, soit baisser votre mensualité de " + E0(x.mens.baisse) + " par mois.",
+          warn: t.get() < 2.5 ? "Taux du prêt bas : placer cet argent (par exemple sur un livret ou une assurance vie) peut rapporter plus que le remboursement anticipé. À comparer." : null}; };
+    }},
+  epargne:{ q:"Si je mets de côté tous les mois, combien j'aurai à la fin ?",
+    note:"Rendement supposé constant, avant impôts. Les placements en unités de compte ou en actions ne garantissent pas le capital : leur rendement peut être négatif.",
+    build(form){
+      const i = field("e-i", "Somme de départ", 1000, {suf:"€"}), m = field("e-m", "Versement chaque mois", 100, {suf:"€"}), t = field("e-t", "Rendement par an", 2.5, {suf:"%", hint:"Livret A 1,7 %, fonds euros 2 à 3 %…"}), d = field("e-d", "Pendant combien d'années", 10, {suf:"ans"});
+      form.append(i.el, m.el, t.el, d.el);
+      return () => { const D = Math.min(50, Math.max(1, Math.round(d.get()))); if (!(i.get() > 0 || m.get() > 0)) return {err:"Indique une somme de départ ou un versement mensuel."};
+        const x = C.epargne({initial:i.get(), mensuel:m.get(), taux:t.get(), annees:D});
+        const step = D > 20 ? 5 : D > 10 ? 2 : 1;
+        const cols = x.annees.map(y => ({l: y.annee % step === 0 || y.annee === 1 ? String(y.annee) : "", t:"Année " + y.annee + " : " + E0(y.capital), parts:[{v:y.verse, c:COL.b}, {v:y.capital - y.verse, c:COL.g}]}));
+        return {label:"Capital au bout de " + D + " ans", value:E0(x.capital), sub:"Dont " + E0(x.verse) + " versés et " + E0(x.gains) + " d'intérêts.",
+          blocks:[block(ICON.chart, "g", "L'effet boule de neige", null, vbars(cols, [[COL.b, "Ce qu'il a versé"], [COL.g, "Ce que ça a rapporté"]]))],
+          lines:[["Total versé", E0(x.verse)], ["Intérêts gagnés", E0(x.gains)], ["Part des intérêts dans le capital", P(Math.round(x.gains / x.capital * 1000) / 10)]],
+          steps:[["Ce qu'il verse", E0(i.get()) + " + " + E0(m.get()) + " × 12 mois × " + D + " ans = " + E0(x.verse)],
+            ["Le taux de chaque mois", P(t.get()) + " par an ≈ " + nf3.format(x.tauxMensuel * 100) + " % par mois", "Les intérêts s'ajoutent chaque mois et rapportent à leur tour."],
+            ["Ce que ça rapporte", E0(x.capital) + " − " + E0(x.verse) + " = " + E0(x.gains), "Les intérêts de la dernière année rapportent bien plus que ceux de la première : c'est l'effet des intérêts composés."]],
+          say:"En mettant " + E0(m.get()) + " de côté chaque mois" + (i.get() ? " en plus de " + E0(i.get()) + " au départ" : "") + ", vous aurez environ " + E0(x.capital) + " dans " + D + " ans, dont " + E0(x.gains) + " d'intérêts, si le placement rapporte " + P(t.get()) + " par an."}; };
+    }},
+  objectif:{ q:"Je veux avoir cette somme à telle date : combien je dois mettre de côté par mois ?",
+    note:"Rendement supposé constant, avant impôts.",
+    build(form){
+      const o = field("o-o", "La somme visée", 20000, {suf:"€", hint:"Apport immobilier, voiture, études…"}), d = field("o-d", "Dans combien d'années", 5, {suf:"ans"}), i = field("o-i", "Déjà mis de côté", 2000, {suf:"€"}), t = field("o-t", "Rendement par an", 1.7, {suf:"%", hint:"Livret A : 1,7 %."});
+      form.append(o.el, d.el, i.el, t.el);
+      return () => { const D = Math.min(50, Math.max(1, Math.round(d.get()))); if (!(o.get() > 0)) return {err:"Indique la somme visée."};
+        const x = C.objectifEpargne({objectif:o.get(), annees:D, taux:t.get(), initial:i.get()});
+        if (x.mensuel <= 0) return {label:"Versement mensuel nécessaire", value:"0 €", sub:"La somme déjà de côté suffit : elle vaudra " + E0(x.futInit) + " dans " + D + " ans.", steps:[["Ce que deviendra l'épargne actuelle", E0(i.get()) + " → " + E0(x.futInit)]], say:"Bonne nouvelle : avec ce que vous avez déjà, l'objectif est atteint sans versement supplémentaire."};
+        const sans = Math.ceil((o.get() - i.get()) / x.n);
+        return {label:"À mettre de côté chaque mois", value:E0(x.mensuel), sub:"Pendant " + D + " ans pour atteindre " + E0(o.get()) + ".",
+          lines:[["Total à verser", E0(x.mensuel * x.n)], ["Intérêts gagnés en route", E0(o.get() - i.get() - x.mensuel * x.n)], ["Sans intérêts, il faudrait", E0(sans) + " / mois"]],
+          steps:[["Ce que deviendra l'épargne déjà là", E0(i.get()) + " placés " + D + " ans à " + P(t.get()) + " = " + E0(x.futInit)],
+            ["Ce qu'il reste à constituer", E0(o.get()) + " − " + E0(x.futInit) + " = " + E0(x.reste)],
+            ["Le versement mensuel", E0(x.reste) + " à réunir en " + x.n + " mois, intérêts compris → " + E0(x.mensuel), "Arrondi à l'euro supérieur. Les intérêts réduisent l'effort de " + E0(sans - x.mensuel) + " par mois."]],
+          say:"Pour réunir " + E0(o.get()) + " dans " + D + " ans, il vous suffit de mettre " + E0(x.mensuel) + " de côté chaque mois. Je vous propose de mettre en place un virement automatique."}; };
+    }},
+  envel:{ q:"J'ai fait un gain sur mon épargne : combien d'impôt je paierai selon le placement ?",
+    note:"Règles 2026, option pour l'impôt forfaitaire. Assurance vie de plus de 8 ans : taux de 7,5 % pour des versements jusqu'à 150 000 € (12,8 % au-delà). Le Livret A, le LDDS et le LEP sont plafonnés : on ne peut pas y mettre n'importe quel montant.",
+    build(form){
+      const g = field("en-g", "Le gain (intérêts ou plus-value)", 10000, {suf:"€", hint:"Seulement le gain, pas la somme placée."}), c = seg("en-c", "Pour l'assurance vie", [["seul","Personne seule"],["couple","Couple marié ou pacsé"]], "seul");
+      form.append(g.el, c.el);
+      return () => { const G = g.get(); if (!(G > 0)) return {err:"Indique le gain."};
+        const L = C.enveloppes({gain:G, couple:c.get() === "couple"}), sorted = L.slice().sort((a, b) => a.impot - b.impot);
+        const tbl = h("table", {class:"htab"}, h("thead", null, h("tr", null, h("th", null, "Placement"), h("th", null, "Impôts"), h("th", null, "Il garde"))), h("tbody", null, ...sorted.map(x => h("tr", null, h("td", null, x.nom), h("td", null, E0(x.impot)), h("td", null, E0(x.net))))));
+        const av8 = L.find(x => x.id === "av8"), cto = L.find(x => x.id === "cto");
+        return {label:"Écart entre le plus et le moins taxé", value:E0(cto.impot), sub:"Sur un gain de " + E0(G) + ", le client paie de 0 € (Livret A) à " + E0(cto.impot) + " (compte-titres).",
+          chart:hbars(sorted.map(x => ({l:x.nom, v:x.impot, c: x.impot === 0 ? COL.g : x.id === "cto" ? COL.r : COL.o})), E0), table:tbl,
+          steps:L.map(x => [x.nom, E0(G) + " → " + E0(x.impot) + " d'impôts", x.detail]),
+          say:"Sur un gain de " + E0(G) + ", vous paieriez " + E0(cto.impot) + " sur un compte-titres, mais seulement " + E0(av8.impot) + " sur une assurance vie de plus de 8 ans. Le choix du placement compte autant que son rendement."}; };
+    }},
+  inflation:{ q:"Si je garde cet argent sans le placer, combien il vaudra dans quelques années ?",
+    note:"Inflation supposée constante. Pour mémoire, elle a été d'environ 0,9 % sur 2025 (base de la revalorisation de l'impôt 2026).",
+    build(form){
+      const s = field("f-s", "La somme", 10000, {suf:"€"}), i = field("f-i", "Inflation par an", 2, {suf:"%"}), d = field("f-d", "Dans combien d'années", 10, {suf:"ans"}), t = field("f-t", "Rendement de son placement", 1.7, {suf:"%", hint:"0 si l'argent dort sur le compte courant."});
+      form.append(s.el, i.el, d.el, t.el);
+      return () => { const S = s.get(), I = i.get() / 100, D = Math.min(50, Math.max(1, Math.round(d.get()))), Tt = t.get() / 100; if (!(S > 0)) return {err:"Indique la somme."};
+        const val = S / Math.pow(1 + I, D), besoin = S * Math.pow(1 + I, D), plac = S * Math.pow(1 + Tt, D), reel = plac / Math.pow(1 + I, D), rr = ((1 + Tt) / (1 + I) - 1) * 100;
+        return {label:"Pouvoir d'achat dans " + D + " ans, sans placement", value:E0(val), sub:"Ses " + E0(S) + " n'achèteront plus que l'équivalent de " + E0(val) + " d'aujourd'hui.",
+          chart:hbars([{l:"Aujourd'hui", v:S, c:COL.b}, {l:"Dans " + D + " ans, sans placement", v:val, c:COL.r}, {l:"Dans " + D + " ans, placé à " + P(t.get()), v:reel, c: reel >= S ? COL.g : COL.o}], E0),
+          lines:[["Prix d'aujourd'hui à " + E0(S) + " dans " + D + " ans", E0(besoin)], ["Placé à " + P(t.get()), E0(plac) + " (soit " + E0(reel) + " d'aujourd'hui)"], ["Rendement réel du placement", P(Math.round(rr * 100) / 100)]],
+          steps:[["La perte de pouvoir d'achat", E0(S) + " ÷ (1 + " + P(i.get()) + ") puissance " + D + " = " + E0(val)], ["Ce que coûtera demain un achat de " + E0(S), E0(S) + " × (1 + " + P(i.get()) + ") puissance " + D + " = " + E0(besoin)], ["Le rendement réel", "(1 + " + P(t.get()) + ") ÷ (1 + " + P(i.get()) + ") − 1 = " + P(Math.round(rr * 100) / 100), rr >= 0 ? "Le placement bat l'inflation : le client s'enrichit vraiment." : "Le placement ne suit pas l'inflation : le client perd du pouvoir d'achat."]],
+          say:"Avec " + P(i.get()) + " d'inflation par an, vos " + E0(S) + " ne vaudront plus que " + E0(val) + " dans " + D + " ans si l'argent dort. Placés à " + P(t.get()) + ", ils garderaient " + (reel >= S ? "et même augmenteraient" : "en partie") + " leur valeur."}; };
+    }},
+  ir:{ q:"Combien je vais payer d'impôt sur le revenu, et dans quelle tranche je suis ?",
+    note:"Barème 2026 (revenus 2025), loi de finances du 19 février 2026. Simplifié : ne gère pas les demi-parts spéciales (parent isolé, invalidité, ancien combattant), les réductions et crédits d'impôt (dons, emploi à domicile…), ni la contribution sur les hauts revenus. Pour un chiffre exact : le simulateur d'impots.gouv.fr.",
+    build(form){
+      const r = field("ir-r", "Revenu net imposable du foyer", 45000, {suf:"€ / an", hint:"Sur l'avis d'impôt. Sinon : salaires nets annuels × 0,9 environ (abattement de 10 %)."});
+      const s = seg("ir-s", "Situation", [["seul","Seul"],["couple","Marié ou pacsé"]], "seul"), e = field("ir-e", "Enfants à charge", 0);
+      form.append(r.el, s.el, e.el);
+      return () => { const R0 = r.get(); if (!(R0 >= 0)) return {err:"Indique le revenu."};
+        const x = C.impotRevenu({revenu:R0, couple:s.get() === "couple", enfants:Math.max(0, Math.round(e.get()))});
+        const T = C.IR.tranches, cols = [];
+        const st = [["Le nombre de parts", (s.get() === "couple" ? "2 parts pour le couple" : "1 part pour une personne seule") + (x.parts > (s.get() === "couple" ? 2 : 1) ? " + " + nf.format(x.parts - (s.get() === "couple" ? 2 : 1)) + " pour les enfants = " + nf.format(x.parts) + " parts" : ""), "0,5 part pour chacun des 2 premiers enfants, 1 part à partir du 3e."],
+          ["Le revenu pour une part", E0(R0) + " ÷ " + nf.format(x.parts) + " = " + E0(x.quotient)],
+          ["Le barème, tranche par tranche", x.detail.map(d => E0(d[3]) + " × " + nf0.format(d[2] * 100) + " % = " + E0(d[4])).join("\n") + "\nTotal pour une part : " + E0(x.detail.reduce((a, d) => a + d[4], 0)), "Chaque morceau du revenu est taxé à son propre taux : 0 % jusqu'à 11 600 €, puis 11 %, 30 %, 41 %, 45 %."],
+          ["L'impôt du foyer", E0(x.detail.reduce((a, d) => a + d[4], 0)) + " × " + nf.format(x.parts) + " = " + E0(x.brutParts)]];
+        if (x.plafonne) st.push(["Plafond de l'avantage des enfants", "Impôt sans enfants " + E0(x.brutBase) + " − plafond " + E0(x.plafond) + " = " + E0(x.apresQF), "Chaque demi-part d'enfant ne peut pas faire gagner plus de 1 807 €."]);
+        if (x.decote) st.push(["La décote", "− " + E0(x.decote), "Réduction pour les foyers modestes : " + E0(s.get() === "couple" ? 1483 : 897) + " − 45,25 % de l'impôt."]);
+        st.push(["L'impôt à payer", E0(x.net), x.net === 0 && x.apresQF > 0 ? "Sous 61 €, l'impôt n'est pas réclamé." : null]);
+        const tr = T.map(([lim, t], k) => { const lo = k ? T[k - 1][0] : 0; return {l:nf0.format(t * 100) + " % · " + (lim === Infinity ? "plus de " + nf0.format(lo) + " €" : nf0.format(lo) + " à " + nf0.format(lim) + " €"), v:Math.max(0, Math.min(x.quotient, lim) - lo), c: t * 100 === x.tmi ? COL.b : COL.l, best: t * 100 === x.tmi}; });
+        return {label:"Impôt sur le revenu", value:E0(x.net), sub:"Tranche marginale (TMI) : " + x.tmi + " %. Taux moyen réel : " + nf.format(x.tauxMoyen) + " %.",
+          chart:h("div", null, h("small", {class:"muted"}, "Son revenu pour une part, réparti dans les tranches :"), hbars(tr, E0)),
+          lines:[["Parts fiscales", nf.format(x.parts)], ["TMI", x.tmi + " %"], ["Taux moyen", nf.format(x.tauxMoyen) + " %"], ["Impôt par mois", E0(x.net / 12)]], steps:st,
+          say:"Avec " + E0(R0) + " de revenu imposable et " + nf.format(x.parts) + (x.parts > 1 ? " parts" : " part") + ", votre impôt est d'environ " + E0(x.net) + " par an. Votre tranche marginale est de " + x.tmi + " % : chaque euro déduit, par exemple avec un PER, vous fait économiser " + x.tmi + " centimes.",
+          warn: x.tmi >= 30 ? "TMI de " + x.tmi + " % : le PER devient intéressant. Voir l'outil « Économie d'impôt PER »." : null}; };
+    }}
+};
+Object.assign(TOOL_SPECS, TOOL_SPECS_V3);
 
 /* ---------- DCI : partie dédiée au crédit immobilier ---------- */
 const dciPdf = m => "dci-" + String(m.n).padStart(2,"0") + "-" + m.id + ".pdf";
