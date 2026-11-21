@@ -399,6 +399,9 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .stackw{margin:14px 0 4px}.stackbar{display:flex;height:16px;border-radius:8px;overflow:hidden}.stackbar i{display:block;height:100%}.stackw .legend{margin-top:8px}
 .tscroll{overflow-x:auto;max-height:420px}.drop.inner{margin-top:18px}
 .tool-extra:empty{display:none}
+.heirs{display:flex;flex-direction:column;gap:14px}.heir-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:4px 0}.heir-bar i{display:block;height:100%}
+.htab.cmp tr.best td{background:var(--green-soft);font-weight:600}.htab.cmp tr.cur td{background:var(--soft)}
+.piste b{color:var(--green)}.tl{margin:0 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.45}
 .ifs{display:grid;gap:10px}.ifc{background:var(--soft);border-radius:10px;padding:10px 12px}.ifc small{display:block;color:var(--muted);font-size:12.5px}.ifc b{font-size:17px;font-variant-numeric:tabular-nums}.ifc p{margin:4px 0 0;font-size:13px}
 .htab{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums;margin-top:6px}
 .htab th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
@@ -956,6 +959,82 @@ function toolsView(body){
   const others = TOOLS.filter(t => t.g === T.g && t.id !== T.id).slice(0, 4);
   if (others.length) body.append(block(ICON.calc, T.col, "Autres outils · " + T.g, null, ...others.map(t => row(ICON.calc, t.col, t.t, t.d, () => { toolOpen = t.id; render(); window.scrollTo(0, 0); }))));
 }
+/* ---------- Succession : analyses avancées ---------- */
+const OPT_NOM = {quart:"1/4 en pleine propriété", usufruit:"Tout en usufruit", qd:"Quotité disponible", quart_us:"1/4 + 3/4 en usufruit", legal:"Ce que prévoit la loi"};
+function secondDeces(prm, r, propresSurvivant){
+  // Estimation des droits des enfants au décès du conjoint survivant
+  const n = prm.enfants, cj = r.heritiers.find(x => x.lien === "conjoint"); if (!n || !cj) return null;
+  const communs = (prm.biens || []).filter(b => b.commun).reduce((a, b) => a + (b.montant || 0) * 0.5, 0);
+  const u = r.usufruitPct, net = r.net;
+  const pp = r.regle === "usufruit" ? 0 : r.regle === "quart_us" ? 0.25 * net : r.regle === "qd" ? C.QD(n) * net : r.regle === "quart" ? 0.25 * net : r.regle === "testament" ? C.QD(n) * net : cj.valeur;
+  const avRecue = prm.av && prm.av.benef === "conjoint" ? (prm.av.avant70 || 0) + (prm.av.apres70 || 0) : 0;
+  const masse = Math.max(0, communs + pp + avRecue + (propresSurvivant || 0) - 1500), part = masse / n;
+  const d = C.droits(part, "enfant");
+  return {masse, pp, communs, avRecue, parEnfant:d.droits, total:d.droits * n};
+}
+function patriExtras(prm, r, ageDef, propres){
+  const out = [], n = prm.enfants;
+  /* 1. Qui reçoit quoi */
+  const H = r.heritiers.filter(x => x.recu > 0), maxR = Math.max(1, ...H.map(x => x.recu));
+  const nom = x => ({conjoint:"Le conjoint", partenaire:"Le partenaire", concubin:"Le concubin", enfant: x.nb > 1 ? "Chaque enfant" : "L'enfant", parent: x.nb > 1 ? "Chaque parent" : "Le parent", frere: x.nb > 1 ? "Chaque frère ou sœur" : "Le frère ou la sœur"})[x.qui];
+  out.push(block(ICON.user, "v", "Qui reçoit quoi", "en un coup d'œil", h("div", {class:"heirs"}, ...H.map(x => h("div", {class:"heir"},
+    h("div", {class:"hb-l"}, h("span", null, nom(x)), h("b", null, E0(x.netRecu) + " gardés")),
+    h("div", {class:"heir-bar", style:"width:" + Math.max(4, x.recu / maxR * 100) + "%"}, h("i", {style:"flex:" + Math.max(0, x.netRecu) + ";background:var(--green)"}), h("i", {style:"flex:" + x.total + ";background:var(--bad)"})),
+    h("small", {class:"muted"}, "Reçoit " + E0(x.recu) + (x.total ? " · paie " + E0(x.total) + " (" + nf.format(Math.round(x.total / x.recu * 1000) / 10) + " %)" : " · ne paie rien"))))),
+    h("div", {class:"legend"}, h("span", null, h("i", {style:"background:var(--green)"}), "Ce qu'il garde"), h("span", null, h("i", {style:"background:var(--bad)"}), "Les droits"))));
+  /* 2. Comparer les options du conjoint, 1er + 2nd décès */
+  if (prm.situation === "marie" && n > 0){
+    const opts = ["quart"].concat(prm.enfantsCommuns ? ["usufruit"] : [], ["qd", "quart_us"]);
+    const rows = opts.map(o => { const rr = C.succession(Object.assign({}, prm, {option:o})), s2 = secondDeces(Object.assign({}, prm, {option:o}), rr, propres);
+      return {o, d1:rr.totalDroits, d2:s2 ? s2.total : 0, tot:rr.totalDroits + (s2 ? s2.total : 0), cj:rr.heritiers.find(x => x.lien === "conjoint")}; });
+    const best = rows.reduce((a, b) => b.tot < a.tot ? b : a);
+    out.push(block(ICON.chart, "b", "Comparer les choix du conjoint", "sur les 2 décès",
+      h("p", {class:"fhint"}, "Ce que paient les enfants au 1er décès, puis au décès du conjoint survivant (estimation : il n'a rien dépensé" + (propres ? ", plus ses biens propres" : "") + "). Avec l'usufruit, rien n'est retaxé au 2e décès : l'usufruit s'éteint gratuitement."),
+      h("div", {class:"tscroll"}, h("table", {class:"htab cmp"}, h("thead", null, h("tr", null, ...["Choix", "1er décès", "2e décès", "Total"].map(t => h("th", null, t)))),
+        h("tbody", null, ...rows.map(x => h("tr", {class: x === best ? "best" : (x.o === prm.option ? "cur" : "")}, h("td", null, OPT_NOM[x.o] + (x.o === prm.option ? " (choisi)" : "")), h("td", null, E0(x.d1)), h("td", null, E0(x.d2)), h("td", null, h("b", null, E0(x.tot)))))))),
+      h("p", {class:"res-sub"}, "Le moins cher pour la famille : ", h("b", null, OPT_NOM[best.o]), best.o !== prm.option ? " (" + E0(rows.find(x => x.o === prm.option).tot - best.tot) + " de moins que le choix actuel)." : "."),
+      h("p", {class:"muted", style:"font-size:13px"}, "Le moins taxé n'est pas forcément le meilleur : avec l'usufruit, le conjoint garde la jouissance de tout mais ne peut pas vendre seul. Avec la pleine propriété, il est plus libre.")));
+  }
+  /* 3. Les pistes pour réduire les droits */
+  const pistes = [];
+  const base = r.totalDroits;
+  const dispo = r.lignes.filter(l => ["comptes", "placements", "autres"].includes(l.type)).reduce((a, l) => a + l.valeur, 0);
+  const immo = r.lignes.filter(l => l.type === "immo" || l.type === "rp").reduce((a, l) => a + l.valeur + 0, 0);
+  const enf = r.heritiers.find(x => x.qui === "enfant");
+  if (n > 0 && enf && enf.total > 0){
+    // a) donations
+    const reste = Math.max(0, 100000 - (prm.donations || 0)), X = Math.min(reste * n, dispo);
+    if (X >= 1000){ const rr = C.succession(Object.assign({}, prm, {dettes:(prm.dettes || 0) + X, donations:0})), dd = C.droits(X / n, "enfant", {dejaUtilise:prm.donations || 0}).droits * n, gain = base - rr.totalDroits - dd;
+      if (gain > 0) pistes.push(["Donner de l'argent aux enfants dès maintenant", gain, "Donner " + E0(X / n) + " à chaque enfant (" + E0(X) + " au total), pris sur les comptes et placements. Jusqu'à 100 000 € par enfant, la donation est sans droits, et cet abattement se recharge tous les 15 ans.", "Seulement si le décès survient plus de 15 ans après la donation. Sinon, la donation est rattrapée au décès."]); }
+    // b) assurance vie avant 70 ans
+    if (ageDef < 70){ const room = Math.max(0, 152500 * n - (prm.av && prm.av.benef === "enfants" ? prm.av.avant70 || 0 : 0)), Y = Math.min(room, dispo);
+      if (Y >= 1000){ const av = Object.assign({}, prm.av, {avant70:(prm.av && prm.av.benef === "enfants" ? prm.av.avant70 || 0 : 0) + Y, benef:"enfants"});
+        const rr = C.succession(Object.assign({}, prm, {dettes:(prm.dettes || 0) + Y, av})), gain = base - rr.totalDroits;
+        if (gain > 0) pistes.push(["Placer sur une assurance vie avant 70 ans", gain, "Verser " + E0(Y) + " sur une assurance vie au profit des enfants. Chaque enfant reçoit jusqu'à 152 500 € sans aucune taxe, en plus des 100 000 € de la succession.", "Versements à faire avant 70 ans. L'argent reste disponible pour le client toute sa vie."]); } }
+    // c) nue-propriété
+    if (immo >= 10000 && ageDef >= 21 && ageDef < 91){ const u = C.usufruit(ageDef), np = immo * (1 - u), reste = Math.max(0, 100000 - (prm.donations || 0));
+      const dd = C.droits(np / n, "enfant", {dejaUtilise:prm.donations || 0}).droits * n, rr = C.succession(Object.assign({}, prm, {dettes:(prm.dettes || 0) + immo, rpOccupee:false})), gain = base - rr.totalDroits - dd;
+      if (gain > 0) pistes.push(["Donner la nue-propriété de l'immobilier", gain, "À " + ageDef + " ans, la nue-propriété vaut " + nf0.format((1 - u) * 100) + " % du bien : on donne aux enfants " + E0(np) + " (taxés " + E0(dd) + " aujourd'hui" + (np / n <= reste ? ", donc rien grâce à l'abattement" : "") + "). Le client garde l'usage du bien ou les loyers. À son décès, les enfants récupèrent tout le bien sans payer de droits en plus.", "Plus le client est jeune, plus la nue-propriété vaut cher. Acte chez le notaire, avec ses frais."]); }
+  }
+  if ((prm.situation === "pacs" || prm.situation === "concubin") && !prm.testament){
+    const rr = C.succession(Object.assign({}, prm, {testament:true})), p = rr.heritiers.find(x => x.qui === "partenaire" || x.qui === "concubin");
+    if (p) pistes.push([prm.situation === "pacs" ? "Faire un testament pour le partenaire" : "Protéger le concubin", null, prm.situation === "pacs" ? "Sans testament, le partenaire de PACS n'hérite de rien. Avec un testament, il pourrait recevoir " + E0(p.recu) + ", sans aucun droit à payer." : "Sans testament, le concubin n'hérite de rien. Même avec un testament, il paierait 60 % de droits (" + E0(p.total) + " sur " + E0(p.recu) + "). Un PACS avec testament, ou une assurance vie, le protégerait bien mieux.", null]);
+  }
+  if (pistes.length){
+    pistes.sort((a, b) => (b[1] || 1e12) - (a[1] || 1e12));
+    out.push(block(ICON.spark, "g", "Les pistes pour payer moins", pistes.length + (pistes.length > 1 ? " idées" : " idée"), h("div", {class:"ifs"}, ...pistes.map(([t, g, d, c]) => h("div", {class:"ifc piste"},
+      h("small", null, t), g ? h("b", null, "Économie : " + E0(g)) : null, h("p", null, d), c ? h("p", {class:"muted"}, "⚠ " + c) : null))),
+      h("p", {class:"muted", style:"font-size:13px;margin-top:8px"}, "Chaque piste est calculée seule. Elles se combinent, mais l'abattement de 100 000 € ne sert qu'une fois tous les 15 ans.")));
+  }
+  /* 4. Concrètement */
+  out.push(h("details", {class:"drop"}, h("summary", null, "Concrètement, que se passe-t-il au décès ?"), h("ol", {class:"tl"},
+    h("li", null, h("b", null, "Le notaire est saisi"), " par la famille. Il fait l'inventaire des biens et des dettes."),
+    h("li", null, h("b", null, "La banque bloque les comptes"), " au nom du défunt seul. Les comptes joints restent utilisables par l'autre titulaire."),
+    h("li", null, h("b", null, "L'assurance vie est versée à part"), ", directement aux bénéficiaires, sans attendre le notaire."),
+    h("li", null, h("b", null, "La déclaration de succession"), " est déposée dans les 6 mois (décès en France), avec le paiement des droits. Un paiement fractionné ou différé peut être demandé."),
+    h("li", null, h("b", null, "Le partage"), " : chaque héritier reçoit sa part, à l'amiable ou chez le notaire."))));
+  return out;
+}
 const TOOL_SPECS = {
   patri:{ q:"Si je décède, qui hérite de quoi, et combien chacun paiera de droits ?",
     note:"Simulation indicative, hors frais de notaire. Ne tient pas compte des donations à réintégrer au partage civil, d'un testament inégal entre enfants, ni de l'exonération possible des frères et sœurs (célibataires, plus de 50 ans, vivant avec le défunt). Pour un vrai dossier : le notaire.",
@@ -985,7 +1064,9 @@ const TOOL_SPECS = {
       const det = field("pa-de", "Dettes du défunt", 0, {suf:"€", hint:"Crédits restants à sa charge, sauf ceux remboursés par l'assurance emprunteur."});
       const av1 = field("pa-v1", "Assurance vie : versements faits AVANT 70 ans", 250000, {suf:"€", hint:"Valeur aujourd'hui, gains compris."}), av2 = field("pa-v2", "Assurance vie : versements faits APRÈS 70 ans", 0, {suf:"€", hint:"Seulement l'argent versé."});
       const avb = select("pa-vb", "Bénéficiaire de l'assurance vie", [["enfants","Les enfants, à parts égales"],["conjoint","Le conjoint ou partenaire"]], "enfants");
-      form.append(sec("La famille"), sit.el, nE.el, com.el, ag.el, opt.el, tes.el, par.el, fr.el, don.el,
+      const agd = field("pa-ad", "Âge du client (le futur défunt)", 68, {suf:"ans", hint:"Sert aux pistes : assurance vie avant 70 ans, valeur de la nue-propriété."});
+      const pro = field("pa-pr", "Biens propres du conjoint (hors biens à deux)", 0, {suf:"€", hint:"Facultatif. Sert à estimer les droits au 2e décès."});
+      form.append(sec("La famille"), sit.el, agd.el, nE.el, com.el, ag.el, opt.el, tes.el, par.el, fr.el, don.el, pro.el,
         sec("Le patrimoine"), h("p", {class:"fhint"}, "Un bien par ligne, à sa valeur d'aujourd'hui. L'assurance vie se met à part, plus bas : elle est hors succession."), list, addBtn, rp.el, det.el,
         sec("L'assurance vie"), av1.el, av2.el, avb.el);
       const NOM = {conjoint:"Le conjoint", partenaire:"Le partenaire de PACS", concubin:"Le concubin", enfant:"Chaque enfant", parent:"Chaque parent", frere:"Chaque frère ou sœur"};
@@ -995,7 +1076,7 @@ const TOOL_SPECS = {
         const S0 = sit.get(), n = Math.max(0, Math.round(nE.get())), couple = S0 !== "seul";
         com.el.hidden = !(S0 === "marie" && n > 0); ag.el.hidden = S0 !== "marie"; tes.el.hidden = !(S0 === "pacs" || S0 === "concubin");
         tes.el.querySelector("span").textContent = "Un testament lui lègue " + (n ? "la quotité disponible" : "tout");
-        par.el.hidden = fr.el.hidden = n > 0; don.el.hidden = n === 0; avb.el.hidden = !(couple || n > 0);
+        par.el.hidden = fr.el.hidden = n > 0; don.el.hidden = n === 0; pro.el.hidden = !(S0 === "marie" && n > 0); avb.el.hidden = !(couple || n > 0);
         list.querySelectorAll(".bien").forEach(b => b._ow.hidden = !couple);
         const key = S0 + "|" + (n > 0) + "|" + com.get();
         if (key !== lastKey){ lastKey = key;
@@ -1005,8 +1086,9 @@ const TOOL_SPECS = {
         opt.el.hidden = S0 !== "marie"; if (S0 === "marie") ag.el.hidden = !(n > 0 && ["usufruit","quart_us"].includes(opt.get()));
         const biens = [...list.querySelectorAll(".bien")].map(b => b._get());
         rp.el.hidden = !biens.some(b => b.type === "rp" && b.montant > 0) || !(S0 === "marie" || S0 === "pacs" || n > 0);
-        const r = C.succession({situation:S0, biens, dettes:det.get(), enfants:n, enfantsCommuns:com.get(), ageConjoint:ag.get(), option:opt.get(), testament:tes.get(), parents:Number(par.get()), freres:Math.round(fr.get()), donations:don.get(), rpOccupee:!rp.el.hidden && rp.get(),
-          av:{avant70:av1.get(), apres70:av2.get(), benef: avb.el.hidden ? "aucun" : (avb.get() === "conjoint" && !couple ? "aucun" : avb.get())}});
+        const prm = {situation:S0, biens, dettes:det.get(), enfants:n, enfantsCommuns:com.get(), ageConjoint:ag.get(), option:opt.get(), testament:tes.get(), parents:Number(par.get()), freres:Math.round(fr.get()), donations:don.get(), rpOccupee:!rp.el.hidden && rp.get(),
+          av:{avant70:av1.get(), apres70:av2.get(), benef: avb.el.hidden ? "aucun" : (avb.get() === "conjoint" && !couple ? "aucun" : avb.get())}};
+        const r = C.succession(prm);
         if (r.erreur) return {err:r.erreur};
         if (!r.lignes.length) return {err:"Ajoute au moins un bien avec sa valeur."};
         const H = r.heritiers, st = [];
@@ -1032,7 +1114,7 @@ const TOOL_SPECS = {
         const enf = H.find(x => x.qui === "enfant"), cj = H.find(x => x.lien === "conjoint");
         const say = "Votre succession représenterait environ " + E(r.net) + " après dettes" + (r.lignes.some(l => l.part < 1) ? ", en comptant seulement votre moitié des biens communs" : "") + ". " +
           (cj ? NOM[cj.qui] + " ne paierait aucun droit. " : "") + (enf ? (n > 1 ? "Chacun de vos enfants" : "Votre enfant") + " paierait environ " + E(enf.total) + "." : "Au total, " + E(r.totalDroits) + " de droits.");
-        return {label:"Droits à payer pour toute la famille", value:E(r.totalDroits), sub:"Actif net de la succession : " + E(r.net) + ".", table:tbl, steps:st, say,
+        return {label:"Droits à payer pour toute la famille", value:E0(r.totalDroits), sub:"Actif net de la succession : " + E0(r.net) + ".", table:tbl, steps:st, say, blocks:patriExtras(prm, r, Math.round(agd.get()), S0 === "marie" ? pro.get() : 0),
           warn: n > 0 && S0 !== "marie" && !tes.get() && couple ? "Le " + (S0 === "pacs" ? "partenaire de PACS" : "concubin") + " n'hérite de rien sans testament : piste à aborder avec le client (testament, assurance vie)." : null}; };
     }},
   livret:{ q:"Si je place cette somme, combien ça va me rapporter ?",
