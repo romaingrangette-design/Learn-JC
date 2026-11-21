@@ -851,14 +851,6 @@ function profileView(body){
 
 /* ---------- Outils (simulateurs) ---------- */
 const TOOL_GROUPS = [
-  ["Acheter un logement", "o", ICON.house, [
-    ["budget","Quel logement peut-il s'offrir ?","Prix maximum, frais de notaire et prêt compris","achat budget prix maison appartement apport capacité emprunt immobilier"],
-    ["credit","Combien peut-il emprunter ?","Règle des 35 % et capital empruntable","capacité emprunt endettement hcsf 35 revenus prêt"],
-    ["mensu","Combien va-t-il payer par mois ?","Mensualité, coût total et tableau d'amortissement","mensualité crédit coût intérêts amortissement tableau prêt"],
-    ["notaire","Combien de frais de notaire ?","Ancien ou neuf, primo-accédant, détail des frais","notaire frais droits mutation dmto achat émoluments"],
-    ["assur","Changer d'assurance emprunteur","Ce que coûte le contrat et ce qu'on gagne à changer","assurance emprunteur délégation lemoine changer"],
-    ["remb","Rembourser une partie de son crédit","Réduire la durée ou la mensualité ?","remboursement anticipé partiel durée mensualité économie"],
-    ["ira","Pénalités de remboursement anticipé","6 mois d'intérêts, plafonnés à 3 % du restant dû","ira pénalités indemnités remboursement anticipé"]]],
   ["Épargner et placer", "g", ICON.percent, [
     ["livret","Combien rapporte un livret ?","Livret A, LDDS, LEP, CEL, PEL, livret bancaire","livret a ldds lep cel pel intérêts taux épargne"],
     ["epargne","Épargner chaque mois : combien à la fin ?","Versements réguliers et intérêts composés","épargne mensuelle versement programmé intérêts composés capital"],
@@ -879,8 +871,8 @@ const TOOL_GROUPS = [
     ["bonus","Bonus-malus auto","Le nouveau coefficient","bonus malus auto voiture coefficient"]]]
 ];
 const TOOLS = TOOL_GROUPS.flatMap(g => g[3].map(t => ({id:t[0], t:t[1], d:t[2], k:t[3] || "", g:g[0], col:g[1]})));
-const NEW_TOOLS = ["budget","mensu","notaire","assur","remb","epargne","objectif","envel","inflation","ir"];
-const INTENTS = [["Il achète un logement","Acheter un logement"],["Il veut épargner","Épargner et placer"],["Il paie trop d'impôts","Impôts et retraite"],["Il prépare sa transmission","Transmission"]];
+const NEW_TOOLS = ["epargne","objectif","envel","inflation","ir"];
+const INTENTS = [["Il veut épargner","Épargner et placer"],["Il paie trop d'impôts","Impôts et retraite"],["Il prépare sa transmission","Transmission"]];
 let toolQuery = "", toolIntent = null;
 const nf2 = new Intl.NumberFormat("fr-FR", {minimumFractionDigits:2, maximumFractionDigits:2}), nf3 = new Intl.NumberFormat("fr-FR", {minimumFractionDigits:3, maximumFractionDigits:3});
 const E = x => { const v = Math.round(x * 100) / 100; return (Number.isInteger(v) ? nf0 : nf2).format(v) + " €"; };
