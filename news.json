@@ -1,77 +1,77 @@
 {
- "date": "2026-11-20",
- "titre": "Le point du matin · vendredi 20 novembre",
- "maj": "20/11/2026 à 9 h 09",
+ "date": "2026-11-21",
+ "titre": "Le point du matin · samedi 21 novembre",
+ "maj": "21/11/2026 à 7 h 41",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "8 020,19 pts",
-   "variation": -0.75,
-   "note": "Ouverture du 20/11 · 9 h 00"
+   "valeur": "7 927,75 pts",
+   "variation": -1.89,
+   "note": "Clôture du 20/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
-   "valeur": "15,41 €",
-   "variation": -0.36,
-   "note": "Ouverture du 20/11 · 9 h 01"
+   "valeur": "15,31 €",
+   "variation": -1.03,
+   "note": "Clôture du 20/11"
   }
  ],
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "Le CAC 40 recule de 0,81 % le jour de l'entrée en Bourse d'Anthropic",
-   "resume": "Paris a fini jeudi à 8 080,74 points, troisième séance de baisse, tandis que l'Europe reculait aussi (Stoxx 600 -0,88 %). À New York, Anthropic a fixé son prix d'introduction à 83 dollars, au-dessus de la fourchette prévue.",
-   "impact": "La nervosité autour des valeurs liées à l'IA peut susciter des questions de clients investis en actions : rappeler l'horizon de placement et l'intérêt de diversifier.",
+   "titre": "Le CAC 40 repasse sous 8 000 points et perd plus de 5 % sur la semaine",
+   "resume": "Paris a terminé vendredi à 7 927,75 points (-1,89 %), cinquième séance de baisse d'affilée et deuxième pire semaine de l'année. Les craintes sur la valorisation des valeurs liées à l'intelligence artificielle ont pesé sur l'ensemble des marchés mondiaux.",
+   "impact": "Des clients exposés aux actions peuvent s'inquiéter : rappeler leur horizon de placement, leur profil de risque et l'intérêt de la diversification, sans pronostic sur la suite.",
    "source": "ABC Bourse",
-   "url": "https://www.abcbourse.com/marches/cac-40-paris-s-essouffle-et-finit-dans-le-rouge-avant-les-debuts-d-anthropic-a_706394"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "Découverts et petits crédits : les nouvelles règles s'appliquent dès aujourd'hui",
-   "resume": "Depuis ce 20 novembre, la banque doit vérifier la solvabilité avant d'accorder un découvert, même inférieur à 200 €, et les minima forfaitaires d'agios disparaissent. Les autorisations déjà en place ne sont pas revues automatiquement.",
-   "impact": "Les nouvelles demandes de découvert ou de paiement fractionné demanderont des justificatifs : expliquer la démarche aux clients et anticiper d'éventuels refus.",
-   "source": "Le Journal de l'Économie",
-   "url": "https://www.journaldeleconomie.fr/decouverts-bancaires-changement-novembre/"
+   "url": "https://www.abcbourse.com/marches/le-cac-40-chute-de-plus-de-5-et-signe-sa-deuxieme-pire-semaine-de-l-annee_706467"
   },
   {
    "tag": "Groupe",
-   "titre": "Barclays relève son objectif de cours sur Crédit Agricole S.A.",
-   "resume": "Le courtier garde une recommandation neutre (« pondération de marché ») mais porte son objectif de cours de 20,90 € à 21,40 €. La prochaine publication de résultats du groupe est attendue le 4 février.",
-   "impact": "Une opinion d'analyste parmi d'autres, à ne pas présenter comme une recommandation d'achat aux clients actionnaires ou sociétaires.",
-   "source": "Zonebourse",
-   "url": "https://zonebourse.com/actualite-bourse/credit-agricole-barclays-reste-a-ponderation-de-marche-avec-un-objectif-de-cours-releve-de-20-90-a-ce785ed2d18af624"
-  },
-  {
-   "tag": "Politique",
-   "titre": "Budget 2027 : le projet de loi de finances arrive au Sénat",
-   "resume": "Rejeté à l'Assemblée nationale début novembre, le PLF 2027 est transmis au Sénat, qui l'examine en séance du 20 novembre au 9 décembre. Le texte vise un déficit public de 5 % du PIB en 2027.",
-   "impact": "Les mesures fiscales sur l'épargne et les placements restent en discussion : aucune n'est acquise tant que le texte n'est pas définitivement adopté.",
-   "source": "Kohen Avocats",
-   "url": "https://kohenavocats.fr/2026/11/19/plf-2027-rejete-assemblee-senat-19-novembre-2026-deficit-impots-navette/"
-  },
-  {
-   "tag": "Politique",
-   "titre": "Le Sénat vote l'indexation complète des retraites sur l'inflation en 2027",
-   "resume": "En première lecture du budget de la Sécurité sociale, les sénateurs ont supprimé le gel des pensions au-delà de 1 260 € par mois et prévu leur revalorisation intégrale. En contrepartie, ils proposent de supprimer l'abattement fiscal de 10 % des retraités.",
-   "impact": "Sujet sensible pour la clientèle retraitée : présenter ces mesures comme des votes provisoires, la navette parlementaire n'étant pas terminée.",
-   "source": "Public Sénat",
-   "url": "https://www.publicsenat.fr/actualites/politique/retraites-le-senat-vote-lindexation-complete-des-pensions-sur-linflation-en-2027"
-  },
-  {
-   "tag": "Paiements",
-   "titre": "Fraude bancaire : 22 % des Français touchés en deux ans",
-   "resume": "Selon un sondage OpinionWay pour MoneyVox, plus d'un Français sur cinq a subi au moins une fraude sur son compte en deux ans ; 71 % des victimes disent avoir été remboursées. Les dates de versement des retraites 2027 sont par ailleurs avancées en janvier, mai et octobre.",
-   "impact": "Rappeler aux clients les bons réflexes face aux faux conseillers et aux demandes de codes, et les orienter vite vers l'opposition en cas de doute.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/votre-argent/actualites/111325/virement-de-retraite-avance-facture-energie-les-3-infos-argent-du-jeudi-19-novembre"
+   "titre": "L'action Crédit Agricole S.A. cède environ 20 % sur un trimestre",
+   "resume": "Le titre a fini vendredi autour de 15,30 €, sous ses principales moyennes mobiles, malgré un objectif de cours relevé par Barclays. Les résultats annuels 2026 seront publiés le 4 février 2027.",
+   "impact": "Aux clients actionnaires qui s'interrogent, s'en tenir aux faits publics et ne pas présenter les avis d'analystes comme une recommandation.",
+   "source": "Idéal Investisseur",
+   "url": "https://www.ideal-investisseur.fr/actions-b/laction-credit-agricole-accuse-20-sur-le-trimestre-malgre-une-cible-de-barclays/29857.html"
   },
   {
    "tag": "Taux",
-   "titre": "La BCE envisagerait de doubler les réserves obligatoires des banques",
-   "resume": "Selon des sources citées par Reuters, la BCE pourrait discuter le 25 novembre de porter les réserves obligatoires de 1 % à 2 % des dépôts à court terme, une décision qui pourrait glisser à décembre. Le taux de dépôt reste à 2,50 %.",
-   "impact": "Une telle mesure pèserait sur la liquidité et la rentabilité des banques ; rien n'est décidé à ce stade.",
-   "source": "Boursorama (Reuters)",
-   "url": "https://www.boursorama.com/actualite-economique/actualites/la-bce-va-debattre-d-une-augmentation-des-reserves-obligatoires-des-banques-selon-des-sources-f540f0dd5efaf04c5ca783476200e2d7"
+   "titre": "BCE : les marchés parient sur une hausse de taux le 17 décembre",
+   "resume": "Le taux de dépôt est à 2,50 % après deux relèvements cette année, et l'inflation de la zone euro a atteint 4,0 % en octobre (2,6 % hors éléments volatils). La réunion du 25 novembre ne portera pas sur les taux.",
+   "impact": "Un nouveau relèvement pourrait encore renchérir les crédits à taux fixe ; rien n'est décidé avant la réunion de décembre.",
+   "source": "Admirals",
+   "url": "https://admiralmarkets.com/analytics/traders-blog/lagarde-speech-ecb-december-2026"
+  },
+  {
+   "tag": "Taux",
+   "titre": "Crédit immobilier : près de 3,8 % en moyenne sur 20 ans",
+   "resume": "Selon le courtier Pretto, le taux moyen obtenu en novembre atteint 3,76 % sur 20 ans et 3,85 % sur 25 ans, en hausse d'environ 0,1 point sur un mois. Les emprunteurs aux revenus modestes dépassent 4 % sur 25 ans.",
+   "impact": "Les projets montés il y a quelques mois peuvent devoir être recalculés : vérifier la capacité d'emprunt et le respect du taux d'usure avant de s'engager.",
+   "source": "Pretto",
+   "url": "https://www.pretto.fr/taux-immobilier/historique-taux-immobilier/2026/analyse-taux-immobilier-novembre-2026/"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Budget 2027 : la commission du Sénat cible comptes inactifs et donations",
+   "resume": "La commission des finances propose notamment de porter à 35 % (au lieu de 17 %) le prélèvement sur les comptes inactifs et contrats d'assurance-vie non réclamés, et d'élargir le dispositif temporaire de dons d'argent aux enfants. Le vote solennel du Sénat est attendu le 9 décembre.",
+   "impact": "Ce ne sont que des positions de commission, susceptibles d'évoluer : ne rien présenter comme acquis aux clients.",
+   "source": "LégiFiscal",
+   "url": "https://www.legifiscal.fr/actualites-fiscales/4735-plf-2027-principaux-articles-adoptes-commission-finances-senat.html"
+  },
+  {
+   "tag": "Paiements",
+   "titre": "BoursoBank déploie Wero et revoit découverts et petits crédits",
+   "resume": "La banque en ligne active Wero progressivement à partir du 24 novembre et remplace son paiement en trois fois par un prêt personnel élargi. Comme ailleurs, le découvert autorisé est désormais traité comme un crédit à la consommation.",
+   "impact": "Illustration concrète des nouvelles règles du crédit à la consommation et de la montée de Wero face aux questions des clients sur les paiements entre particuliers.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/banque-en-ligne/actualites/111335/boursobank-ce-qui-change-pour-les-clients-en-cette-fin-annee"
+  },
+  {
+   "tag": "Paiements",
+   "titre": "Worldline chute de 15 % après un article du Financial Times",
+   "resume": "Le spécialiste des paiements a perdu 15,47 % vendredi après des soupçons de retards de paiement de fournisseurs, que l'entreprise conteste. Ubisoft a de son côté plongé de 23 % après des ventes décevantes.",
+   "impact": "Des clients détenteurs de ces titres peuvent réagir : rappeler les risques d'une concentration sur une seule valeur.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/bourse/actualites/111354/cac-40-en-baisse-de-pres-de-2-krach-de-ia-ubisoft-le-journal-de-la-bourse-du-vendredi-20-novembre-2026"
   }
  ],
  "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
