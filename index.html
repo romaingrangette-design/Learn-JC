@@ -536,6 +536,11 @@ ul.plain.pieges li::marker{color:var(--bad)}
   .wrap.v-home>*,.wrap.v-profile>*,.wrap.v-fiches>*,.wrap.v-tools:not(.detail)>*{break-inside:avoid;margin:0 0 24px;display:flex}
   .wrap.v-home>.ptitle,.wrap.v-profile>.ptitle,.wrap.v-fiches>.ptitle,.wrap.v-tools>.ptitle,.wrap>.backbar,.wrap>.actions-row,.wrap>.foot-note{column-span:all}
   .wrap.v-home>.ptitle,.wrap.v-profile>.ptitle,.wrap.v-fiches>.ptitle,.wrap.v-tools>.ptitle,.wrap>.foot-note,.wrap>p{display:block}
+  .wrap.v-tools:not(.detail){column-count:1}
+  .wrap.v-tools:not(.detail)>.tsearch{display:block;max-width:640px}
+  .wrap.v-tools:not(.detail)>.chips-row{display:flex}
+  .wrap.v-tools:not(.detail)>.tlist{display:block;column-count:2;column-gap:24px}
+  .wrap.v-tools:not(.detail)>.tlist>.block{break-inside:avoid;margin:0 0 24px}
   .wrap.v-fiches.detail>.actions-row{max-width:420px}
   .wrap.v-fiches.detail>.f-intro{column-span:all;display:block}
   .wrap.v-fiches.detail .f-chif{grid-template-columns:1fr}
@@ -909,7 +914,7 @@ const COL = {g:"var(--green)", b:"var(--blue)", v:"var(--violet)", o:"var(--gold
 function toolsView(body){
   if (!toolOpen){
     body.append(pageTitle("Outils", "Choisis la question de ton client. L'outil donne le résultat, explique le calcul et te souffle la phrase à dire."));
-    const q = h("input", {type:"search", class:"tsearch", placeholder:"Chercher : notaire, impôt, mensualité, livret…", value:toolQuery, "aria-label":"Chercher un outil"});
+    const q = h("input", {type:"search", class:"tsearch", placeholder:"Chercher : impôt, livret, succession, PER…", value:toolQuery, "aria-label":"Chercher un outil"});
     const list = h("div", {class:"tlist"});
     const chips = h("div", {class:"chips-row"}, h("button", {class:"chipb", "aria-pressed": toolIntent ? "false" : "true", onclick:() => { toolIntent = null; render(); }}, "Tout"),
       ...INTENTS.map(([l, g]) => h("button", {class:"chipb", "aria-pressed": toolIntent === g ? "true" : "false", onclick:() => { toolIntent = g; toolQuery = ""; render(); }}, l)));
