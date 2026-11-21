@@ -326,6 +326,50 @@
     return {coutA: a.assurance, coutB: b.assurance, economie: round2(a.assurance - b.assurance), mensA: round2(a.assurance / (o.annees * 12)), mensB: round2(b.assurance / (o.annees * 12))};
   }
 
-  const C = {R, EMOL, IR, notaire, amortissement, budgetAchat, epargne, objectifEpargne, partsFiscales, impotRevenu, enveloppes, rembPartiel, assurance, LIENS, usufruit, QD, succession, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
+  /* Impôt sur le revenu complet (revenus 2025, imposition 2026) */
+  Object.assign(IR, {salMin: 509, salMax: 14555, penMin: 454, penMax: 4439, isole: 4262, microFoncier: 0.30, microFoncierMax: 15000,
+    donsCol: 2000, emploiBase: 12000, emploiParEnfant: 1500, emploiMax: 15000, gardeMax: 3500});
+  function abatSal(x) { return x > 0 ? Math.min(x, Math.min(IR.salMax, Math.max(IR.salMin, x * 0.10))) : 0; }
+  function impotComplet(o) {
+    const couple = !!o.couple, enf = Math.max(0, o.enfants || 0), isole = !couple && !!o.parentIsole && enf > 0;
+    const D = couple ? [o.d1, o.d2] : [o.d1];
+    const lignes = [];
+    let salNet = 0, salBrut = 0;
+    D.forEach((d, k) => { const a = abatSal(d.salaires || 0); salBrut += d.salaires || 0; salNet += (d.salaires || 0) - a; if (d.salaires) lignes.push({k: "sal", who: k, brut: d.salaires, abat: a}); });
+    const penBrut = D.reduce((t, d) => t + (d.pensions || 0), 0);
+    let penAbat = D.reduce((t, d) => t + (d.pensions > 0 ? Math.min(d.pensions, Math.max(IR.penMin, d.pensions * 0.10)) : 0), 0); penAbat = Math.min(penAbat, IR.penMax);
+    const loyers = Math.max(0, o.loyers || 0), foncier = loyers * (1 - IR.microFoncier);
+    const global = Math.max(0, salNet + penBrut - penAbat + foncier);
+    const per = Math.max(0, o.per || 0), rni = Math.max(0, Math.floor(global - per));
+    // Parts
+    let parts = couple ? 2 : 1; for (let i = 1; i <= enf; i++) parts += i <= 2 ? .5 : 1; if (isole) parts += .5;
+    const base = couple ? 2 : 1;
+    const brutParts = bareme(rni / parts, IR.tranches) * parts, brutBase = bareme(rni / base, IR.tranches) * base;
+    let plafond; if (isole) { const demi = (parts - base) * 2; plafond = IR.isole + (demi - 2) * IR.plafondDemiPart; } else plafond = (parts - base) * 2 * IR.plafondDemiPart;
+    const avantage = brutBase - brutParts, plafonne = avantage > plafond + 0.5, apresQF = plafonne ? brutBase - plafond : brutParts;
+    const dPlaf = couple ? IR.decoteCouple : IR.decoteSeul;
+    const decote = apresQF > 0 && apresQF < dPlaf / IR.decoteTaux ? Math.min(apresQF, dPlaf - IR.decoteTaux * apresQF) : 0;
+    const apresDecote = Math.max(0, apresQF - decote);
+    // Réductions (plafonnées à l'impôt) puis crédits (remboursables)
+    const donsCol = Math.min(Math.max(0, o.donsCol || 0), IR.donsCol), donsColSurplus = Math.max(0, (o.donsCol || 0) - IR.donsCol);
+    const donsAutres = Math.min(Math.max(0, o.dons || 0) + donsColSurplus, rni * 0.20);
+    const redDons = donsCol * 0.75 + donsAutres * 0.66;
+    const redApplied = Math.min(apresDecote, redDons);
+    const emploiPlaf = Math.min(IR.emploiMax, IR.emploiBase + IR.emploiParEnfant * enf), emploi = Math.min(Math.max(0, o.emploi || 0), emploiPlaf) * 0.5;
+    const nbG = Math.min(enf, Math.max(0, o.enfantsMoins6 || 0)), garde = Math.min(Math.max(0, o.garde || 0), IR.gardeMax * nbG) * 0.5;
+    const credits = emploi + garde;
+    let bareNet = apresDecote - redApplied; if (bareNet > 0 && bareNet < 61 && credits === 0) bareNet = 0;
+    const pfu = Math.max(0, o.capitaux || 0) * 0.128;
+    const net = bareNet + pfu - credits;
+    const q = rni / parts; let tmi = 0; for (const [lim, t] of IR.tranches) { tmi = t; if (q <= lim) break; }
+    const pasBase = salBrut + penBrut + loyers, tauxPAS = pasBase > 0 ? Math.max(0, apresDecote) / pasBase * 100 : 0;
+    return {couple, isole, parts, lignes, salBrut, salNet: Math.round(salNet), penBrut, penAbat: Math.round(penAbat), loyers, foncier: Math.round(foncier), global: Math.round(global), per, rni,
+      quotient: round2(q), detail: baremeDetail(q, IR.tranches), brutParts: Math.round(brutParts), brutBase: Math.round(brutBase), avantage: Math.round(avantage), plafond, plafonne,
+      apresQF: Math.round(apresQF), decote: Math.round(decote), apresDecote: Math.round(apresDecote), redDons: Math.round(redDons), redApplied: Math.round(redApplied), donsCol, donsAutres: Math.round(donsAutres),
+      emploi: Math.round(emploi), emploiPlaf, garde: Math.round(garde), credits: Math.round(credits), bareNet: Math.round(bareNet), pfu: Math.round(pfu), net: Math.round(net), tmi: tmi * 100,
+      tauxMoyen: rni ? round2(Math.max(0, net) / rni * 100) : 0, tauxPAS: Math.round(tauxPAS * 10) / 10};
+  }
+
+  const C = {R, EMOL, impotComplet, abatSal, IR, notaire, amortissement, budgetAchat, epargne, objectifEpargne, partsFiscales, impotRevenu, enveloppes, rembPartiel, assurance, LIENS, usufruit, QD, succession, droits, bareme, baremeDetail, BAREMES, avDeces, avRachat, placement, PRODUITS, quinzaines, interetsQuinzaines, capacite, mensualite, per, bonusMalus, ira};
   if (typeof module !== "undefined" && module.exports) module.exports = C; else root.Calc = C;
 })(typeof window !== "undefined" ? window : this);

@@ -399,6 +399,7 @@ ul.plain.pieges li::marker{color:var(--bad)}
 .stackw{margin:14px 0 4px}.stackbar{display:flex;height:16px;border-radius:8px;overflow:hidden}.stackbar i{display:block;height:100%}.stackw .legend{margin-top:8px}
 .tscroll{overflow-x:auto;max-height:420px}.drop.inner{margin-top:18px}
 .tool-extra:empty{display:none}
+.ifs{display:grid;gap:10px}.ifc{background:var(--soft);border-radius:10px;padding:10px 12px}.ifc small{display:block;color:var(--muted);font-size:12.5px}.ifc b{font-size:17px;font-variant-numeric:tabular-nums}.ifc p{margin:4px 0 0;font-size:13px}
 .htab{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums;margin-top:6px}
 .htab th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
 .htab td{text-align:right;white-space:nowrap;padding:8px 4px;border-bottom:1px solid var(--line)}
@@ -859,7 +860,7 @@ const TOOL_GROUPS = [
     ["quinz","Intérêts entre deux dates","La règle des quinzaines du Livret A","quinzaine livret a dates intérêts"],
     ["inflation","Que vaudra son argent plus tard ?","L'effet de l'inflation sur le pouvoir d'achat","inflation pouvoir achat valeur"]]],
   ["Impôts et retraite", "b", ICON.target, [
-    ["ir","Combien d'impôt sur le revenu ?","Parts, tranche marginale (TMI), décote","impôt revenu ir tmi tranche parts quotient familial décote"],
+    ["ir","Calcul complet de l'impôt sur le revenu","Salaires, famille, dons, emploi à domicile, PER : tout le calcul","impôt revenu ir tmi tranche parts quotient familial décote"],
     ["per","Économie d'impôt PER","Plafond, montant déductible, gain","per retraite déduction impôt"]]],
   ["Assurance vie", "b", ICON.spark, [
     ["rachat","Retrait d'assurance vie","Ce que le client touche vraiment","rachat retrait assurance vie fiscalité"],
@@ -1259,7 +1260,7 @@ const TOOL_EXTRA = {
   quinz:{ex:["Sur le Livret A, on ne compte pas les intérêts au jour près mais par quinzaine : du 1er au 15 et du 16 à la fin du mois.","Un versement rapporte à partir de la quinzaine suivante ; un retrait arrête de rapporter dès le début de sa quinzaine."]},
   inflation:{ex:["Quand les prix montent, un même billet permet d'acheter moins de choses : c'est l'inflation.","Un placement ne fait vraiment gagner de l'argent que s'il rapporte plus que l'inflation."],mots:[["Inflation","La hausse moyenne des prix sur un an."],["Pouvoir d'achat","Ce qu'on peut acheter avec une somme d'argent."],["Rendement réel","Le rendement du placement moins l'inflation."]]},
   ir:{ex:["L'impôt sur le revenu se calcule par tranches : chaque tranche du revenu est taxée à son propre taux. On ne paie pas le même taux sur tout son revenu.","Pour tenir compte de la famille, on divise d'abord le revenu par le nombre de parts, on applique le barème, puis on remultiplie."],
-    mots:[["Revenu net imposable","Le revenu sur lequel l'impôt est calculé, après l'abattement de 10 % sur les salaires. Il est écrit sur l'avis d'impôt."],["Parts fiscales","1 par adulte, 0,5 pour chacun des 2 premiers enfants, 1 à partir du 3e."],["TMI","Tranche marginale d'imposition : le taux de la tranche la plus haute atteinte. C'est le taux qui compte pour le PER."],["Taux moyen","L'impôt divisé par le revenu : ce que le client paie vraiment en %."],["Décote","Une réduction d'impôt pour les foyers modestes."]]},
+    mots:[["Revenu net imposable","Le revenu sur lequel l'impôt est calculé, après l'abattement de 10 % sur les salaires. Il est écrit sur l'avis d'impôt."],["Parts fiscales","1 par adulte, 0,5 pour chacun des 2 premiers enfants, 1 à partir du 3e."],["TMI","Tranche marginale d'imposition : le taux de la tranche la plus haute atteinte. C'est le taux qui compte pour le PER."],["Taux moyen","L'impôt divisé par le revenu : ce que le client paie vraiment en %."],["Décote","Une réduction d'impôt pour les foyers modestes."],["Réduction d'impôt","Baisse l'impôt, mais pas en dessous de 0 (ex. : dons)."],["Crédit d'impôt","Baisse l'impôt, et si l'impôt est à 0, le fisc rembourse la différence (ex. : emploi à domicile, garde d'enfants)."],["Prélèvement à la source","L'impôt est payé chaque mois sur le salaire, avec un taux calculé par le fisc ; on régularise l'été suivant."]]},
   per:{ex:["Le PER est une épargne pour la retraite. Ce que le client y verse est déduit de son revenu imposable, donc il paie moins d'impôt tout de suite.","En contrepartie, l'argent est bloqué jusqu'à la retraite (sauf cas comme l'achat de la résidence principale), et il sera imposé à la sortie."],mots:[["TMI","Tranche marginale d'imposition : le taux auquel est taxé le dernier euro gagné."],["Plafond","Le montant maximum déductible chaque année."]]},
   rachat:{ex:["Quand le client retire de l'argent de son assurance vie, il récupère en partie ce qu'il a versé et en partie des gains. Seuls les gains sont imposés."],mots:[["Rachat","Un retrait d'argent sur une assurance vie."],["Gains","Ce que le contrat a rapporté en plus des versements."]]},
   avdeces:{ex:["Au décès, l'assurance vie est versée directement aux bénéficiaires choisis, hors succession. Elle profite d'abattements importants, surtout pour les versements faits avant 70 ans."],mots:[["Bénéficiaire","La personne qui reçoit l'argent au décès."],["Clause bénéficiaire","La phrase du contrat qui dit qui reçoit l'argent."]]},
@@ -1444,28 +1445,66 @@ const TOOL_SPECS_V3 = {
           steps:[["La perte de pouvoir d'achat", E0(S) + " ÷ (1 + " + P(i.get()) + ") puissance " + D + " = " + E0(val)], ["Ce que coûtera demain un achat de " + E0(S), E0(S) + " × (1 + " + P(i.get()) + ") puissance " + D + " = " + E0(besoin)], ["Le rendement réel", "(1 + " + P(t.get()) + ") ÷ (1 + " + P(i.get()) + ") − 1 = " + P(Math.round(rr * 100) / 100), rr >= 0 ? "Le placement bat l'inflation : le client s'enrichit vraiment." : "Le placement ne suit pas l'inflation : le client perd du pouvoir d'achat."]],
           say:"Avec " + P(i.get()) + " d'inflation par an, vos " + E0(S) + " ne vaudront plus que " + E0(val) + " dans " + D + " ans si l'argent dort. Placés à " + P(t.get()) + ", ils garderaient " + (reel >= S ? "et même augmenteraient" : "en partie") + " leur valeur."}; };
     }},
-  ir:{ q:"Combien je vais payer d'impôt sur le revenu, et dans quelle tranche je suis ?",
-    note:"Barème 2026 (revenus 2025), loi de finances du 19 février 2026. Simplifié : ne gère pas les demi-parts spéciales (parent isolé, invalidité, ancien combattant), les réductions et crédits d'impôt (dons, emploi à domicile…), ni la contribution sur les hauts revenus. Pour un chiffre exact : le simulateur d'impots.gouv.fr.",
+  ir:{ q:"Combien je vais payer d'impôt sur le revenu, et comment le réduire ?",
+    note:"Barème 2026 sur les revenus 2025 (loi de finances du 19 février 2026) : tranches, abattement de 10 % (509 € à 14 555 € par salarié ; pensions 454 € à 4 439 € par foyer), plafond de 1 807 € par demi-part (4 262 € pour le 1er enfant d'un parent isolé), décote, micro-foncier, dons (75 % jusqu'à 2 000 € pour l'aide aux personnes en difficulté), emploi à domicile et garde d'enfants. Non gérés : frais réels, résidence alternée, invalidité, pensions alimentaires, revenus d'indépendant, contribution sur les hauts revenus. Pour le chiffre officiel : simulateur d'impots.gouv.fr.",
     build(form){
-      const r = field("ir-r", "Revenu net imposable du foyer", 45000, {suf:"€ / an", hint:"Sur l'avis d'impôt. Sinon : salaires nets annuels × 0,9 environ (abattement de 10 %)."});
-      const s = seg("ir-s", "Situation", [["seul","Seul"],["couple","Marié ou pacsé"]], "seul"), e = field("ir-e", "Enfants à charge", 0);
-      form.append(r.el, s.el, e.el);
-      return () => { const R0 = r.get(); if (!(R0 >= 0)) return {err:"Indique le revenu."};
-        const x = C.impotRevenu({revenu:R0, couple:s.get() === "couple", enfants:Math.max(0, Math.round(e.get()))});
-        const T = C.IR.tranches, cols = [];
-        const st = [["Le nombre de parts", (s.get() === "couple" ? "2 parts pour le couple" : "1 part pour une personne seule") + (x.parts > (s.get() === "couple" ? 2 : 1) ? " + " + nf.format(x.parts - (s.get() === "couple" ? 2 : 1)) + " pour les enfants = " + nf.format(x.parts) + " parts" : ""), "0,5 part pour chacun des 2 premiers enfants, 1 part à partir du 3e."],
-          ["Le revenu pour une part", E0(R0) + " ÷ " + nf.format(x.parts) + " = " + E0(x.quotient)],
-          ["Le barème, tranche par tranche", x.detail.map(d => E0(d[3]) + " × " + nf0.format(d[2] * 100) + " % = " + E0(d[4])).join("\n") + "\nTotal pour une part : " + E0(x.detail.reduce((a, d) => a + d[4], 0)), "Chaque morceau du revenu est taxé à son propre taux : 0 % jusqu'à 11 600 €, puis 11 %, 30 %, 41 %, 45 %."],
-          ["L'impôt du foyer", E0(x.detail.reduce((a, d) => a + d[4], 0)) + " × " + nf.format(x.parts) + " = " + E0(x.brutParts)]];
-        if (x.plafonne) st.push(["Plafond de l'avantage des enfants", "Impôt sans enfants " + E0(x.brutBase) + " − plafond " + E0(x.plafond) + " = " + E0(x.apresQF), "Chaque demi-part d'enfant ne peut pas faire gagner plus de 1 807 €."]);
-        if (x.decote) st.push(["La décote", "− " + E0(x.decote), "Réduction pour les foyers modestes : " + E0(s.get() === "couple" ? 1483 : 897) + " − 45,25 % de l'impôt."]);
-        st.push(["L'impôt à payer", E0(x.net), x.net === 0 && x.apresQF > 0 ? "Sous 61 €, l'impôt n'est pas réclamé." : null]);
-        const tr = T.map(([lim, t], k) => { const lo = k ? T[k - 1][0] : 0; return {l:nf0.format(t * 100) + " % · " + (lim === Infinity ? "plus de " + nf0.format(lo) + " €" : nf0.format(lo) + " à " + nf0.format(lim) + " €"), v:Math.max(0, Math.min(x.quotient, lim) - lo), c: t * 100 === x.tmi ? COL.b : COL.l, best: t * 100 === x.tmi}; });
-        return {label:"Impôt sur le revenu", value:E0(x.net), sub:"Tranche marginale (TMI) : " + x.tmi + " %. Taux moyen réel : " + nf.format(x.tauxMoyen) + " %.",
-          chart:h("div", null, h("small", {class:"muted"}, "Son revenu pour une part, réparti dans les tranches :"), hbars(tr, E0)),
-          lines:[["Parts fiscales", nf.format(x.parts)], ["TMI", x.tmi + " %"], ["Taux moyen", nf.format(x.tauxMoyen) + " %"], ["Impôt par mois", E0(x.net / 12)]], steps:st,
-          say:"Avec " + E0(R0) + " de revenu imposable et " + nf.format(x.parts) + (x.parts > 1 ? " parts" : " part") + ", votre impôt est d'environ " + E0(x.net) + " par an. Votre tranche marginale est de " + x.tmi + " % : chaque euro déduit, par exemple avec un PER, vous fait économiser " + x.tmi + " centimes.",
-          warn: x.tmi >= 30 ? "TMI de " + x.tmi + " % : le PER devient intéressant. Voir l'outil « Économie d'impôt PER »." : null}; };
+      const sec = t => h("div", {class:"fsec"}, t);
+      const s = seg("ir-s", "Situation", [["seul","Seul"],["couple","Marié ou pacsé"]], "seul"), e = field("ir-e", "Enfants à charge", 0), pi = checkbox("ir-pi", "Il élève seul ses enfants (parent isolé, case T)", false);
+      const s1 = field("ir-s1", "Salaires de l'année", 32000, {suf:"€", hint:"Net imposable : sur la fiche de paie de décembre ou l'avis d'impôt (cumul annuel)."}), p1 = field("ir-p1", "Retraites et pensions", 0, {suf:"€"});
+      const s2 = field("ir-s2", "Salaires du conjoint", 0, {suf:"€"}), p2 = field("ir-p2", "Retraites et pensions du conjoint", 0, {suf:"€"});
+      const lo = field("ir-lo", "Loyers encaissés dans l'année (location nue)", 0, {suf:"€", hint:"Régime micro-foncier : jusqu'à 15 000 € de loyers, 30 % d'abattement."}), ca = field("ir-ca", "Intérêts et dividendes (hors livrets et assurance vie)", 0, {suf:"€", hint:"Taxés à part à 12,8 % (flat tax)."});
+      const pe = field("ir-pe", "Versements sur un PER", 0, {suf:"€", hint:"Dans la limite du plafond indiqué sur l'avis d'impôt."});
+      const dc = field("ir-dc", "Dons aux associations d'aide aux personnes en difficulté", 0, {suf:"€", hint:"Restos du cœur, Secours populaire… 75 % de réduction jusqu'à 2 000 €."}), dn = field("ir-dn", "Autres dons (associations, fondations)", 0, {suf:"€", hint:"66 % de réduction."});
+      const em = field("ir-em", "Emploi à domicile (ménage, jardinage, soutien scolaire…)", 0, {suf:"€", hint:"Dépenses de l'année, aides déduites. 50 % de crédit d'impôt."});
+      const ga = field("ir-ga", "Frais de garde (crèche, nounou agréée…)", 0, {suf:"€", hint:"Pour les enfants de moins de 6 ans. 50 % de crédit d'impôt, jusqu'à 3 500 € de frais par enfant."}), g6 = field("ir-g6", "Nombre d'enfants de moins de 6 ans", 0);
+      const d2 = h("div", null, sec("Les revenus du conjoint"), s2.el, p2.el);
+      form.append(sec("Le foyer"), s.el, e.el, pi.el, sec("Les revenus de l'année"), s1.el, p1.el, d2, sec("Autres revenus"), lo.el, ca.el,
+        sec("Ce qui fait baisser l'impôt"), pe.el, dc.el, dn.el, em.el, ga.el, g6.el);
+      const inp = (extra) => Object.assign({couple:s.get() === "couple", enfants:Math.max(0, Math.round(e.get())), parentIsole:pi.get(),
+        d1:{salaires:s1.get(), pensions:p1.get()}, d2:{salaires:s2.get(), pensions:p2.get()}, loyers:lo.get(), capitaux:ca.get(), per:pe.get(), donsCol:dc.get(), dons:dn.get(), emploi:em.get(), garde:ga.get(), enfantsMoins6:Math.round(g6.get())}, extra || {});
+      return () => { const couple = s.get() === "couple", nE = Math.max(0, Math.round(e.get()));
+        d2.hidden = !couple; pi.el.hidden = couple || nE === 0; ga.el.hidden = g6.el.hidden = nE === 0;
+        const I = inp(), x = C.impotComplet(I);
+        if (!(x.salBrut + x.penBrut + x.loyers + (ca.get() || 0) > 0)) return {err:"Indique au moins un revenu."};
+        const st = [];
+        // 1. Revenu imposable
+        const lr = [];
+        x.lignes.forEach(l => lr.push((x.couple ? (l.who ? "Conjoint : " : "Déclarant : ") : "") + E0(l.brut) + " de salaires − " + E0(l.abat) + " (10 % de frais pro) = " + E0(l.brut - l.abat)));
+        if (x.penBrut) lr.push(E0(x.penBrut) + " de pensions − " + E0(x.penAbat) + " (10 %) = " + E0(x.penBrut - x.penAbat));
+        if (x.loyers) lr.push(E0(x.loyers) + " de loyers − 30 % = " + E0(x.foncier));
+        if (x.per) lr.push("− " + E0(x.per) + " versés sur le PER");
+        st.push(["Le revenu imposable", lr.join("\n") + "\n= " + E0(x.rni), "Le fisc retire 10 % aux salaires pour les frais de travail (trajets, repas…), sans justificatif. Les versements PER sont retirés du revenu."]);
+        // 2. Parts
+        const base = couple ? 2 : 1;
+        st.push(["Le nombre de parts", (couple ? "2 parts pour le couple" : "1 part") + (nE ? " + " + nf.format(x.parts - base - (x.isole ? .5 : 0)) + " pour " + nE + (nE > 1 ? " enfants" : " enfant") : "") + (x.isole ? " + 0,5 parent isolé" : "") + " = " + nf.format(x.parts), "Les enfants donnent 0,5 part chacun pour les deux premiers, puis 1 part à partir du 3e."]);
+        st.push(["Le revenu d'une part", E0(x.rni) + " ÷ " + nf.format(x.parts) + " = " + E0(x.quotient), "C'est ce chiffre qu'on passe dans le barème : c'est comme ça que la famille fait baisser l'impôt."]);
+        const tpp = x.detail.reduce((a, d) => a + d[4], 0);
+        st.push(["Le barème, tranche par tranche", x.detail.map(d => E0(d[3]) + " à " + nf0.format(d[2] * 100) + " % = " + E0(d[4])).join("\n") + "\nPour une part : " + E0(tpp) + " × " + nf.format(x.parts) + " parts = " + E0(x.brutParts), "Chaque morceau du revenu a son propre taux. Passer dans la tranche à 30 % ne fait pas payer 30 % sur tout le revenu."]);
+        if (x.plafonne) st.push(["Le plafond des enfants", "Sans les enfants : " + E0(x.brutBase) + "\nAvantage limité à " + E0(x.plafond) + " → " + E0(x.apresQF), "Pour les revenus élevés, chaque demi-part ne peut pas faire gagner plus de 1 807 €" + (x.isole ? " (4 262 € pour le 1er enfant d'un parent isolé)." : ".")]);
+        if (x.decote) st.push(["La décote", (couple ? "1 483 €" : "897 €") + " − 45,25 % × " + E0(x.apresQF) + " = − " + E0(x.decote), "Un coup de pouce automatique pour les impôts modestes."]);
+        if (x.redDons) st.push(["Les dons", (x.donsCol ? E0(x.donsCol) + " × 75 %" : "") + (x.donsCol && x.donsAutres ? " + " : "") + (x.donsAutres ? E0(x.donsAutres) + " × 66 %" : "") + " = − " + E0(x.redDons) + (x.redApplied < x.redDons ? " (limité à " + E0(x.redApplied) + ")" : ""), "C'est une réduction : elle peut ramener l'impôt à 0, mais pas en dessous."]);
+        if (x.pfu) st.push(["Les intérêts et dividendes", E0(ca.get()) + " × 12,8 % = + " + E0(x.pfu), "Taxés à part, au taux fixe de la flat tax (les prélèvements sociaux sont prélevés en plus, à la source)."]);
+        if (x.credits) st.push(["Les crédits d'impôt", (x.emploi ? "Emploi à domicile : 50 % = − " + E0(x.emploi) : "") + (x.emploi && x.garde ? "\n" : "") + (x.garde ? "Garde d'enfants : 50 % = − " + E0(x.garde) : ""), "Un crédit d'impôt est remboursé même si le client ne paie pas d'impôt."]);
+        st.push(["L'impôt de l'année", E0(x.net) + (x.net < 0 ? " : le fisc lui rembourse " + E0(-x.net) : ""), null]);
+        // Graphique tranches
+        const T = C.IR.tranches, tr = T.map(([lim, t], k) => { const lo2 = k ? T[k - 1][0] : 0; return {l:nf0.format(t * 100) + " % · " + (lim === Infinity ? "plus de " + nf0.format(lo2) + " €" : nf0.format(lo2) + " à " + nf0.format(lim) + " €"), v:Math.max(0, Math.min(x.quotient, lim) - lo2), c: t * 100 === x.tmi ? COL.b : COL.l, best: t * 100 === x.tmi}; });
+        // Et si…
+        const plus = C.impotComplet(inp({d1:{salaires:s1.get() + 1000, pensions:p1.get()}})), dPlus = plus.net - x.net;
+        const perX = C.impotComplet(inp({per:pe.get() + 1000})), dPer = x.net - perX.net;
+        const ifs = [["S'il gagne 1 000 € de plus", "+ " + E0(dPlus) + " d'impôt", "Il garde " + E0(1000 - dPlus) + " sur 1 000 € (avant prélèvements sociaux)."],
+          ["S'il verse 1 000 € de plus sur un PER", "− " + E0(dPer) + " d'impôt", dPer >= 300 ? "Intéressant : l'effort réel n'est que de " + E0(1000 - dPer) + "." : "Peu d'intérêt fiscal à sa tranche."]];
+        if (couple){ const a = C.impotComplet(inp({couple:false, parentIsole:false, d2:{}})), b = C.impotComplet(inp({couple:false, enfants:0, parentIsole:false, d1:{salaires:s2.get(), pensions:p2.get()}, loyers:0, capitaux:0, per:0, donsCol:0, dons:0, emploi:0, garde:0}));
+          const sep = a.net + b.net, diff = sep - x.net;
+          ifs.push(["S'ils n'étaient ni mariés ni pacsés", "Deux impôts séparés : " + E0(sep), diff > 0 ? "Le mariage ou le PACS leur fait économiser " + E0(diff) + " par an." : diff < 0 ? "Ils paieraient " + E0(-diff) + " de moins séparément (cas rare)." : "Pas de différence."]); }
+        const ifBlock = block(ICON.spark, "v", "Et si… ?", "pour conseiller", h("div", {class:"ifs"}, ...ifs.map(([t, v, c]) => h("div", {class:"ifc"}, h("small", null, t), h("b", null, v), h("p", null, c)))));
+        const pasBlock = block(ICON.calc, "b", "Le prélèvement à la source", null, h("p", {class:"res-sub"}, "Taux du foyer estimé : ", h("b", null, nf.format(x.tauxPAS) + " %"), ". Environ " + E0(Math.max(0, x.apresDecote) / 12) + " prélevés par mois sur les salaires et pensions."),
+          h("p", {class:"muted", style:"font-size:13px"}, "Les réductions et crédits d'impôt (dons, emploi à domicile…) ne sont pas dans le taux : ils sont remboursés l'été suivant, avec une avance de 60 % en janvier pour certains."));
+        return {label: x.net >= 0 ? "Impôt sur le revenu" : "Le fisc lui rembourse", value:E0(Math.abs(x.net)), sub:"Tranche marginale : " + x.tmi + " %. Taux moyen : " + nf.format(x.tauxMoyen) + " % du revenu imposable. Soit " + E0(Math.max(0, x.net) / 12) + " par mois.",
+          chart:h("div", null, h("small", {class:"muted"}, "Le revenu d'une part (" + E0(x.quotient) + ") dans les tranches :"), hbars(tr, E0)),
+          lines:[["Revenu imposable", E0(x.rni)], ["Parts", nf.format(x.parts)], ["Impôt avant réductions", E0(x.apresDecote)], ["Réductions et crédits", "− " + E0(x.redApplied + x.credits)]],
+          blocks:[ifBlock, pasBlock], steps:st,
+          say:"Avec " + E0(x.rni) + " de revenu imposable et " + nf.format(x.parts) + (x.parts > 1 ? " parts" : " part") + ", votre impôt est d'environ " + E0(Math.max(0, x.net)) + " par an. Vous êtes dans la tranche à " + x.tmi + " %, mais vous ne payez en réalité que " + nf.format(x.tauxMoyen) + " % de votre revenu." + (x.tmi >= 30 ? " Un versement sur un PER vous ferait économiser " + x.tmi + " centimes par euro versé." : ""),
+          warn: x.tmi >= 30 && !pe.get() ? "TMI à " + x.tmi + " % et pas de PER : piste à proposer (voir l'outil « Économie d'impôt PER »)." : null}; };
     }}
 };
 Object.assign(TOOL_SPECS, TOOL_SPECS_V3);
