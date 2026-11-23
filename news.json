@@ -1,7 +1,7 @@
 {
- "date": "2026-11-22",
- "titre": "Le point du matin · dimanche 22 novembre",
- "maj": "22/11/2026 à 7 h 40",
+ "date": "2026-11-23",
+ "titre": "Le point du matin · lundi 23 novembre",
+ "maj": "23/11/2026 à 7 h 40",
  "marches": [
   {
    "nom": "CAC 40",
@@ -19,65 +19,57 @@
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "Semaine noire pour Paris : le CAC 40 finit sous 8 000 points",
-   "resume": "L'indice parisien a clôturé vendredi à 7 927,75 points (-1,89 %), après cinq séances de repli et une baisse de plus de 5 % sur la semaine. Les doutes sur la valorisation des valeurs liées à l'intelligence artificielle ont pesé sur toutes les places.",
-   "impact": "Lundi, des clients investis en actions pourront appeler : revenir sur leur horizon, leur profil de risque et la diversification, sans prédire la suite.",
-   "source": "ABC Bourse",
-   "url": "https://www.abcbourse.com/marches/le-cac-40-chute-de-plus-de-5-et-signe-sa-deuxieme-pire-semaine-de-l-annee_706467"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "Découvert autorisé : vérification de solvabilité obligatoire depuis le 20 novembre",
-   "resume": "Depuis vendredi, la banque doit analyser la solvabilité du client pour tout nouveau découvert, quel que soit son montant ou sa durée. Les autorisations accordées avant le 20 novembre ne sont pas concernées.",
-   "impact": "Une demande de découvert, même petite, suit désormais une procédure proche du crédit : prévenir les clients que des justificatifs peuvent être demandés.",
-   "source": "Service-public.fr",
-   "url": "https://www.service-public.gouv.fr/particuliers/actualites/A18569?lang=en"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "Crédit à la consommation : nouvelle mention obligatoire dans les publicités",
-   "resume": "Depuis le 20 novembre, les publicités doivent indiquer qu'un crédit coûte de l'argent et doit être remboursé, et ne peuvent plus vanter la facilité d'obtention. Les manquements sont passibles d'une amende administrative.",
-   "impact": "Les supports commerciaux et le discours en agence doivent éviter toute formule du type « crédit en quelques clics ».",
-   "source": "FranceTransactions",
-   "url": "https://www.francetransactions.com/actus/news-banques/credit-consommation-nouvelle-reglementation.html"
+   "titre": "Après une semaine à -5 %, Paris guette les indicateurs d'activité",
+   "resume": "Le CAC 40 a fini vendredi à 7 927,75 points, après sa deuxième pire semaine de l'année. Au programme cette semaine : indices PMI ce lundi, comptes rendus de la BCE jeudi et inflation française définitive vendredi.",
+   "impact": "Les clients inquiets de la baisse peuvent appeler : rappeler l'horizon de placement et la diversification, sans pronostic sur les prochaines séances.",
+   "source": "Zonebourse (Bourse Direct)",
+   "url": "https://www.boursedirect.fr/fr/actualites/categorie/analyse-de-la-tendance-des-marches/agenda-macro-zonebourse-semaine-du-23-au-27-novembre-2026-zone-bourse-2bc061e0c46165f3ae2893f0c9ae5366af9a5cfe"
   },
   {
    "tag": "Politique",
-   "titre": "Budget de la Sécu 2027 : commission mixte paritaire le 26 novembre",
-   "resume": "Adopté par le Sénat le 18 novembre dans une version modifiée (suppression de la désindexation partielle des pensions notamment), le texte passe en commission mixte paritaire mercredi. Un accord y est jugé peu probable.",
-   "impact": "Rien n'est encore définitif sur les retraites et les prélèvements : éviter de présenter les mesures discutées comme acquises.",
+   "titre": "Budget 2027 au Sénat : vote des recettes attendu le 28 novembre",
+   "resume": "Rejeté par l'Assemblée le 4 novembre, le projet de loi de finances est examiné au Sénat depuis le 20 novembre ; le vote sur l'ensemble est prévu le 9 décembre. Le Parlement a jusqu'au 17 décembre, sinon une loi spéciale ou des ordonnances seraient envisagées.",
+   "impact": "Les mesures fiscales discutées, comme le plafond de l'abattement de 10 % sur les pensions, ne sont pas adoptées : rien ne change pour les clients à ce stade.",
+   "source": "Actu Alt Plus",
+   "url": "https://www.actu-alt-plus.com/idees-solutions/budget-2027-senat-calendrier-vote-9-decembre/43576/"
+  },
+  {
+   "tag": "Taux",
+   "titre": "Crédit immobilier : 3,61 % sur 20 ans en moyenne fin novembre",
+   "resume": "Selon le courtier CAFPI, les taux moyens obtenus atteignent 3,40 % sur 15 ans, 3,61 % sur 20 ans et 3,75 % sur 25 ans, en hausse depuis la rentrée avec la remontée des taux d'État. Sur 250 000 € et 25 ans, la mensualité augmente d'environ 23 € en un mois.",
+   "impact": "La capacité d'emprunt baisse : refaire les simulations des projets étudiés il y a quelques mois et vérifier le taux d'endettement.",
+   "source": "CAFPI",
+   "url": "https://www.cafpi.fr/credit-immobilier/barometre-taux/actualites-taux/analyse-taux-credit-immobilier-novembre-2026"
+  },
+  {
+   "tag": "Réglementation",
+   "titre": "Nouveaux découverts : pas de seuil d'endettement imposé, rappelle la FBF",
+   "resume": "Depuis le 20 novembre, les petits découverts (moins de 200 € ou d'un mois) relèvent aussi du crédit à la consommation. L'analyse de solvabilité doit rester proportionnée au montant et à la durée, et les découverts déjà accordés ne sont pas concernés.",
+   "impact": "Rassurer les clients : un découvert existant reste valable, et aucune règle des 30 % d'endettement ne s'applique au découvert.",
+   "source": "Fédération bancaire française",
+   "url": "https://fbf.fr/fr/distinguer-le-vrai-du-faux-sur-les-evolutions-des-decouverts-bancaires/"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Budget de la Sécu 2027 : commission mixte paritaire mercredi",
+   "resume": "Le texte voté par le Sénat le 18 novembre, qui a notamment supprimé la désindexation partielle des pensions, sera examiné en commission mixte paritaire le 26 novembre. Un accord y est jugé incertain.",
+   "impact": "Pensions et prélèvements sociaux 2027 restent en débat : ne rien présenter comme acquis aux clients retraités.",
    "source": "Public Sénat",
    "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-de-la-securite-sociale-les-modifications-a-retenir-apres-le-passage-du-projet-de-loi-au-senat"
   },
   {
    "tag": "Taux",
    "titre": "Livret A : une hausse vers 2,5-2,6 % envisagée au 1er février",
-   "resume": "Avec l'inflation remontée, des projections comme celle de BPCE L'Observatoire situent le taux du Livret A autour de 2,60 % en février, contre 1,7 % aujourd'hui. Le taux sera calculé mi-janvier et l'État peut s'écarter de la formule.",
-   "impact": "Les clients peuvent poser la question : parler d'une hausse possible, pas d'un taux annoncé.",
+   "resume": "Avec le retour de l'inflation, des projections comme celle de BPCE L'Observatoire situent le Livret A autour de 2,60 % en février, contre 1,7 % aujourd'hui. Le taux sera calculé mi-janvier et le gouvernement peut s'écarter de la formule.",
+   "impact": "Évoquer une hausse possible, jamais un taux annoncé, si un client hésite à placer son épargne de précaution.",
    "source": "JeChange",
    "url": "https://www.jechange.fr/banques/news/livret-a-2-60-pourcent-1er-fevrier-2027-projection-bpce-inflation"
   },
   {
-   "tag": "Taux",
-   "titre": "BCE : une hausse de taux attendue le 17 décembre",
-   "resume": "La BCE a laissé entendre fin octobre qu'elle relèverait encore ses taux en décembre avant une pause, face à une inflation élevée en zone euro. Le taux de dépôt est actuellement à 2,50 %.",
-   "impact": "Le coût des crédits à taux fixe pourrait continuer de monter : utile pour cadrer les projets immobiliers en cours d'étude.",
-   "source": "Boursorama",
-   "url": "https://www.boursorama.com/actualite-economique/actualites/la-bce-prevoit-une-hausse-des-taux-en-decembre-suivie-d-une-pause-121e3c4f2c4b9ac5ad3048349eaeba98"
-  },
-  {
-   "tag": "Banque",
-   "titre": "Comptes à terme : BoursoBank propose jusqu'à 3,10 % sur 24 mois",
-   "resume": "La banque en ligne affiche de 2,60 % sur 6 mois à 3,10 % brut sur 24 mois, avec un versement minimum ramené à 1 000 €. Une sortie anticipée fait perdre les intérêts, imposés au prélèvement forfaitaire.",
-   "impact": "Repère concurrentiel quand un client compare ses offres d'épargne à durée fixe ; rappeler la fiscalité et le blocage des fonds.",
-   "source": "MoneyVox",
-   "url": "https://moneyvox.fr/placement/actualites/111341/compte-a-terme-nouveau-taux-versement-minimum-ce-qui-change-chez-boursobank"
-  },
-  {
    "tag": "Groupe",
-   "titre": "Italie : Crédit Agricole poursuit son projet de rapprochement avec Banco BPM",
-   "resume": "Le groupe propose de fusionner sa filiale Crédit Agricole Italia avec Banco BPM et a offert des garanties au gouvernement italien pour obtenir son soutien, selon Reuters. L'opération n'est pas conclue.",
-   "impact": "Sujet possible avec des clients sociétaires ou actionnaires : s'en tenir aux communiqués officiels du groupe.",
+   "titre": "Italie : le projet Crédit Agricole - Banco BPM toujours en discussion",
+   "resume": "Le groupe propose depuis le 9 novembre de fusionner Crédit Agricole Italia avec Banco BPM, avec une prime de 20 % et un dividende d'un milliard d'euros, et a offert des garanties à Rome selon Reuters. Rien n'est conclu.",
+   "impact": "Si des clients actionnaires ou sociétaires en parlent, s'en tenir aux communiqués officiels du groupe.",
    "source": "Boursorama (Reuters)",
    "url": "https://www.boursorama.com/bourse/actualites/banco-bpm-credit-agricole-offre-des-garanties-a-rome-1d81ae59c7b07291b72fe580d844a050"
   }
