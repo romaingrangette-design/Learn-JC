@@ -1,13 +1,13 @@
 {
- "date": "2026-11-23",
- "titre": "Le point du matin · lundi 23 novembre",
- "maj": "23/11/2026 à 9 h 08",
+ "date": "2026-11-24",
+ "titre": "Le point du matin · mardi 24 novembre",
+ "maj": "24/11/2026 à 7 h 42",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "7 965,41 pts",
-   "variation": 0.48,
-   "note": "Ouverture du 23/11 · 9 h 00"
+   "valeur": "8 044,84 pts",
+   "variation": 1.48,
+   "note": "Clôture du 23/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
@@ -19,59 +19,59 @@
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "Après une semaine à -5 %, Paris guette les indicateurs d'activité",
-   "resume": "Le CAC 40 a fini vendredi à 7 927,75 points, après sa deuxième pire semaine de l'année. Au programme cette semaine : indices PMI ce lundi, comptes rendus de la BCE jeudi et inflation française définitive vendredi.",
-   "impact": "Les clients inquiets de la baisse peuvent appeler : rappeler l'horizon de placement et la diversification, sans pronostic sur les prochaines séances.",
-   "source": "Zonebourse (Bourse Direct)",
-   "url": "https://www.boursedirect.fr/fr/actualites/categorie/analyse-de-la-tendance-des-marches/agenda-macro-zonebourse-semaine-du-23-au-27-novembre-2026-zone-bourse-2bc061e0c46165f3ae2893f0c9ae5366af9a5cfe"
-  },
-  {
-   "tag": "Politique",
-   "titre": "Budget 2027 au Sénat : vote des recettes attendu le 28 novembre",
-   "resume": "Rejeté par l'Assemblée le 4 novembre, le projet de loi de finances est examiné au Sénat depuis le 20 novembre ; le vote sur l'ensemble est prévu le 9 décembre. Le Parlement a jusqu'au 17 décembre, sinon une loi spéciale ou des ordonnances seraient envisagées.",
-   "impact": "Les mesures fiscales discutées, comme le plafond de l'abattement de 10 % sur les pensions, ne sont pas adoptées : rien ne change pour les clients à ce stade.",
-   "source": "Actu Alt Plus",
-   "url": "https://www.actu-alt-plus.com/idees-solutions/budget-2027-senat-calendrier-vote-9-decembre/43576/"
+   "titre": "Le CAC 40 rebondit de 1,48 % et repasse les 8 000 points",
+   "resume": "Après une semaine de repli de plus de 5 %, la Bourse de Paris a clôturé lundi à 8 044,84 points, portée par le rebond des valeurs technologiques liées à l'IA dans le sillage de Nvidia. STMicroelectronics, Legrand et Schneider ont mené la hausse.",
+   "impact": "Un rebond d'une séance ne dit rien de la suite : face aux clients, garder le discours sur l'horizon de placement et la diversification.",
+   "source": "BFM Bourse",
+   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-propulse-par-wall-street-et-donc-par-l-ahurissant-comeback-de-jensen-huang-chez-nvidia-le-cac-40-termine-en-hausse-d-15-et-repasse-au-dessus-des-8000-points-1174281.html"
   },
   {
    "tag": "Taux",
-   "titre": "Crédit immobilier : 3,61 % sur 20 ans en moyenne fin novembre",
-   "resume": "Selon le courtier CAFPI, les taux moyens obtenus atteignent 3,40 % sur 15 ans, 3,61 % sur 20 ans et 3,75 % sur 25 ans, en hausse depuis la rentrée avec la remontée des taux d'État. Sur 250 000 € et 25 ans, la mensualité augmente d'environ 23 € en un mois.",
-   "impact": "La capacité d'emprunt baisse : refaire les simulations des projets étudiés il y a quelques mois et vérifier le taux d'endettement.",
-   "source": "CAFPI",
-   "url": "https://www.cafpi.fr/credit-immobilier/barometre-taux/actualites-taux/analyse-taux-credit-immobilier-novembre-2026"
+   "titre": "Détente du taux d'État français à 10 ans, autour de 4,8 %",
+   "resume": "Lundi, le rendement de l'OAT 10 ans a reculé d'environ 6 points de base, vers 4,82 %, après des informations selon lesquelles le président envisagerait d'inscrire une règle d'or budgétaire dans la Constitution. Il avait dépassé 5 % fin octobre.",
+   "impact": "Le taux de l'OAT pèse sur les barèmes de crédit immobilier : une détente durable pourrait calmer la hausse, mais rien n'est acquis à court terme.",
+   "source": "BFM Bourse",
+   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-avec-une-accalmie-sur-l-ia-et-la-detente-des-taux-francais-le-cac-40-reprend-un-tout-petit-peu-d-allant-1174251.html"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Budget 2027 : le Sénat vise 4,8 % de déficit et l'indexation des pensions",
+   "resume": "La commission des finances du Sénat propose de ramener le déficit à 4,8 % du PIB, contre 5 % dans le projet du gouvernement, sans hausse de taux d'impôt. Elle veut financer l'indexation des retraites sur l'inflation en supprimant l'abattement de 10 % des retraités ; le texte n'en est qu'à la première lecture.",
+   "impact": "Pour les clients retraités, l'imposition et la revalorisation des pensions 2027 restent incertaines : ne rien présenter comme voté.",
+   "source": "Sénat",
+   "url": "https://www.senat.fr/salle-de-presse/communiques-de-presse/presse/23-11-2026/davantage-defforts-en-depenses-et-plus-de-justice-fiscale-et-sociale-le-senat-sempare-du-budget-2027.html"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Indemnités ALD : le Sénat vote leur imposition totale en première lecture",
+   "resume": "Un amendement adopté au Sénat soumettrait à l'impôt sur le revenu la totalité des indemnités journalières pour affection de longue durée, au lieu de la moitié prévue par le gouvernement. La mesure doit encore figurer dans le texte final du budget.",
+   "impact": "Pas de changement à ce stade : un client en arrêt longue durée qui s'en inquiète doit savoir que la mesure n'est pas définitivement adoptée.",
+   "source": "Boursorama",
+   "url": "https://www.boursorama.com/actualite-economique/actualites/budget-2027-les-indemnites-pour-affections-de-longue-duree-bientot-imposees-a-100-8a3d3d009bd2f454bc6ac8ccefed841e"
   },
   {
    "tag": "Réglementation",
-   "titre": "Nouveaux découverts : pas de seuil d'endettement imposé, rappelle la FBF",
-   "resume": "Depuis le 20 novembre, les petits découverts (moins de 200 € ou d'un mois) relèvent aussi du crédit à la consommation. L'analyse de solvabilité doit rester proportionnée au montant et à la durée, et les découverts déjà accordés ne sont pas concernés.",
-   "impact": "Rassurer les clients : un découvert existant reste valable, et aucune règle des 30 % d'endettement ne s'applique au découvert.",
-   "source": "Fédération bancaire française",
-   "url": "https://fbf.fr/fr/distinguer-le-vrai-du-faux-sur-les-evolutions-des-decouverts-bancaires/"
-  },
-  {
-   "tag": "Politique",
-   "titre": "Budget de la Sécu 2027 : commission mixte paritaire mercredi",
-   "resume": "Le texte voté par le Sénat le 18 novembre, qui a notamment supprimé la désindexation partielle des pensions, sera examiné en commission mixte paritaire le 26 novembre. Un accord y est jugé incertain.",
-   "impact": "Pensions et prélèvements sociaux 2027 restent en débat : ne rien présenter comme acquis aux clients retraités.",
-   "source": "Public Sénat",
-   "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-de-la-securite-sociale-les-modifications-a-retenir-apres-le-passage-du-projet-de-loi-au-senat"
+   "titre": "Découverts : les nouvelles règles de solvabilité en vigueur depuis le 20 novembre",
+   "resume": "Avec la transposition de la directive sur le crédit à la consommation, l'analyse de solvabilité s'étend aux petits découverts de moins de 200 € ou d'un mois. La consultation du FICP reste facultative pour ces montants et les autorisations accordées avant le 20 novembre restent valables.",
+   "impact": "Pour toute nouvelle autorisation de découvert, prévoir l'analyse de solvabilité ; rassurer les clients dont le découvert existait déjà.",
+   "source": "Boursorama",
+   "url": "https://www.boursorama.com/budget/banque/actualites/decouvert-bancaire-ce-qui-a-change-depuis-le-20-novembre-2026-b6144bd9e573028e8f8f6b77872593f0"
   },
   {
    "tag": "Taux",
-   "titre": "Livret A : une hausse vers 2,5-2,6 % envisagée au 1er février",
-   "resume": "Avec le retour de l'inflation, des projections comme celle de BPCE L'Observatoire situent le Livret A autour de 2,60 % en février, contre 1,7 % aujourd'hui. Le taux sera calculé mi-janvier et le gouvernement peut s'écarter de la formule.",
-   "impact": "Évoquer une hausse possible, jamais un taux annoncé, si un client hésite à placer son épargne de précaution.",
-   "source": "JeChange",
-   "url": "https://www.jechange.fr/banques/news/livret-a-2-60-pourcent-1er-fevrier-2027-projection-bpce-inflation"
+   "titre": "Crédit immobilier : 3,76 % sur 20 ans, plus de 4 % pour certains profils",
+   "resume": "Selon le courtier Pretto, les taux de novembre atteignent en moyenne 3,56 % sur 15 ans, 3,76 % sur 20 ans et 3,85 % sur 25 ans, en hausse sur un mois. Sous 40 000 € de revenus, le taux moyen sur 25 ans dépasse 4 % ; le taux d'usure est de 5,40 % pour 20 ans et plus.",
+   "impact": "Les ménages modestes sont les plus touchés : vérifier tôt le taux d'endettement et la marge sous le taux d'usure, assurance comprise.",
+   "source": "Pretto",
+   "url": "https://www.pretto.fr/taux-immobilier/historique-taux-immobilier/2026/analyse-taux-immobilier-novembre-2026/"
   },
   {
-   "tag": "Groupe",
-   "titre": "Italie : le projet Crédit Agricole - Banco BPM toujours en discussion",
-   "resume": "Le groupe propose depuis le 9 novembre de fusionner Crédit Agricole Italia avec Banco BPM, avec une prime de 20 % et un dividende d'un milliard d'euros, et a offert des garanties à Rome selon Reuters. Rien n'est conclu.",
-   "impact": "Si des clients actionnaires ou sociétaires en parlent, s'en tenir aux communiqués officiels du groupe.",
-   "source": "Boursorama (Reuters)",
-   "url": "https://www.boursorama.com/bourse/actualites/banco-bpm-credit-agricole-offre-des-garanties-a-rome-1d81ae59c7b07291b72fe580d844a050"
+   "tag": "Réglementation",
+   "titre": "PEA-PME : le plafond reste à 225 000 € pour l'instant",
+   "resume": "Le relèvement à 300 000 € voté à l'Assemblée est tombé avec le rejet de la partie recettes du budget le 4 novembre. Le Sénat pourrait le réintroduire, avant un vote prévu le 9 décembre.",
+   "impact": "Continuer à raisonner avec un plafond de 225 000 € pour le PEA-PME et ne pas promettre de hausse aux clients.",
+   "source": "Meilleurtaux Placement",
+   "url": "https://placement.meilleurtaux.com/bourse/actualites/2026-novembre/pea-pme-plafond-300000-eur-tombe-budget-peut-il-revenir-senat.html"
   }
  ],
  "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
