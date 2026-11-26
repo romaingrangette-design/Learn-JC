@@ -1,77 +1,77 @@
 {
- "date": "2026-11-25",
- "titre": "Le point du matin · mercredi 25 novembre",
- "maj": "25/11/2026 à 9 h 10",
+ "date": "2026-11-26",
+ "titre": "Le point du matin · jeudi 26 novembre",
+ "maj": "26/11/2026 à 7 h 40",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "8 090,87 pts",
-   "variation": 0.63,
-   "note": "Ouverture du 25/11 · 9 h 09"
+   "valeur": "7 980,57 pts",
+   "variation": -0.75,
+   "note": "Clôture du 25/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
-   "valeur": "15,40 €",
-   "variation": 0.20,
-   "note": "Ouverture du 25/11 · vers 9 h 10"
+   "valeur": "15,21 €",
+   "variation": -1.07,
+   "note": "Clôture du 25/11"
   }
  ],
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "CAC 40 stable à 8 040 points, Sanofi bondit de près de 10 %",
-   "resume": "La Bourse de Paris a fini mardi quasi inchangée (-0,05 %), soutenue par Sanofi après l'annonce du rachat de la biotech américaine Insmed pour environ 41 milliards de dollars. Les valeurs liées à l'IA comme STMicroelectronics et Soitec ont reculé d'environ 10 %.",
-   "impact": "Des écarts aussi forts entre valeurs d'un même indice rappellent aux clients l'intérêt de diversifier plutôt que de miser sur quelques titres.",
-   "source": "BFM Bourse",
-   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-essoufflee-wall-street-repart-a-la-baisse-le-cac-40-limite-la-casse-005-grace-a-sanofi-1174359.html"
+   "titre": "Le CAC 40 repasse sous 8 000 points, emporté par la tech",
+   "resume": "La Bourse de Paris a reculé de 0,75 % mercredi, à 7 980,57 points, après une nouvelle chute d'environ 4 % du Nasdaq liée aux doutes sur les investissements dans l'IA. Bureau Veritas a progressé de 6,6 %, STMicroelectronics a perdu 4,7 %.",
+   "impact": "Les clients exposés aux fonds technologiques peuvent s'inquiéter : rappeler l'horizon de placement et l'intérêt de la diversification, sans inciter à vendre ou acheter.",
+   "source": "Boursorama",
+   "url": "https://www.boursorama.com/bourse/actualites/la-bourse-de-paris-termine-en-baisse-entrainee-par-le-decrochage-de-wall-street-433969c54c4595bb9b96daa1793758d6"
   },
   {
-   "tag": "Groupe",
-   "titre": "Crédit Agricole Assurances associée à HLD dans une offre sur Clariane",
-   "resume": "Crédit Agricole Assurances fait partie, aux côtés de HLD Europe, d'une offre publique d'achat amicale sur le groupe de maisons de retraite et cliniques Clariane. L'action Clariane a bondi d'environ 35 % mardi.",
-   "impact": "Des clients actionnaires de Clariane pourraient poser des questions : rester factuel sur l'opération et renvoyer vers la documentation officielle de l'offre.",
-   "source": "Zonebourse (Reuters)",
-   "url": "https://www.zonebourse.com/actualite-bourse/l-europe-finit-dans-le-rouge-le-rebond-lie-a-nvidia-decline-ce7851dbdd88f124"
+   "tag": "Bourse",
+   "titre": "Inflation américaine à 3,8 % : la Fed pourrait remonter ses taux",
+   "resume": "L'indice des prix PCE a atteint 3,8 % sur un an en octobre aux États-Unis, contre 3,6 % en septembre. Une hausse des taux de la Fed le 9 décembre est désormais évoquée ; Wall Street est fermé ce jeudi pour Thanksgiving.",
+   "impact": "Un resserrement américain pèse souvent sur les marchés actions et obligataires : utile pour expliquer la volatilité récente des supports en unités de compte.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/bourse/actualites/111425/le-nasdaq-plonge-le-cac-40-limite-la-casse-les-infos-bourse-du-mercredi-25-novembre-2026"
+  },
+  {
+   "tag": "Réglementation",
+   "titre": "La banque Delubac placée sous administration provisoire par l'ACPR",
+   "resume": "L'ACPR a nommé un administrateur provisoire chez Delubac, mesure très rare notifiée le 23 novembre. La banque avait déjà été sanctionnée en 2025 pour des manquements en matière de lutte anti-blanchiment.",
+   "impact": "Rappelle l'importance des contrôles LCB-FT au quotidien ; en cas de question d'un client, préciser que les dépôts restent couverts par la garantie du FGDR jusqu'à 100 000 € par banque.",
+   "source": "MoneyVox (AFP)",
+   "url": "https://www.moneyvox.fr/banque/actualites/111418/la-banque-delubac-placee-sous-le-controle-du-gendarme-du-secteur-bancaire"
+  },
+  {
+   "tag": "Taux",
+   "titre": "Livret A relevé en février : jusqu'à 3 milliards de coût pour les banques",
+   "resume": "Le plafond du Livret A doit passer de 22 950 € à un montant entre 25 000 et 30 000 € au 1er février 2027, avec un taux attendu entre 2,5 et 2,8 %. Sia Partners chiffre le coût pour les banques entre 2,1 et 3 milliards d'euros la première année.",
+   "impact": "Montant et taux ne sont pas encore fixés : ne rien promettre aux clients, mais anticiper des questions sur la place du Livret A dans leur épargne de précaution.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/livret-a/actualites/111409/un-plafond-a-27-500-euros-et-un-taux-a-2-6-en-fevrier-2027-un-scenario-qui-couterait-plusieurs-milliards-aux-banques"
   },
   {
    "tag": "Politique",
-   "titre": "Budget 2027 : le Sénat rejette la suppression de la flat tax",
-   "resume": "Mardi soir, le Sénat a repoussé des amendements de gauche visant à supprimer ou relever le prélèvement forfaitaire unique, actuellement de 31,4 % (12,8 % d'impôt et 18,6 % de prélèvements sociaux). Le budget n'est qu'en première lecture.",
-   "impact": "La fiscalité des revenus de placements reste pour l'instant inchangée, mais le texte peut encore évoluer : ne rien présenter comme définitif.",
-   "source": "Public Sénat",
-   "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-la-gauche-du-senat-echoue-a-supprimer-la-flat-tax"
+   "titre": "Budget 2027 : le Sénat porte à 50 000 € l'exonération des dons familiaux",
+   "resume": "Le Sénat a approuvé une hausse du plafond d'exonération des dons familiaux de 31 865 à 50 000 € en 2027, sur toute l'année. La mesure fait partie du projet de budget, qui n'est pas définitivement adopté.",
+   "impact": "Des clients préparant une transmission peuvent être intéressés : en parler comme d'une piste en discussion et attendre le texte final avant tout projet.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/votre-argent/actualites/111391/livret-a-dans-le-rouge-50-000-euros-exoneres-impots-en-2027-les-3-infos-argent-du-mardi-24-novembre"
   },
   {
-   "tag": "Politique",
-   "titre": "Retraités : le Sénat plafonne l'abattement de 10 % à 1 000 €",
-   "resume": "Lors de la même séance, le Sénat a choisi de plafonner à 1 000 euros l'abattement de 10 % sur les pensions plutôt que de le supprimer. Cette mesure n'est pas définitivement adoptée.",
-   "impact": "Pour les clients retraités aux pensions élevées, l'impôt 2027 pourrait augmenter ; attendre le vote final avant toute simulation précise.",
-   "source": "Public Sénat",
-   "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-la-gauche-du-senat-echoue-a-supprimer-la-flat-tax"
+   "tag": "Banque",
+   "titre": "BNP Paribas envisagerait 100 suppressions de postes RH en France",
+   "resume": "Selon la CFDT, BNP Paribas prévoit de transférer au Portugal une partie de sa fonction RH, avec 100 postes supprimés à Pantin et Mérignac en 2027-2028. La banque ne commente pas.",
+   "impact": "Illustre la pression sur les coûts dans le secteur bancaire, y compris dans les fonctions support ; information non confirmée officiellement.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/banque/actualites/111414/bnp-paribas-prevoit-de-supprimer-100-postes-en-france-selon-la-cfdt"
   },
   {
    "tag": "Taux",
    "titre": "BCE : une hausse du taux de dépôt à 2,75 % attendue le 17 décembre",
-   "resume": "Selon un sondage Reuters, les 71 économistes interrogés anticipent une hausse du taux de dépôt de 2,50 % à 2,75 % en décembre, avec une inflation de la zone euro à 4 % sur un an en octobre. Une majorité voit ensuite une pause en 2027.",
-   "impact": "Des taux directeurs plus hauts entretiennent la remontée des taux de crédit et rendent plus attractifs les placements à taux garanti.",
-   "source": "Echos Plus",
+   "resume": "Les économistes interrogés par Reuters anticipent un troisième relèvement des taux de la BCE cette année lors de sa réunion du 17 décembre. L'inflation de la zone euro reste nettement au-dessus de l'objectif de 2 %.",
+   "impact": "Les taux de crédit immobilier, déjà au-dessus de 4 % sur 20 ans pour certains profils, pourraient encore monter : bon argument pour ne pas retarder les dossiers prêts.",
+   "source": "Echos Plus (Reuters)",
    "url": "https://echosplus.com/2026/11/13/la-bce-devrait-relever-son-taux-de-depot-a-275-en-decembre-selon-un-sondage-reuters/"
-  },
-  {
-   "tag": "Taux",
-   "titre": "Livret A : un taux estimé vers 2,6 à 2,7 % au 1er février",
-   "resume": "Avec une inflation de 3,4 % sur un an en octobre selon l'Insee, la formule de calcul pointerait vers un Livret A entre 2,60 % et 2,70 % en février 2027, contre 1,70 % aujourd'hui, et un LEP d'au moins 3,20 %. Le gouvernement tranchera début 2027 et peut déroger à la formule.",
-   "impact": "Il s'agit d'une estimation : en parler comme d'une tendance probable, pas comme d'un taux acquis.",
-   "source": "Meilleurtaux Placement",
-   "url": "https://placement.meilleurtaux.com/livret-epargne/actualites/2026-novembre/livret-a-vers-quel-taux-au-1er-fevrier-2027.html"
-  },
-  {
-   "tag": "Taux",
-   "titre": "Crédit immobilier : 3,76 % en moyenne sur 20 ans en novembre",
-   "resume": "Les taux moyens atteignent 3,56 % sur 15 ans, 3,76 % sur 20 ans et 3,85 % sur 25 ans, en hausse de 0,06 à 0,11 point sur un mois. Sur 25 ans, les ménages gagnant moins de 40 000 € par an dépassent 4 %.",
-   "impact": "Les primo-accédants aux revenus modestes sont les plus touchés : vérifier tôt la capacité d'emprunt et le respect du taux d'effort.",
-   "source": "Pretto",
-   "url": "https://www.pretto.fr/taux-immobilier/historique-taux-immobilier/2026/analyse-taux-immobilier-novembre-2026/"
   }
  ],
  "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
