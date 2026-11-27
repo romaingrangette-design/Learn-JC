@@ -1,13 +1,13 @@
 {
- "date": "2026-11-26",
- "titre": "Le point du matin · jeudi 26 novembre",
- "maj": "26/11/2026 à 9 h 08",
+ "date": "2026-11-27",
+ "titre": "Le point du matin · vendredi 27 novembre",
+ "maj": "27/11/2026 à 7 h 40",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "8 117,09 pts",
-   "variation": 1.71,
-   "note": "Ouverture du 26/11 · 9 h 07"
+   "valeur": "8 108,74 pts",
+   "variation": 1.61,
+   "note": "Clôture du 26/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
@@ -19,59 +19,67 @@
  "actus": [
   {
    "tag": "Bourse",
-   "titre": "Le CAC 40 repasse sous 8 000 points, emporté par la tech",
-   "resume": "La Bourse de Paris a reculé de 0,75 % mercredi, à 7 980,57 points, après une nouvelle chute d'environ 4 % du Nasdaq liée aux doutes sur les investissements dans l'IA. Bureau Veritas a progressé de 6,6 %, STMicroelectronics a perdu 4,7 %.",
-   "impact": "Les clients exposés aux fonds technologiques peuvent s'inquiéter : rappeler l'horizon de placement et l'intérêt de la diversification, sans inciter à vendre ou acheter.",
-   "source": "Boursorama",
-   "url": "https://www.boursorama.com/bourse/actualites/la-bourse-de-paris-termine-en-baisse-entrainee-par-le-decrochage-de-wall-street-433969c54c4595bb9b96daa1793758d6"
-  },
-  {
-   "tag": "Bourse",
-   "titre": "Inflation américaine à 3,8 % : la Fed pourrait remonter ses taux",
-   "resume": "L'indice des prix PCE a atteint 3,8 % sur un an en octobre aux États-Unis, contre 3,6 % en septembre. Une hausse des taux de la Fed le 9 décembre est désormais évoquée ; Wall Street est fermé ce jeudi pour Thanksgiving.",
-   "impact": "Un resserrement américain pèse souvent sur les marchés actions et obligataires : utile pour expliquer la volatilité récente des supports en unités de compte.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/bourse/actualites/111425/le-nasdaq-plonge-le-cac-40-limite-la-casse-les-infos-bourse-du-mercredi-25-novembre-2026"
-  },
-  {
-   "tag": "Réglementation",
-   "titre": "La banque Delubac placée sous administration provisoire par l'ACPR",
-   "resume": "L'ACPR a nommé un administrateur provisoire chez Delubac, mesure très rare notifiée le 23 novembre. La banque avait déjà été sanctionnée en 2025 pour des manquements en matière de lutte anti-blanchiment.",
-   "impact": "Rappelle l'importance des contrôles LCB-FT au quotidien ; en cas de question d'un client, préciser que les dépôts restent couverts par la garantie du FGDR jusqu'à 100 000 € par banque.",
-   "source": "MoneyVox (AFP)",
-   "url": "https://www.moneyvox.fr/banque/actualites/111418/la-banque-delubac-placee-sous-le-controle-du-gendarme-du-secteur-bancaire"
+   "titre": "Le CAC 40 rebondit de 1,61 % et repasse au-dessus de 8 000 points",
+   "resume": "Jeudi, la Bourse de Paris a terminé à 8 108,74 points, portée par l'automobile et les semi-conducteurs (Stellantis +8,9 %, Renault +5,7 %). Les volumes sont restés faibles, Wall Street étant fermée pour Thanksgiving.",
+   "impact": "Un rebond après une semaine agitée : utile pour rassurer sur la volatilité de court terme, sans y voir une tendance acquise ni pousser à un arbitrage.",
+   "source": "Boursorama (AFP)",
+   "url": "https://www.boursorama.com/bourse/actualites/la-bourse-de-paris-en-forte-hausse-jeudi-e1366d02b13f0f036f6b5c76caff4b94"
   },
   {
    "tag": "Taux",
-   "titre": "Livret A relevé en février : jusqu'à 3 milliards de coût pour les banques",
-   "resume": "Le plafond du Livret A doit passer de 22 950 € à un montant entre 25 000 et 30 000 € au 1er février 2027, avec un taux attendu entre 2,5 et 2,8 %. Sia Partners chiffre le coût pour les banques entre 2,1 et 3 milliards d'euros la première année.",
-   "impact": "Montant et taux ne sont pas encore fixés : ne rien promettre aux clients, mais anticiper des questions sur la place du Livret A dans leur épargne de précaution.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/livret-a/actualites/111409/un-plafond-a-27-500-euros-et-un-taux-a-2-6-en-fevrier-2027-un-scenario-qui-couterait-plusieurs-milliards-aux-banques"
+   "titre": "S&P se prononce ce vendredi sur la note de la France",
+   "resume": "L'agence S&P publie ce soir son avis semestriel sur la dette française ; une perspective négative est jugée possible par certains économistes. Le taux à 10 ans français est resté stable jeudi à 4,74 %.",
+   "impact": "Une dégradation peut peser sur les taux longs et donc, à terme, sur le coût du crédit immobilier : rester prudent dans les simulations de taux données aux clients.",
+   "source": "BFM Bourse",
+   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-alors-que-wall-street-celebre-thanksgiving-le-cac-40-cede-a-l-euphorie-et-termine-en-hausse-d-16-1174500.html"
   },
   {
    "tag": "Politique",
-   "titre": "Budget 2027 : le Sénat porte à 50 000 € l'exonération des dons familiaux",
-   "resume": "Le Sénat a approuvé une hausse du plafond d'exonération des dons familiaux de 31 865 à 50 000 € en 2027, sur toute l'année. La mesure fait partie du projet de budget, qui n'est pas définitivement adopté.",
-   "impact": "Des clients préparant une transmission peuvent être intéressés : en parler comme d'une piste en discussion et attendre le texte final avant tout projet.",
+   "titre": "Budget de la Sécu 2027 : pas d'accord entre députés et sénateurs",
+   "resume": "La commission mixte paritaire sur le budget 2027 de la Sécurité sociale a échoué jeudi ; le texte repart à l'Assemblée nationale pour une nouvelle lecture. La version du Sénat prévoit une revalorisation des retraites de base au 1er janvier, rien n'est encore définitif.",
+   "impact": "Les clients retraités peuvent interroger sur leur pension de janvier : indiquer que le montant de la revalorisation n'est pas encore arrêté.",
    "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/votre-argent/actualites/111391/livret-a-dans-le-rouge-50-000-euros-exoneres-impots-en-2027-les-3-infos-argent-du-mardi-24-novembre"
+   "url": "https://www.moneyvox.fr/votre-argent/actualites/111446/suspense-sur-les-retraites-banque-tres-haut-de-gamme-argent-liquide-les-3-infos-argent-du-jour"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Abattement de 10 % des retraités : le Sénat le plafonne à 1 000 €",
+   "resume": "Le Sénat a rejeté la suppression de l'abattement fiscal de 10 % sur les pensions, mais a voté son plafonnement à 1 000 € par foyer, contre environ 4 400 € aujourd'hui. Ce vote de première lecture n'est pas définitif.",
+   "impact": "Mesure encore en discussion : ne pas l'intégrer dans un calcul d'impôt client, mais s'attendre à des questions des retraités imposables.",
+   "source": "Public Sénat",
+   "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-coup-de-theatre-le-senat-renonce-a-supprimer-labattement-de-10-des-retraites"
   },
   {
    "tag": "Banque",
-   "titre": "BNP Paribas envisagerait 100 suppressions de postes RH en France",
-   "resume": "Selon la CFDT, BNP Paribas prévoit de transférer au Portugal une partie de sa fonction RH, avec 100 postes supprimés à Pantin et Mérignac en 2027-2028. La banque ne commente pas.",
-   "impact": "Illustre la pression sur les coûts dans le secteur bancaire, y compris dans les fonctions support ; information non confirmée officiellement.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/banque/actualites/111414/bnp-paribas-prevoit-de-supprimer-100-postes-en-france-selon-la-cfdt"
+   "titre": "Assurance vie : collecte nette de 4,3 milliards en octobre",
+   "resume": "Selon France Assureurs, les versements ont atteint 16,8 milliards d'euros en octobre, l'un des meilleurs mois d'octobre jamais enregistrés, pour un encours record de 2 168 milliards. Le Livret A, lui, a perdu 9,54 milliards de janvier à octobre.",
+   "impact": "Les clients continuent de privilégier l'assurance vie face aux livrets : une bonne occasion de faire le point sur l'adéquation de leur épargne à leurs projets et à leur profil.",
+   "source": "Boursorama (AFP)",
+   "url": "https://www.boursorama.com/epargne/assurance-vie/actualites/l-assurance-vie-a-connu-un-des-meilleurs-mois-d-octobre-de-son-histoire-a0b153c608f804aaaebeea57212f6292"
   },
   {
-   "tag": "Taux",
-   "titre": "BCE : une hausse du taux de dépôt à 2,75 % attendue le 17 décembre",
-   "resume": "Les économistes interrogés par Reuters anticipent un troisième relèvement des taux de la BCE cette année lors de sa réunion du 17 décembre. L'inflation de la zone euro reste nettement au-dessus de l'objectif de 2 %.",
-   "impact": "Les taux de crédit immobilier, déjà au-dessus de 4 % sur 20 ans pour certains profils, pourraient encore monter : bon argument pour ne pas retarder les dossiers prêts.",
-   "source": "Echos Plus (Reuters)",
-   "url": "https://echosplus.com/2026/11/13/la-bce-devrait-relever-son-taux-de-depot-a-275-en-decembre-selon-un-sondage-reuters/"
+   "tag": "Paiements",
+   "titre": "Zone euro : la carte dépasse désormais les espèces en magasin",
+   "resume": "D'après une étude de la BCE, la carte est pour la première fois plus utilisée que le liquide dans les commerces de la zone euro. Seuls 28 % des Français gardent une réserve d'espèces, mais 62 % tiennent à pouvoir payer en liquide.",
+   "impact": "Les clients restent attachés au choix du moyen de paiement : utile pour présenter cartes et paiement mobile sans négliger l'accès aux espèces.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/votre-argent/actualites/111446/suspense-sur-les-retraites-banque-tres-haut-de-gamme-argent-liquide-les-3-infos-argent-du-jour"
+  },
+  {
+   "tag": "Banque",
+   "titre": "N26 lance « Aura », une offre premium à 55 € par mois",
+   "resume": "La néobanque N26 dévoile une formule haut de gamme avec carte en céramique, cashback et épargne rémunérée, pour concurrencer Revolut. Aucune date de lancement en France n'est annoncée.",
+   "impact": "La concurrence des néobanques monte en gamme : savoir valoriser l'accompagnement et les offres premium de l'agence face à ces arguments.",
+   "source": "MoneyVox",
+   "url": "https://www.moneyvox.fr/votre-argent/actualites/111446/suspense-sur-les-retraites-banque-tres-haut-de-gamme-argent-liquide-les-3-infos-argent-du-jour"
+  },
+  {
+   "tag": "Réglementation",
+   "titre": "Le Smic passe à 1 502 € net au 1er décembre",
+   "resume": "Le décret paru au Journal officiel le 26 novembre relève le Smic mensuel brut à 1 897,35 €, soit environ 24 € net de plus par mois. La hausse combine une revalorisation liée aux prix et un coup de pouce de 0,6 %.",
+   "impact": "Mesure définitive : à prendre en compte dans l'étude des revenus et du reste à vivre des clients au Smic, notamment pour un crédit.",
+   "source": "MoneyVox (AFP)",
+   "url": "https://www.moneyvox.fr/votre-argent/actualites/111429/1-502-euros-net-par-mois-le-decret-actant-le-relevement-du-smic-debut-decembre-paru-au-journal-officiel"
   }
  ],
  "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
