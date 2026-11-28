@@ -1,13 +1,13 @@
 {
- "date": "2026-11-27",
- "titre": "Le point du matin · vendredi 27 novembre",
- "maj": "27/11/2026 à 9 h 09",
+ "date": "2026-11-28",
+ "titre": "Le point du matin · samedi 28 novembre",
+ "maj": "28/11/2026 à 7 h 41",
  "marches": [
   {
    "nom": "CAC 40",
-   "valeur": "8 106,57 pts",
-   "variation": -0.03,
-   "note": "Ouverture du 27/11 · 9 h 00"
+   "valeur": "8 156,09 pts",
+   "variation": 0.58,
+   "note": "Clôture du 27/11"
   },
   {
    "nom": "Crédit Agricole S.A.",
@@ -18,68 +18,60 @@
  ],
  "actus": [
   {
-   "tag": "Bourse",
-   "titre": "Le CAC 40 rebondit de 1,61 % et repasse au-dessus de 8 000 points",
-   "resume": "Jeudi, la Bourse de Paris a terminé à 8 108,74 points, portée par l'automobile et les semi-conducteurs (Stellantis +8,9 %, Renault +5,7 %). Les volumes sont restés faibles, Wall Street étant fermée pour Thanksgiving.",
-   "impact": "Un rebond après une semaine agitée : utile pour rassurer sur la volatilité de court terme, sans y voir une tendance acquise ni pousser à un arbitrage.",
+   "tag": "Taux",
+   "titre": "S&P maintient la note A+ de la France, perspective négative",
+   "resume": "Vendredi soir, S&P a conservé la note A+ de la dette française mais a abaissé sa perspective de stable à négative, évoquant un déficit difficile à réduire, une croissance faible et un contexte politique polarisé. Fitch et Moody's ont déjà une perspective négative.",
+   "impact": "Une dégradation devient possible dans les prochains mois : les taux longs, et donc le coût du crédit immobilier, pourraient rester sous pression ; à garder en tête lors des simulations.",
    "source": "Boursorama (AFP)",
-   "url": "https://www.boursorama.com/bourse/actualites/la-bourse-de-paris-en-forte-hausse-jeudi-e1366d02b13f0f036f6b5c76caff4b94"
+   "url": "https://www.boursorama.com/bourse/actualites/dette-s-p-maintient-la-note-de-la-france-mais-menace-de-la-degrader-af56fb175f680c54051c9a57983e65f9"
+  },
+  {
+   "tag": "Bourse",
+   "titre": "Le CAC 40 gagne 0,58 % vendredi et près de 3 % sur la semaine",
+   "resume": "La Bourse de Paris a clôturé vendredi à 8 156,09 points, soutenue par les valeurs liées à l'intelligence artificielle (Soitec, STMicroelectronics) et par Thales. Sur la semaine, l'indice progresse de 2,88 % après une semaine précédente très négative.",
+   "impact": "Le marché reprend une partie de ses pertes récentes : l'occasion de rappeler aux clients investis que la volatilité de court terme ne doit pas guider seule leurs décisions.",
+   "source": "BFM Bourse",
+   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-en-attendant-la-decision-de-sp-sur-la-note-de-credit-de-la-france-le-cac-40-termine-en-hausse-ce-vendredi-et-reprend-pres-de-3-sur-la-semaine-1174568.html"
   },
   {
    "tag": "Taux",
-   "titre": "S&P se prononce ce vendredi sur la note de la France",
-   "resume": "L'agence S&P publie ce soir son avis semestriel sur la dette française ; une perspective négative est jugée possible par certains économistes. Le taux à 10 ans français est resté stable jeudi à 4,74 %.",
-   "impact": "Une dégradation peut peser sur les taux longs et donc, à terme, sur le coût du crédit immobilier : rester prudent dans les simulations de taux données aux clients.",
-   "source": "BFM Bourse",
-   "url": "https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-alors-que-wall-street-celebre-thanksgiving-le-cac-40-cede-a-l-euphorie-et-termine-en-hausse-d-16-1174500.html"
+   "titre": "Crédit immobilier : les taux moyens approchent 3,9 % sur 25 ans",
+   "resume": "Selon Meilleurtaux, les taux moyens attendus en décembre sont de 3,59 % sur 15 ans, 3,80 % sur 20 ans et 3,91 % sur 25 ans, hors assurance. Les meilleurs dossiers obtiennent encore autour de 3,40 % à 3,55 %.",
+   "impact": "La hausse réduit la capacité d'emprunt : il faut désormais environ 3 590 € de revenus mensuels pour emprunter 240 000 € sur 25 ans, contre 3 400 € en janvier.",
+   "source": "Meilleurtaux",
+   "url": "https://www.meilleurtaux.com/credit-immobilier/actualites/2026-novembre/credit-immobilier-les-taux-continuent-de-grimper-fin-2026.html"
+  },
+  {
+   "tag": "Groupe",
+   "titre": "Crédit Agricole Île-de-France relève encore ses barèmes immobiliers",
+   "resume": "La caisse régionale a augmenté ses grilles de 0,20 point le 24 novembre, après une hausse identique fin octobre, tandis que le Crédit Agricole Nord de France a baissé les siennes le 23 novembre. La Caisse d'Épargne Île-de-France annonce aussi +0,20 point au 1er décembre.",
+   "impact": "Les conditions varient d'une caisse régionale à l'autre : bien vérifier la grille en vigueur localement avant de communiquer un taux à un client.",
+   "source": "Meilleurtaux",
+   "url": "https://www.meilleurtaux.com/credit-immobilier/actualites/2026-novembre/credit-immobilier-les-taux-continuent-de-grimper-fin-2026.html"
   },
   {
    "tag": "Politique",
-   "titre": "Budget de la Sécu 2027 : pas d'accord entre députés et sénateurs",
-   "resume": "La commission mixte paritaire sur le budget 2027 de la Sécurité sociale a échoué jeudi ; le texte repart à l'Assemblée nationale pour une nouvelle lecture. La version du Sénat prévoit une revalorisation des retraites de base au 1er janvier, rien n'est encore définitif.",
-   "impact": "Les clients retraités peuvent interroger sur leur pension de janvier : indiquer que le montant de la revalorisation n'est pas encore arrêté.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/votre-argent/actualites/111446/suspense-sur-les-retraites-banque-tres-haut-de-gamme-argent-liquide-les-3-infos-argent-du-jour"
-  },
-  {
-   "tag": "Politique",
-   "titre": "Abattement de 10 % des retraités : le Sénat le plafonne à 1 000 €",
-   "resume": "Le Sénat a rejeté la suppression de l'abattement fiscal de 10 % sur les pensions, mais a voté son plafonnement à 1 000 € par foyer, contre environ 4 400 € aujourd'hui. Ce vote de première lecture n'est pas définitif.",
-   "impact": "Mesure encore en discussion : ne pas l'intégrer dans un calcul d'impôt client, mais s'attendre à des questions des retraités imposables.",
-   "source": "Public Sénat",
-   "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-coup-de-theatre-le-senat-renonce-a-supprimer-labattement-de-10-des-retraites"
-  },
-  {
-   "tag": "Banque",
-   "titre": "Assurance vie : collecte nette de 4,3 milliards en octobre",
-   "resume": "Selon France Assureurs, les versements ont atteint 16,8 milliards d'euros en octobre, l'un des meilleurs mois d'octobre jamais enregistrés, pour un encours record de 2 168 milliards. Le Livret A, lui, a perdu 9,54 milliards de janvier à octobre.",
-   "impact": "Les clients continuent de privilégier l'assurance vie face aux livrets : une bonne occasion de faire le point sur l'adéquation de leur épargne à leurs projets et à leur profil.",
-   "source": "Boursorama (AFP)",
-   "url": "https://www.boursorama.com/epargne/assurance-vie/actualites/l-assurance-vie-a-connu-un-des-meilleurs-mois-d-octobre-de-son-histoire-a0b153c608f804aaaebeea57212f6292"
-  },
-  {
-   "tag": "Paiements",
-   "titre": "Zone euro : la carte dépasse désormais les espèces en magasin",
-   "resume": "D'après une étude de la BCE, la carte est pour la première fois plus utilisée que le liquide dans les commerces de la zone euro. Seuls 28 % des Français gardent une réserve d'espèces, mais 62 % tiennent à pouvoir payer en liquide.",
-   "impact": "Les clients restent attachés au choix du moyen de paiement : utile pour présenter cartes et paiement mobile sans négliger l'accès aux espèces.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/votre-argent/actualites/111446/suspense-sur-les-retraites-banque-tres-haut-de-gamme-argent-liquide-les-3-infos-argent-du-jour"
-  },
-  {
-   "tag": "Banque",
-   "titre": "N26 lance « Aura », une offre premium à 55 € par mois",
-   "resume": "La néobanque N26 dévoile une formule haut de gamme avec carte en céramique, cashback et épargne rémunérée, pour concurrencer Revolut. Aucune date de lancement en France n'est annoncée.",
-   "impact": "La concurrence des néobanques monte en gamme : savoir valoriser l'accompagnement et les offres premium de l'agence face à ces arguments.",
-   "source": "MoneyVox",
-   "url": "https://www.moneyvox.fr/votre-argent/actualites/111446/suspense-sur-les-retraites-banque-tres-haut-de-gamme-argent-liquide-les-3-infos-argent-du-jour"
+   "titre": "PIB : la France recule de 0,2 % au troisième trimestre",
+   "resume": "L'Insee a révisé vendredi la baisse du PIB du troisième trimestre à -0,2 %, contre -0,1 % en première estimation ; l'acquis de croissance pour 2026 n'est que de 0,1 %. Le taux d'épargne des ménages reste élevé, à 17,4 %, et le chômage atteint 8,2 %.",
+   "impact": "Un contexte économique fragile peut rendre les clients plus prudents : soigner l'analyse de la stabilité des revenus dans les dossiers de crédit et l'épargne de précaution.",
+   "source": "Selectra",
+   "url": "https://selectra.info/finance/actualites/marche/pib-recul-0-2-recession-epargne-credit"
   },
   {
    "tag": "Réglementation",
-   "titre": "Le Smic passe à 1 502 € net au 1er décembre",
-   "resume": "Le décret paru au Journal officiel le 26 novembre relève le Smic mensuel brut à 1 897,35 €, soit environ 24 € net de plus par mois. La hausse combine une revalorisation liée aux prix et un coup de pouce de 0,6 %.",
-   "impact": "Mesure définitive : à prendre en compte dans l'étude des revenus et du reste à vivre des clients au Smic, notamment pour un crédit.",
-   "source": "MoneyVox (AFP)",
-   "url": "https://www.moneyvox.fr/votre-argent/actualites/111429/1-502-euros-net-par-mois-le-decret-actant-le-relevement-du-smic-debut-decembre-paru-au-journal-officiel"
+   "titre": "Livret A : plafond relevé au 1er février 2027, montant pas encore fixé",
+   "resume": "Le gouvernement a annoncé un relèvement du plafond du Livret A, aujourd'hui de 22 950 €, à un niveau compris entre 25 000 et 30 000 € au 1er février 2027. Le montant exact doit être arrêté après concertation, avec des chiffres attendus en janvier.",
+   "impact": "Les clients au plafond pourront verser davantage, mais il faut attendre le texte officiel avant d'annoncer un montant précis.",
+   "source": "Meilleurtaux Placement",
+   "url": "https://placement.meilleurtaux.com/livret-epargne/actualites/2026-novembre/livret-a-plafond-releve-entre-25000-30-000eur-1er-fevrier-2027-ce-qui-est-acte.html"
+  },
+  {
+   "tag": "Politique",
+   "titre": "Taxe foncière 2027 : une hausse d'au moins 3,2 % se dessine",
+   "resume": "La revalorisation des bases locatives, calculée sur l'indice des prix de novembre publié par l'Insee, devrait atteindre au moins 3,2 % en 2027, hors décisions des communes sur leurs taux. Le chiffre n'est pas encore définitif.",
+   "impact": "Les clients propriétaires peuvent anticiper une charge plus lourde : utile pour ajuster le budget ou le reste à vivre dans une étude de financement.",
+   "source": "MoneyVox",
+   "url": "https://moneyvox.fr/votre-argent/actualites/111469/nouveaux-taux-immobiliers-cheque-energie-a-la-retraite-et-taxe-fonciere-les-3-infos-du-vendredi-27-novembre-2026"
   }
  ],
  "avertissement": "Actus mises à jour chaque matin · cours mis à jour à l'ouverture de la Bourse · à vérifier avant d'en parler à un client."
